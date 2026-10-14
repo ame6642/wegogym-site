@@ -36,10 +36,10 @@ a { color: inherit; }
   padding: 8px 16px; border-radius: 999px;
 }
 
-/* ===== Panels ===== */
+/* ===== Panels (stacked on every screen size) ===== */
 .panels {
   display: grid;
-  grid-template-columns: 1fr;   /* phone: stacked */
+  grid-template-columns: 1fr;
   gap: 3px;
   background: var(--ink);
 }
@@ -62,7 +62,7 @@ a { color: inherit; }
 .panel::after {
   content: "";
   position: absolute; inset: 0;
-  background: linear-gradient(transparent 45%, rgba(0,0,0,.75));
+  background: linear-gradient(transparent 40%, rgba(0,0,0,.75));
 }
 
 .panel-content {
@@ -72,31 +72,40 @@ a { color: inherit; }
   padding: 28px 24px 36px;
   color: var(--paper);
 }
-.panel-content h2 { font-size: 1.9rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
-.panel-content p  { margin: 8px 0 16px; opacity: .9; }
+.panel-content h2 { font-size: 1.9rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px; }
+.panel-content p  { margin: -8px 0 16px; opacity: .9; font-size: 1.1rem; }
 .panel-link {
   display: inline-block;
   font-weight: 600; text-decoration: none;
-  border: 2px solid var(--paper);
-  padding: 8px 18px; border-radius: 999px;
+  background: var(--accent); color: var(--ink);
+  padding: 10px 22px; border-radius: 999px;
 }
-.panel-link:hover { background: var(--paper); color: var(--ink); }
+.panel-link:hover { background: var(--paper); }
+.panel-tag {
+  display: inline-block;
+  font-size: .8rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .08em;
+  border: 1px solid rgba(255,255,255,.7);
+  padding: 6px 14px; border-radius: 999px;
+}
 
-/* Desktop: side by side, full screen height */
+/* Desktop: full-width landscape panels, stacked (16:9, never taller than the screen) */
 @media (min-width: 768px) {
-  .panels { grid-template-columns: repeat(3, 1fr); }
-  .panel  { height: 100vh; height: 100svh; min-height: 560px; }
-  .panel-content { padding: 32px 28px 48px; }
+  .panel { height: min(56.25vw, 100vh); height: min(56.25vw, 100svh); min-height: 480px; }
+  .panel-content { padding: 48px 64px 64px; max-width: 900px; }
+  .panel-content h2 { font-size: 3.2rem; }
+  .panel-content p  { font-size: 1.3rem; }
 }
 
-/* ===== Waitlist ===== */
+/* ===== Waitlist page ===== */
+.page-waitlist .site-header { position: static; background: var(--ink); }
 .waitlist {
   max-width: 640px;
   margin: 0 auto;
   padding: 80px 24px;
   text-align: center;
 }
-.waitlist h2 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; }
+.waitlist h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; }
 .waitlist p  { color: var(--muted); margin: 8px 0 28px; }
 #waitlist-embed { min-height: 120px; }
 .embed-placeholder {
