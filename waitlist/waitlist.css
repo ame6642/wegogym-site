@@ -80,7 +80,7 @@
 }
 .btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 .btn-primary { background: var(--accent); color: var(--ink); border-color: var(--ink); }
-.btn-primary:hover { background: #b3df22; }
+.btn-primary:hover { background: #e6bf00; }
 .btn-primary[disabled] { opacity: .6; cursor: progress; }
 .btn-secondary { background: var(--paper); color: var(--ink); border-color: var(--ink); }
 .btn-secondary:hover { background: var(--soft); }
