@@ -4,6 +4,8 @@
   --ink: #111111;         /* dark text and backgrounds */
   --paper: #ffffff;
   --muted: #5c5c5c;
+  /* Logo and bold headings. Impact is built into Windows and Mac; phones lack it and get Anton, a close match. */
+  --display: Impact, "Anton", "Arial Narrow Bold", sans-serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -17,6 +19,9 @@ body {
 
 a { color: inherit; }
 
+/* ===== Logo and headings: Impact (one weight only, so never faux-bolded) ===== */
+.logo, h1, h2, h3 { font-family: var(--display); font-weight: 400; letter-spacing: 0.01em; }
+
 /* ===== Header (sits over the panels) ===== */
 .site-header {
   position: absolute;
@@ -29,7 +34,7 @@ a { color: inherit; }
   color: var(--paper);
   background: linear-gradient(rgba(0,0,0,.45), transparent);
 }
-.logo { font-weight: 800; font-size: 1.4rem; text-decoration: none; letter-spacing: -0.02em; }
+.logo { font-size: 1.5rem; text-decoration: none; }
 .header-cta {
   font-weight: 600; font-size: .9rem; text-decoration: none;
   background: var(--accent); color: var(--ink);
@@ -72,7 +77,7 @@ a { color: inherit; }
   padding: 28px 24px 36px;
   color: var(--paper);
 }
-.panel-content h2 { font-size: 1.9rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px; }
+.panel-content h2 { font-size: 1.9rem; line-height: 1.1; margin-bottom: 16px; }
 .panel-content p  { margin: -8px 0 16px; opacity: .9; font-size: 1.1rem; }
 .panel-link {
   display: inline-block;
@@ -105,7 +110,7 @@ a { color: inherit; }
   padding: 80px 24px;
   text-align: center;
 }
-.waitlist h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; }
+.waitlist h1 { font-size: 2.2rem; }
 .waitlist p  { color: var(--muted); margin: 8px 0 28px; }
 #waitlist-embed { min-height: 120px; }
 .embed-placeholder {
