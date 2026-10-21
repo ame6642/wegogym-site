@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://yxgwywppajvxfmmjudaq.supabase.co; connect-src https://yxgwywppajvxfmmjudaq.supabase.co; form-action 'none'; base-uri 'self'; object-src 'none'">
+  <title>Register your facility | WeGoGym</title>
+  <meta name="description" content="List your gym, pool or studio on WeGoGym. Tell us about your facility, what it offers and add your photos.">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://wegogym.club/business-register/">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/waitlist/waitlist.css">
+  <link rel="stylesheet" href="/business-register/business-register.css">
+  <script src="/business-register/business-register.js" defer></script>
+</head>
+<body class="page-waitlist page-br">
+
+  <header class="site-header">
+    <a class="logo" href="/">WeGoGym</a>
+    <button type="button" class="br-signout" id="br-signout" hidden>Log out</button>
+  </header>
+
+  <main class="wl br">
+    <h1 class="wl-title" id="br-title" tabindex="-1">Register your facility</h1>
+    <p class="wl-lede">List your gym, pool or studio on WeGoGym. Tell us about the place, what it offers and add a few photos. Your answers save as you go, so you can stop and come back.</p>
+
+    <noscript><p class="wl-alert">This form needs JavaScript switched on in your browser.</p></noscript>
+
+    <div class="br-progress-wrap" id="br-progress-wrap" hidden>
+      <div class="wl-progress" aria-hidden="true"><span class="wl-progress-bar" id="br-progress-bar"></span></div>
+      <p class="wl-progress-text" id="br-progress-text"></p>
+    </div>
+
+    <div class="wl-alert" id="br-alert" role="alert"></div>
+    <p class="visually-hidden" id="br-live" aria-live="polite"></p>
+
+    <!-- ACCOUNT -->
+    <section class="br-step" data-step="account" aria-labelledby="h-account" hidden>
+      <h2 class="wl-step-title" id="h-account" tabindex="-1">Your account</h2>
+      <div class="br-tabs" role="tablist" aria-label="Account">
+        <button type="button" role="tab" id="tab-create" aria-controls="panel-create" aria-selected="true">Create an account</button>
+        <button type="button" role="tab" id="tab-login" aria-controls="panel-login" aria-selected="false" tabindex="-1">I already have one</button>
+      </div>
+
+      <form id="panel-create" role="tabpanel" aria-labelledby="tab-create" novalidate>
+        <div class="br-field">
+          <label for="su-name">Your full name</label>
+          <input type="text" id="su-name" autocomplete="name" maxlength="120" required>
+        </div>
+        <div class="br-field">
+          <label for="su-email">Email address</label>
+          <input type="email" id="su-email" autocomplete="email" inputmode="email" maxlength="254" required>
+        </div>
+        <div class="br-field">
+          <label for="su-password">Choose a password</label>
+          <input type="password" id="su-password" autocomplete="new-password" minlength="8" maxlength="72" required aria-describedby="su-password-hint">
+          <p class="wl-hint" id="su-password-hint">At least 8 characters.</p>
+        </div>
+        <div class="br-field">
+          <label for="su-dob">Your date of birth</label>
+          <input type="date" id="su-dob" autocomplete="bday" required aria-describedby="su-dob-hint">
+          <p class="wl-hint" id="su-dob-hint">You need to be 18 or over to register a business.</p>
+        </div>
+        <label class="br-check">
+          <input type="checkbox" id="su-terms" required>
+          <span>I'm authorised to list this facility, and I have read the <a href="/privacy/">privacy notice</a>.</span>
+        </label>
+        <div class="wl-actions">
+          <button type="submit" class="btn btn-primary" id="su-submit">Create account</button>
+        </div>
+      </form>
+
+      <form id="panel-login" role="tabpanel" aria-labelledby="tab-login" novalidate hidden>
+        <div class="br-field">
+          <label for="li-email">Email address</label>
+          <input type="email" id="li-email" autocomplete="email" inputmode="email" maxlength="254" required>
+        </div>
+        <div class="br-field">
+          <label for="li-password">Password</label>
+          <input type="password" id="li-password" autocomplete="current-password" maxlength="72" required>
+        </div>
+        <div class="wl-actions">
+          <button type="submit" class="btn btn-primary" id="li-submit">Log in</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- CONFIRM EMAIL -->
+    <section class="br-step" data-step="confirm" aria-labelledby="h-confirm" hidden>
+      <h2 class="wl-step-title" id="h-confirm" tabindex="-1">Check your email</h2>
+      <p>We sent a message to <b id="cf-email"></b>. Type the 6-digit code from it below. If the email has a link instead, click it, then come back here and log in.</p>
+      <p class="wl-hint">No email after a few minutes? Check your spam folder. If you already have an account with this address, log in instead.</p>
+      <form id="cf-form" novalidate>
+        <div class="br-field">
+          <label for="cf-code">Code</label>
+          <input type="text" id="cf-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" class="br-code" required>
+        </div>
+        <div class="wl-actions">
+          <button type="button" class="btn btn-ghost" id="cf-resend">Send a new code</button>
+          <button type="button" class="btn btn-ghost" id="cf-back">Use a different email</button>
+          <button type="submit" class="btn btn-primary" id="cf-submit">Confirm email</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- 1. NAME AND ADDRESS -->
+    <form class="br-step" data-step="place" aria-labelledby="h-place" novalidate hidden>
+      <h2 class="wl-step-title" id="h-place" tabindex="-1">Name and address</h2>
+      <div class="br-field">
+        <label for="f-name">What is your facility called?</label>
+        <input type="text" id="f-name" maxlength="120" autocomplete="organization" required aria-describedby="f-name-hint">
+        <p class="wl-hint" id="f-name-hint">Use the name people know you by.</p>
+      </div>
+      <div class="br-field">
+        <label for="f-country">Country</label>
+        <select id="f-country" autocomplete="country" required aria-describedby="f-country-hint"></select>
+        <p class="wl-hint" id="f-country-hint" hidden>The country sets how you get paid, so it cannot be changed here. Email us if it is wrong.</p>
+      </div>
+      <div class="br-field">
+        <label for="f-addr1">Street address</label>
+        <input type="text" id="f-addr1" maxlength="200" autocomplete="address-line1" required>
+      </div>
+      <div class="br-field">
+        <label for="f-addr2">Address line 2 <span class="wl-optional">(optional)</span></label>
+        <input type="text" id="f-addr2" maxlength="200" autocomplete="address-line2">
+      </div>
+      <div class="br-field">
+        <label for="f-city">Town or city</label>
+        <input type="text" id="f-city" maxlength="120" autocomplete="address-level2" required>
+      </div>
+      <div class="br-row">
+        <div class="br-field" id="f-region-wrap">
+          <label for="f-region" id="f-region-label">County or region <span class="wl-optional">(optional)</span></label>
+          <input type="text" id="f-region" maxlength="80" autocomplete="address-level1">
+          <select id="f-region-select" autocomplete="address-level1" hidden></select>
+        </div>
+        <div class="br-field">
+          <label for="f-postcode" id="f-postcode-label">Postcode</label>
+          <input type="text" id="f-postcode" maxlength="20" autocomplete="postal-code" required aria-describedby="f-postcode-hint">
+          <p class="wl-hint" id="f-postcode-hint">No postcode where you are? Write &ldquo;none&rdquo;.</p>
+        </div>
+      </div>
+      <div class="wl-actions">
+        <button type="submit" class="btn btn-primary">Save and continue</button>
+      </div>
+    </form>
+
+    <!-- 2. BUSINESS -->
+    <form class="br-step" data-step="business" aria-labelledby="h-business" novalidate hidden>
+      <h2 class="wl-step-title" id="h-business" tabindex="-1">Your business</h2>
+      <div class="br-field">
+        <label for="f-legal">Registered business name</label>
+        <input type="text" id="f-legal" maxlength="200" required aria-describedby="f-legal-hint">
+        <p class="wl-hint" id="f-legal-hint">The name on your paperwork. It can be the same as your facility&rsquo;s name.</p>
+      </div>
+      <div class="br-field">
+        <label for="f-company">Company number <span class="wl-optional">(if you have one)</span></label>
+        <input type="text" id="f-company" maxlength="40">
+      </div>
+      <div class="br-field">
+        <label for="f-contact">Who should we speak to?</label>
+        <input type="text" id="f-contact" maxlength="120" autocomplete="name">
+      </div>
+      <div class="br-field">
+        <label for="f-cemail">Contact email</label>
+        <input type="email" id="f-cemail" maxlength="254" autocomplete="email" inputmode="email" required>
+      </div>
+      <div class="br-field">
+        <label for="f-phone">Contact phone <span class="wl-optional">(optional)</span></label>
+        <input type="tel" id="f-phone" maxlength="40" autocomplete="tel">
+      </div>
+      <div class="wl-actions">
+        <button type="button" class="btn btn-ghost" data-back>Back</button>
+        <button type="submit" class="btn btn-primary">Save and continue</button>
+      </div>
+    </form>
+
+    <!-- 3. FACILITY -->
+    <form class="br-step" data-step="facility" aria-labelledby="h-facility" novalidate hidden>
+      <h2 class="wl-step-title" id="h-facility" tabindex="-1">Your facility</h2>
+      <div class="br-field">
+        <label for="f-category">What kind of place is it?</label>
+        <select id="f-category" required></select>
+      </div>
+      <div class="br-field" id="f-cat-other-wrap" hidden>
+        <label for="f-cat-other">Tell us what kind of place it is</label>
+        <input type="text" id="f-cat-other" maxlength="80" autocomplete="off">
+      </div>
+      <div class="br-field">
+        <label for="f-desc">What is training there like?</label>
+        <textarea id="f-desc" rows="5" maxlength="4000" required aria-describedby="f-desc-hint"></textarea>
+        <p class="wl-hint" id="f-desc-hint">A few sentences for someone deciding whether to visit: the space, the equipment, the feel.</p>
+      </div>
+      <fieldset class="br-field" id="f-hours-group">
+        <legend>Opening hours</legend>
+        <p class="wl-hint br-hint-top">Local time where your facility is. Leave both times empty on a day you are closed. Open all day? Use 00:00 to 23:59.</p>
+        <div class="br-hours" id="f-hours"></div>
+        <button type="button" class="btn btn-secondary br-small" id="f-hours-copy">Copy Monday to every day</button>
+      </fieldset>
+      <div class="wl-actions">
+        <button type="button" class="btn btn-ghost" data-back>Back</button>
+        <button type="submit" class="btn btn-primary">Save and continue</button>
+      </div>
+    </form>
+
+    <!-- 3. AMENITIES -->
+    <form class="br-step" data-step="amenities" aria-labelledby="h-amenities" novalidate hidden>
+      <h2 class="wl-step-title" id="h-amenities" tabindex="-1">What you offer</h2>
+      <fieldset class="br-field br-amen" id="f-amen-group">
+        <legend>Tick everything members can use.</legend>
+        <div class="br-amen-bar">
+          <label for="f-amen-search" class="visually-hidden">Search amenities</label>
+          <input type="search" id="f-amen-search" placeholder="Search, for example sauna" autocomplete="off" aria-controls="f-amenities">
+          <span class="br-amen-count" id="f-amen-count" aria-live="polite"></span>
+        </div>
+        <ul class="br-amen-list" id="f-amenities" aria-label="Amenities"></ul>
+        <p class="wl-hint" id="f-amen-empty" hidden>Nothing matches. Add it with &ldquo;Other&rdquo; below.</p>
+        <div class="br-amen-actions">
+          <button type="button" class="btn btn-ghost br-small" id="f-amen-toggle" aria-expanded="false" aria-controls="f-amenities"></button>
+          <button type="button" class="btn btn-secondary br-small" id="f-other-open" aria-expanded="false" aria-controls="f-other-row">Other</button>
+        </div>
+        <div class="br-other" id="f-other-row" hidden>
+          <label for="f-other">Something else you offer</label>
+          <div class="wl-city-row">
+            <input type="text" id="f-other" maxlength="60" autocomplete="off">
+            <button type="button" class="btn btn-secondary" id="f-other-add">Add</button>
+          </div>
+        </div>
+      </fieldset>
+      <div class="wl-actions">
+        <button type="button" class="btn btn-ghost" data-back>Back</button>
+        <button type="submit" class="btn btn-primary">Save and continue</button>
+      </div>
+    </form>
+
+    <!-- 4. PHOTOS -->
+    <form class="br-step" data-step="photos" aria-labelledby="h-photos" novalidate hidden>
+      <h2 class="wl-step-title" id="h-photos" tabindex="-1">Photos</h2>
+      <p class="wl-hint br-hint-top">Add at least one. Wide, bright shots of the space work best. The cover photo is the first one people see. JPEG, PNG or WebP.</p>
+      <div class="br-upload">
+        <label class="btn btn-secondary" for="f-photo-input">Add photos</label>
+        <input type="file" id="f-photo-input" accept="image/jpeg,image/png,image/webp" multiple class="visually-hidden">
+        <span class="wl-hint" id="f-photo-status" aria-live="polite"></span>
+      </div>
+      <ul class="br-photos" id="f-photos" aria-label="Your photos"></ul>
+      <div class="wl-actions">
+        <button type="button" class="btn btn-ghost" data-back>Back</button>
+        <button type="submit" class="btn btn-primary">Save and finish</button>
+      </div>
+    </form>
+
+    <!-- DONE -->
+    <section class="br-step" data-step="done" aria-labelledby="h-done" hidden>
+      <h2 class="wl-step-title" id="h-done" tabindex="-1">Your details are saved</h2>
+      <p><b id="done-name"></b> is saved as a draft. It is not shown to members yet.</p>
+      <p id="done-open">Next we will set up your prices, how members get in, your house rules and how you get paid. We will email <b id="done-email"></b> when that is ready.</p>
+      <p id="done-closed" hidden>WeGoGym is not open in <span id="done-country"></span> yet. We open one region at a time, and we will be in touch when we open there. Your draft stays saved until then.</p>
+      <div class="wl-actions br-actions-start">
+        <button type="button" class="btn btn-secondary" data-goto="place">Edit your details</button>
+        <button type="button" class="btn btn-secondary" data-goto="photos">Change photos</button>
+      </div>
+    </section>
+
+    <!-- ALREADY SUBMITTED -->
+    <section class="br-step" data-step="submitted" aria-labelledby="h-submitted" hidden>
+      <h2 class="wl-step-title" id="h-submitted" tabindex="-1">You already have a listing</h2>
+      <p id="sub-text"></p>
+      <p>To change it, or to add another location, email <a href="mailto:hello@wegogym.club">hello@wegogym.club</a>.</p>
+    </section>
+
+    <!-- SETUP NOT FINISHED (site owner has not added the key) -->
+    <section class="br-step" data-step="offline" aria-labelledby="h-offline" hidden>
+      <h2 class="wl-step-title" id="h-offline" tabindex="-1">Registration opens soon</h2>
+      <p>We are not taking registrations on this page yet. Please check back shortly.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a href="mailto:hello@wegogym.club">hello@wegogym.club</a>
+    <a href="/privacy/">Privacy notice</a>
+    <span>&copy; 2026 WeGoGym</span>
+  </footer>
+
+</body>
+</html>
