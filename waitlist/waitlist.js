@@ -11,13 +11,36 @@ var PUZZLES = [
   { image: "", alt: "", fact: "" }
 ];
 
-// Matching game: icons are emoji placeholders until illustrated icons exist.
-var PAIRS = [
-  { activity: "Lifting", icon: "\u{1F3CB}\u{FE0F}", equipment: "Barbell" },
-  { activity: "Running", icon: "\u{1F3C3}", equipment: "Treadmill" },
-  { activity: "Rowing", icon: "\u{1F6A3}", equipment: "Rowing machine" },
-  { activity: "Boxing", icon: "\u{1F94A}", equipment: "Punch bag" },
-  { activity: "Pilates", icon: "\u{1F9D8}", equipment: "Reformer" }
+// Matching game: each round picks ROUND_SIZE different activities and one piece of kit from each.
+// Kit must belong to only one activity in this list, or a round could have two right answers.
+// Icons are emoji placeholders until illustrated icons exist.
+var ROUND_SIZE = 8;
+var KIT = [
+  { activity: "Climbing", icon: "\u{1F9D7}", kit: ["Chalk bag", "Carabiner"] },
+  { activity: "Swimming", icon: "\u{1F3CA}", kit: ["Goggles", "Kickboard", "Lane ropes"] },
+  { activity: "Boxing", icon: "\u{1F94A}", kit: ["Punch bag", "Hand wraps"] },
+  { activity: "Pilates", icon: "\u{1F9D8}", kit: ["Reformer"] },
+  { activity: "Weightlifting", icon: "\u{1F3CB}\u{FE0F}", kit: ["Barbell", "Dumbbells", "Kettlebell"] },
+  { activity: "Rowing", icon: "\u{1F6A3}", kit: ["Oars"] },
+  { activity: "Cycling", icon: "\u{1F6B4}", kit: ["Handlebars", "Pedals"] },
+  { activity: "Fencing", icon: "\u{1F93A}", kit: ["Sword"] },
+  { activity: "Ballet", icon: "\u{1FA70}", kit: ["Tutu", "Pointe shoes"] },
+  { activity: "Running", icon: "\u{1F3C3}", kit: ["Treadmill"] },
+  { activity: "Gymnastics", icon: "\u{1F938}", kit: ["Balance beam", "Pommel horse"] },
+  { activity: "HIIT", icon: "\u23F1\uFE0F", kit: ["Battle ropes"] },
+  { activity: "Archery", icon: "\u{1F3F9}", kit: ["Bow", "Arrows"] },
+  { activity: "Badminton", icon: "\u{1F3F8}", kit: ["Shuttlecock"] },
+  { activity: "Golf", icon: "\u26F3", kit: ["Tee", "Putter"] },
+  { activity: "Basketball", icon: "\u{1F3C0}", kit: ["Backboard"] },
+  { activity: "Skiing", icon: "\u26F7\uFE0F", kit: ["Poles", "Chairlift"] },
+  { activity: "Horse riding", icon: "\u{1F3C7}", kit: ["Saddle", "Stirrups"] },
+  { activity: "Scuba diving", icon: "\u{1F93F}", kit: ["Oxygen tank"] },
+  { activity: "Recovery", icon: "\u{1F6C0}", kit: ["Foam roller", "Massage gun", "Ice bath"] },
+  { activity: "Karate", icon: "\u{1F94B}", kit: ["Black belt"] },
+  { activity: "Cricket", icon: "\u{1F3CF}", kit: ["Stumps", "Bails"] },
+  { activity: "Ice hockey", icon: "\u{1F3D2}", kit: ["Puck"] },
+  { activity: "Bowling", icon: "\u{1F3B3}", kit: ["Pins"] },
+  { activity: "Kayaking", icon: "\u{1F6F6}", kit: ["Paddle"] }
 ];
 /* ===================== */
 
@@ -361,7 +384,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var wrongEl = $("#match-wrong");
     var live = $("#match-live");
     var doneBox = $("#match-done");
-    var wrong, matched, selected;
+    var wrong, matched, selected, pairs;
 
     function button(label, icon, key, kind) {
       var li = document.createElement("li");
@@ -385,8 +408,11 @@ document.addEventListener("DOMContentLoaded", function () {
       actCol.innerHTML = ""; eqCol.innerHTML = "";
       doneBox.hidden = true;
       $("#match").hidden = false;
-      shuffle(PAIRS).forEach(function (p) { actCol.appendChild(button(p.activity, p.icon, p.activity, "activity")); });
-      shuffle(PAIRS).forEach(function (p) { eqCol.appendChild(button(p.equipment, "", p.activity, "equipment")); });
+      pairs = shuffle(KIT).slice(0, ROUND_SIZE).map(function (k) {
+        return { activity: k.activity, icon: k.icon, equipment: k.kit[Math.floor(Math.random() * k.kit.length)] };
+      });
+      shuffle(pairs).forEach(function (p) { actCol.appendChild(button(p.activity, p.icon, p.activity, "activity")); });
+      shuffle(pairs).forEach(function (p) { eqCol.appendChild(button(p.equipment, "", p.activity, "equipment")); });
     }
 
     function onPick(e) {
@@ -407,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function () {
         [a, b].forEach(function (x) { x.classList.add("is-matched"); x.setAttribute("aria-disabled", "true"); x.removeAttribute("aria-pressed"); });
         matched++;
         live.textContent = "Correct: " + a.lastChild.textContent + " and " + b.lastChild.textContent + ".";
-        if (matched === PAIRS.length) finish();
+        if (matched === pairs.length) finish();
         else a.closest("ul").querySelector(".match-btn:not(.is-matched)").focus();
       } else {
         wrong++;

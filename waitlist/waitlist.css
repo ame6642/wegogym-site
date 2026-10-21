@@ -11,6 +11,7 @@
 
 .wl { max-width: 720px; margin: 0 auto; padding: 56px 16px 80px; }
 .wl-title { font-size: 2.2rem; line-height: 1.1; }
+.wl-done .wl-title { margin-bottom: 32px; }
 .wl-lede { color: var(--muted); margin: 12px 0 32px; font-size: 1.05rem; max-width: 60ch; }
 .wl-title:focus, .wl-step-title:focus, .game-title:focus, .match-done-title:focus { outline: none; }
 
