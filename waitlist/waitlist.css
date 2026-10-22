@@ -72,6 +72,28 @@
 .city-list button:hover { background: var(--line); }
 .city-list button:focus-visible { outline: 3px solid var(--ink); }
 
+/* Username step */
+.wl-handle { display: flex; align-items: center; border: 1px solid #8a8a86; border-radius: var(--radius-sm); background: var(--paper); }
+.wl-handle:focus-within { outline: 3px solid var(--ink); outline-offset: 1px; }
+.wl-handle:has(input[aria-invalid="true"]) { border-color: var(--error); }
+.wl-handle-at { padding-left: 14px; font-size: 1.1rem; font-weight: 600; color: var(--muted); }
+.wl .wl-handle input[type="text"] { flex: 1; min-width: 0; border: 0; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding-left: 4px; }
+.wl .wl-handle input[type="text"]:focus-visible { outline: none; }
+.wl-username-status { min-height: 1.4em; margin: 8px 0 24px; font-size: .9rem; font-weight: 600; color: var(--muted); }
+.wl-username-status.is-ok { color: var(--success); }
+.wl-username-status.is-taken, .wl-username-status.is-invalid { color: var(--error); }
+.wl-name-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+.wl-name-grid .wl-label { margin-bottom: 8px; }
+.wl select {
+  width: 100%; font: inherit; font-size: 1rem; padding: 12px 14px;
+  border: 1px solid #8a8a86; border-radius: var(--radius-sm); background: var(--paper); color: var(--ink);
+}
+.wl select:focus-visible { outline: 3px solid var(--ink); outline-offset: 1px; }
+@media (min-width: 600px) {
+  .wl-name-grid { grid-template-columns: 1fr 1fr; }
+  .wl-title-field { grid-column: 1 / -1; max-width: 200px; }
+}
+
 /* Buttons */
 .wl-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin-top: 32px; }
 .btn {

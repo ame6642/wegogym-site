@@ -1,4 +1,4 @@
-/* WeGoGym waitlist: three-step signup, then two games. No dependencies, nothing stored in the browser. */
+/* WeGoGym waitlist: four-step signup, then two games. No dependencies, nothing stored in the browser. */
 document.documentElement.classList.add("js");
 
 /* ===== EDIT HERE ===== */
@@ -88,12 +88,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function validateStep(index) {
-    if (index === 0 && checked("regularActivities").length + checked("interestedActivities").length === 0) {
+    if (index === 1 && checked("regularActivities").length + checked("interestedActivities").length === 0) {
       say("Pick at least one activity in either list to continue.");
       $('input[name="regularActivities"]', form).focus();
       return false;
     }
-    if (index === 2) {
+    if (index === 3) {
       var email = $("#email");
       email.value = email.value.trim();
       if (!email.value || !email.checkValidity()) {
@@ -109,7 +109,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   $$("[data-next]", form).forEach(function (b) {
     b.addEventListener("click", function () {
-      if (current === 1) addCity();
+      if (current === 0) { continueFromUsername(b); return; }
+      if (current === 2) addCity();
       if (!validateStep(current)) return;
       say("");
       goTo(current + 1, 1);
@@ -120,14 +121,14 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   $("[data-skip]", form).addEventListener("click", function () {
     cities = []; renderCities(); $("#city-input").value = "";
-    say(""); goTo(2, 1);
+    say(""); goTo(3, 1);
   });
 
   // Enter key moves forward instead of submitting early.
   form.addEventListener("keydown", function (e) {
     if (e.key !== "Enter" || e.target.tagName !== "INPUT" || e.target.type === "checkbox") return;
     if (e.target.id === "city-input") { e.preventDefault(); addCity(); return; }
-    if (current < 2) { e.preventDefault(); $("[data-next]", steps[current]).click(); }
+    if (current < 3) { e.preventDefault(); $("[data-next]", steps[current]).click(); }
   });
 
   /* Travel cities */
@@ -167,12 +168,95 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   $("#city-add").addEventListener("click", function () { addCity(); cityInput.focus(); });
 
+  /* Username (optional) */
+  var handleInput = $("#username");
+  var handleStatus = $("#username-status");
+  var handleTimer = null;
+  var handleSeq = 0;
+
+  function setHandleStatus(kind, msg) {
+    handleStatus.textContent = msg || "";
+    handleStatus.className = "wl-username-status" + (kind ? " is-" + kind : "");
+    if (kind === "taken" || kind === "invalid") handleInput.setAttribute("aria-invalid", "true");
+    else handleInput.removeAttribute("aria-invalid");
+  }
+
+  // Same rules as the server: 3 to 20 characters, lowercase letters, numbers, underscores and periods,
+  // starting and ending with a letter or number, no two symbols in a row. While typing, only flag bad characters.
+  function handleProblem(u, final) {
+    if (/[^a-z0-9._]/.test(u)) return "Use only letters, numbers, underscores and periods.";
+    if (!final) return "";
+    if (u.length < 3) return "Use at least 3 characters.";
+    if (!/^[a-z0-9]+([._][a-z0-9]+)*$/.test(u)) return "Start and end with a letter or number, with no two underscores or periods in a row.";
+    return "";
+  }
+
+  // Resolves to "free", "taken", "invalid" (reserved) or "error" (could not check).
+  function checkHandle(u) {
+    return fetch(ENDPOINT + "?username=" + encodeURIComponent(u))
+      .then(function (res) { return res.ok ? res.json() : null; })
+      .then(function (data) {
+        if (!data || typeof data.available !== "boolean") return "error";
+        if (data.available) return "free";
+        return data.reason === "invalid" ? "invalid" : "taken";
+      })
+      .catch(function () { return "error"; });
+  }
+
+  function showHandleResult(u, result) {
+    if (result === "free") setHandleStatus("ok", "@" + u + " is available.");
+    else if (result === "taken") setHandleStatus("taken", "@" + u + " is already taken. Try another.");
+    else if (result === "invalid") setHandleStatus("invalid", "@" + u + " is reserved. Try another.");
+    else setHandleStatus("", "We could not check that name just now. You can carry on, and we will check again when you join.");
+  }
+
+  handleInput.addEventListener("input", function () {
+    var v = handleInput.value.replace(/^@+/, "").toLowerCase();
+    if (v !== handleInput.value) handleInput.value = v;
+    clearTimeout(handleTimer);
+    handleSeq++;
+    if (!v) { setHandleStatus("", ""); return; }
+    var problem = handleProblem(v, false);
+    if (problem) { setHandleStatus("invalid", problem); return; }
+    if (handleProblem(v, true)) { setHandleStatus("", ""); return; }
+    setHandleStatus("", "Checking…");
+    var seq = handleSeq;
+    handleTimer = setTimeout(function () {
+      checkHandle(v).then(function (result) { if (seq === handleSeq) showHandleResult(v, result); });
+    }, 500);
+  });
+  handleInput.addEventListener("blur", function () {
+    var v = handleInput.value;
+    var problem = v ? handleProblem(v, true) : "";
+    if (problem) setHandleStatus("invalid", problem);
+  });
+
+  function continueFromUsername(btn) {
+    var u = handleInput.value.trim();
+    if (!u) { say(""); goTo(1, 1); return; }
+    var problem = handleProblem(u, true);
+    if (problem) { setHandleStatus("invalid", problem); handleInput.focus(); return; }
+    btn.disabled = true;
+    checkHandle(u).then(function (result) {
+      btn.disabled = false;
+      if (result === "free" || result === "error") { say(""); goTo(1, 1); return; }
+      showHandleResult(u, result);
+      handleInput.focus();
+    });
+  }
+
+  $("[data-skip-username]", form).addEventListener("click", function () {
+    handleInput.value = ""; $("#first-name").value = ""; $("#last-name").value = ""; $("#title").value = "";
+    clearTimeout(handleTimer); handleSeq++;
+    setHandleStatus("", ""); say(""); goTo(1, 1);
+  });
+
   /* Submit */
   var submitBtn = $("#wl-submit");
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-    if (current !== 2) return;
-    if (!validateStep(2)) return;
+    if (current !== 3) return;
+    if (!validateStep(3)) return;
     var regular = checked("regularActivities");
     var interested = checked("interestedActivities");
     var body = {
@@ -186,6 +270,13 @@ document.addEventListener("DOMContentLoaded", function () {
     var otherI = $("#other-interested").value.trim();
     if (regular.indexOf("Other") > -1 && otherR) body.otherRegularActivity = otherR;
     if (interested.indexOf("Other") > -1 && otherI) body.otherInterestedActivity = otherI;
+    var handle = handleInput.value.trim();
+    if (handle) body.username = handle;
+    var firstName = $("#first-name").value.trim();
+    var lastName = $("#last-name").value.trim();
+    if (firstName) body.firstName = firstName;
+    if (lastName) body.lastName = lastName;
+    if ($("#title").value) body.title = $("#title").value;
 
     submitBtn.disabled = true;
     submitBtn.textContent = "Joining…";
@@ -193,8 +284,14 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
       .then(function (res) {
         if (res.ok) { showDone(true); return; }
+        if (res.status === 409) {
+          goTo(0, -1);
+          setHandleStatus("taken", "@" + body.username + " was just taken. Pick another, or skip this step.");
+          handleInput.focus();
+          return;
+        }
         if (res.status === 429) say("Too many sign-ups from this connection in the last hour. Try again later.");
-        else if (res.status === 400) say("Something in the form is not valid. Check your email address and activities, then try again.");
+        else if (res.status === 400) say("Something in the form is not valid. Check your username, email address and activities, then try again.");
         else say("That did not go through on our side. Your answers are still here, so try again in a minute.");
       })
       .catch(function () {
