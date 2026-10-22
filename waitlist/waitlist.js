@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Same rules as the server: 3 to 20 characters, lowercase letters, numbers, underscores and periods,
   // starting and ending with a letter or number, no two symbols in a row. While typing, only flag bad characters.
   function handleProblem(u, final) {
-    if (/[^a-z0-9._]/.test(u)) return "Use only letters, numbers, underscores and periods.";
+    if (/[^a-z0-9._]/.test(u)) return "Use only lowercase letters, numbers, underscores and periods.";
     if (!final) return "";
     if (u.length < 3) return "Use at least 3 characters.";
     if (!/^[a-z0-9]+([._][a-z0-9]+)*$/.test(u)) return "Start and end with a letter or number, with no two underscores or periods in a row.";
