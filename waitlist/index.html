@@ -33,15 +33,57 @@
       <p class="wl-lede">Book gyms, pools and studios one session at a time, off-peak and for less. No subscription. Tell us what you would book and we will let you know when we open.</p>
 
       <div class="wl-progress" aria-hidden="true"><span class="wl-progress-bar"></span></div>
-      <p class="wl-progress-text" id="wl-progress-text">Three short steps</p>
+      <p class="wl-progress-text" id="wl-progress-text">Four short steps</p>
 
       <p class="wl-error-banner" id="wl-error">That did not go through. Check your email address and that you picked at least one activity, then try again.</p>
       <div class="wl-alert" id="wl-alert" role="alert"></div>
 
       <div class="wl-steps">
 
-        <!-- STEP 1: activities -->
-        <section class="wl-step" data-step="1" aria-labelledby="wl-h1">
+        <!-- STEP 1: username (optional) -->
+        <section class="wl-step" data-step="1" aria-labelledby="wl-h0">
+          <h2 class="wl-step-title" id="wl-h0" tabindex="-1">Reserve your username <span class="wl-optional">(optional)</span></h2>
+
+          <label class="wl-label" for="username">Username</label>
+          <div class="wl-handle">
+            <span class="wl-handle-at" aria-hidden="true">@</span>
+            <input type="text" id="username" name="username" maxlength="20" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" aria-describedby="username-hint username-status">
+          </div>
+          <p class="wl-hint" id="username-hint">3 to 20 characters: letters, numbers, underscores and periods. Each username belongs to one person only, so pick yours before someone else does.</p>
+          <p class="wl-username-status" id="username-status" role="status" aria-live="polite"></p>
+
+          <div class="wl-name-grid">
+            <div class="wl-title-field">
+              <label class="wl-label" for="title">Title</label>
+              <select id="title" name="title" autocomplete="honorific-prefix">
+                <option value="">Select</option>
+                <option value="Mr">Mr</option>
+                <option value="Mrs">Mrs</option>
+                <option value="Ms">Ms</option>
+                <option value="Miss">Miss</option>
+                <option value="Mx">Mx</option>
+                <option value="Dr">Dr</option>
+                <option value="Prof">Prof</option>
+              </select>
+            </div>
+            <div>
+              <label class="wl-label" for="first-name">First name</label>
+              <input type="text" id="first-name" name="firstName" maxlength="60" autocomplete="given-name">
+            </div>
+            <div>
+              <label class="wl-label" for="last-name">Last name</label>
+              <input type="text" id="last-name" name="lastName" maxlength="60" autocomplete="family-name">
+            </div>
+          </div>
+
+          <div class="wl-actions">
+            <button type="button" class="btn btn-ghost js-only" data-skip-username>Skip</button>
+            <button type="button" class="btn btn-primary js-only" data-next>Continue</button>
+          </div>
+        </section>
+
+        <!-- STEP 2: activities -->
+        <section class="wl-step" data-step="2" aria-labelledby="wl-h1">
           <h2 class="wl-step-title" id="wl-h1" tabindex="-1">Your activities</h2>
 
           <fieldset class="wl-group" data-group="regular">
@@ -124,12 +166,13 @@
 
           <p class="wl-hint">Pick at least one, in either list.</p>
           <div class="wl-actions">
+            <button type="button" class="btn btn-ghost js-only" data-back>Back</button>
             <button type="button" class="btn btn-primary js-only" data-next>Continue</button>
           </div>
         </section>
 
-        <!-- STEP 2: travel -->
-        <section class="wl-step" data-step="2" aria-labelledby="wl-h2">
+        <!-- STEP 3: travel -->
+        <section class="wl-step" data-step="3" aria-labelledby="wl-h2">
           <h2 class="wl-step-title" id="wl-h2" tabindex="-1">Travel <span class="wl-optional">(optional)</span></h2>
           <label class="wl-label" for="city-input">Where might you want to train while you are away?</label>
           <p class="wl-hint" id="city-hint">Add up to eight cities. <span class="no-js-only">Separate them with commas.</span></p>
@@ -145,8 +188,8 @@
           </div>
         </section>
 
-        <!-- STEP 3: email -->
-        <section class="wl-step" data-step="3" aria-labelledby="wl-h3">
+        <!-- STEP 4: email -->
+        <section class="wl-step" data-step="4" aria-labelledby="wl-h3">
           <h2 class="wl-step-title" id="wl-h3" tabindex="-1">Your email</h2>
           <label class="wl-label" for="email">Email address</label>
           <input type="email" id="email" name="email" required maxlength="254" autocomplete="email" inputmode="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" aria-describedby="email-hint">
