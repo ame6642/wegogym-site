@@ -230,8 +230,9 @@
 
   function signedOut() {
     saveSession(null);
-    state.venues = null; state.stats = null; state.wlBaseline = null;
+    state.venues = null; state.stats = null; state.wlBaseline = null; state.rows = null; state.places = null;
     closeDrawer();
+    closePlace();
     show("view-login");
   }
 
@@ -575,8 +576,188 @@
       $("wl-new").setAttribute("aria-label", diff + " new");
     }
     if (quiet && state.stats && s.total > state.stats.total) announce((s.total - state.stats.total) + " new waitlist sign-up(s).");
+    // The place numbers are worked out here from the sign-ups themselves (see PLACES below),
+    // so they are only re-read when the number of sign-ups has changed.
+    if (!state.rows || state.rows.length !== s.total) {
+      try { state.rows = await loadPlaceRows(); state.places = placeStats(state.rows); }
+      catch (err) { if (!state.rows) alertMsg(messageFor(err)); }
+    }
     state.stats = s;
     renderStats();
+  }
+
+  async function loadPlaceRows() {
+    var rows = [], page = 1000;
+    for (var off = 0; ; off += page) {
+      var chunk = await http("/rest/v1/waitlist_signups?select=home_city,travel_destinations,regular_activities,interested_activities" +
+        "&order=created_at.desc&limit=" + page + "&offset=" + off) || [];
+      rows = rows.concat(chunk);
+      if (chunk.length < page) return rows;
+    }
+  }
+
+  // ===== PLACES: one city, however it was typed =====
+  // "NYC", "ny", "N.Y.C.", "Manhattan" and "New York, NY" all count as New York. Accents, dots,
+  // capitals and a trailing country ("Leeds, UK", "london uk") are ignored. A person who typed
+  // two names for one city counts once. To add a nickname, add it to the city's list below
+  // (lower case, no dots). Anything not listed is grouped by its cleaned-up spelling.
+  var CITY_NAMES = {
+    "New York": ["new york", "new york city", "nyc", "ny", "ny ny", "nyc ny", "new york ny", "new york new york",
+      "manhattan", "brooklyn", "queens", "bronx", "the bronx", "staten island", "big apple", "the big apple", "纽约"],
+    "London": ["london", "ldn", "lon", "greater london", "central london", "city of london", "伦敦"],
+    "Los Angeles": ["los angeles", "la", "los angeles ca", "la ca"],
+    "San Francisco": ["san francisco", "sf", "san fran", "san fransisco", "frisco"],
+    "Washington DC": ["washington dc", "dc", "washington d c", "wdc"],
+    "Las Vegas": ["las vegas", "vegas", "lv"],
+    "Philadelphia": ["philadelphia", "philly"],
+    "Chicago": ["chicago", "chi town", "chitown", "chi"],
+    "New Orleans": ["new orleans", "nola"],
+    "Atlanta": ["atlanta", "atl"],
+    "Manchester": ["manchester", "manc", "mcr"],
+    "Birmingham": ["birmingham", "brum", "bham"],
+    "Newcastle": ["newcastle", "newcastle upon tyne"],
+    "Mexico City": ["mexico city", "cdmx", "ciudad de mexico", "mexico df", "df"],
+    "Rio de Janeiro": ["rio de janeiro", "rio"],
+    "São Paulo": ["sao paulo", "sampa"],
+    "Hong Kong": ["hong kong", "hk", "hong kong sar", "香港"],
+    "Kuala Lumpur": ["kuala lumpur", "kl"],
+    "Ho Chi Minh City": ["ho chi minh city", "ho chi minh", "hcmc", "hcm", "saigon"],
+    "Bangkok": ["bangkok", "bkk"],
+    "Singapore": ["singapore", "sg", "新加坡"],
+    "Dubai": ["dubai", "dxb"],
+    "Barcelona": ["barcelona", "bcn", "barca"],
+    "Johannesburg": ["johannesburg", "joburg", "jozi", "jhb"],
+    "Melbourne": ["melbourne", "melb"],
+    "Copenhagen": ["copenhagen", "cph"],
+    "Milan": ["milan", "milano"], "Munich": ["munich", "munchen"], "Rome": ["rome", "roma"],
+    "Lisbon": ["lisbon", "lisboa"], "Florence": ["florence", "firenze"], "Prague": ["prague", "praha"],
+    "Vienna": ["vienna", "wien"], "Brussels": ["brussels", "bruxelles"], "Cologne": ["cologne", "koln"],
+    "Venice": ["venice", "venezia"], "Naples": ["naples", "napoli"], "Seville": ["seville", "sevilla"],
+    "Marrakech": ["marrakech", "marrakesh"], "Beijing": ["beijing", "北京"], "Shanghai": ["shanghai", "上海"]
+  };
+  var CITY_BY_NAME = {};
+  Object.keys(CITY_NAMES).forEach(function (c) { CITY_NAMES[c].forEach(function (n) { CITY_BY_NAME[n] = c; }); });
+  // A country or state after a comma ("Leeds, UK") is dropped. Without a comma only these few
+  // are, so that "New Mexico" stays "New Mexico".
+  var AFTER_COMMA = /^(uk|gb|england|scotland|wales|northern ireland|united kingdom|great britain|britain|usa|us|america|united states|united states of america|ny|ca|fl|tx|il|ma|california|florida|texas|france|spain|italy|germany|portugal|netherlands|japan|china|australia|canada|uae|thailand|greece|ireland|mexico|brazil)$/;
+  var TRAILING = / (uk|usa|us|england|united kingdom|united states|gb|uae)$/;
+
+  function tidy(s) { return s.replace(/\s+/g, " ").trim().replace(TRAILING, ""); }
+  function placeOf(raw) {
+    var original = String(raw || "").trim();
+    var s = original.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase()
+      .replace(/[.'’]/g, "").replace(/[^\p{L}\p{N},]+/gu, " ");
+    var parts = s.split(",").map(tidy).filter(Boolean);
+    if (!parts.length) return null;
+    var tries = [parts.join(" ")].concat(parts);
+    for (var i = 0; i < tries.length; i++) {
+      var city = CITY_BY_NAME[tries[i]];
+      if (city) return { key: "=" + city, label: city };
+    }
+    var keep = [parts[0]].concat(parts.slice(1).filter(function (p) { return !AFTER_COMMA.test(p); }));
+    return { key: keep.join(" "), label: null, spelling: original.split(",")[0].trim() };
+  }
+
+  // Everything the place cards and the place window show, from the raw sign-ups.
+  function placeStats(rows) {
+    var groups = {};
+    function group(p) {
+      var g = groups[p.key];
+      if (!g) g = groups[p.key] = { key: p.key, label: p.label, spellings: {}, wantTo: 0, live: 0, acts: {} };
+      if (!p.label) g.spellings[p.spelling] = (g.spellings[p.spelling] || 0) + 1;
+      return g;
+    }
+    var withDest = 0;
+    rows.forEach(function (r) {
+      var acts = {};
+      (r.regular_activities || []).concat(r.interested_activities || []).forEach(function (a) { if (a && a !== "Other") acts[a] = true; });
+      var seen = {};
+      (r.travel_destinations || []).forEach(function (d) {
+        var p = placeOf(d);
+        if (!p || seen[p.key]) return;
+        seen[p.key] = true;
+        var g = group(p);
+        g.wantTo++;
+        Object.keys(acts).forEach(function (a) { g.acts[a] = (g.acts[a] || 0) + 1; });
+      });
+      if (Object.keys(seen).length) withDest++;
+      var home = placeOf(r.home_city);
+      if (home) group(home).live++;
+    });
+    var list = Object.keys(groups).map(function (k) {
+      var g = groups[k];
+      if (!g.label) {
+        g.label = Object.keys(g.spellings).sort(function (a, b) { return g.spellings[b] - g.spellings[a] || (a < b ? -1 : 1); })[0];
+      }
+      g.activities = Object.keys(g.acts).map(function (a) { return { label: a, count: g.acts[a] }; })
+        .sort(function (a, b) { return b.count - a.count || (a.label < b.label ? -1 : 1); });
+      return g;
+    });
+    function by(field) {
+      return list.filter(function (g) { return g[field] > 0; })
+        .sort(function (a, b) { return b[field] - a[field] || (a.label < b.label ? -1 : 1); });
+    }
+    return { withDest: withDest, train: by("wantTo"), live: by("live") };
+  }
+
+  // ----- Place and activity: a short list of cities, each opening a window -----
+  var PLACES_SHOWN = 8;
+  function renderPlaces() {
+    var ol = $("wl-combos");
+    ol.textContent = "";
+    var train = state.places ? state.places.train : [];
+    if (!state.places) { ol.appendChild(h("li", { class: "ad-bars-empty", text: "Could not load. It will try again shortly." })); return; }
+    if (!train.length) { ol.appendChild(h("li", { class: "ad-bars-empty", text: "Nothing yet." })); return; }
+    train.slice(0, PLACES_SHOWN).forEach(function (g) {
+      var top = g.activities.slice(0, 3).map(function (a) { return a.label; }).join(", ");
+      ol.appendChild(h("li", {}, [h("button", { type: "button", class: "ad-place", onclick: function (e) { openPlace(g.key, e.currentTarget); } }, [
+        h("span", { class: "ad-place-name", text: g.label }),
+        h("span", { class: "ad-bar-num", text: fmtNum(g.wantTo) + (g.wantTo === 1 ? " person" : " people") }),
+        h("span", { class: "ad-place-top", text: top || "No activities picked" })
+      ])]));
+    });
+    if (train.length > PLACES_SHOWN) {
+      ol.appendChild(h("li", {}, [h("button", { type: "button", class: "ad-btn ad-btn-ghost ad-btn-sm",
+        onclick: function (e) { openPlace(train[PLACES_SHOWN].key, e.currentTarget); } }, ["See all " + fmtNum(train.length) + " places"])]));
+    }
+  }
+
+  function openPlace(key, opener) {
+    state.placeKey = key;
+    if (opener) state.placeOpener = opener;
+    $("place-modal").hidden = false;
+    document.body.style.overflow = "hidden";
+    renderPlace();
+    $("pm-name").focus();
+  }
+  function closePlace() {
+    if ($("place-modal").hidden) return;
+    $("place-modal").hidden = true;
+    document.body.style.overflow = "";
+    state.placeKey = null;
+    if (state.placeOpener && document.body.contains(state.placeOpener)) state.placeOpener.focus();
+  }
+  function stepPlace(by) {
+    var train = state.places.train;
+    var i = train.findIndex(function (g) { return g.key === state.placeKey; });
+    var next = train[(i + by + train.length) % train.length];
+    if (next) { state.placeKey = next.key; renderPlace(); }
+  }
+  function renderPlace() {
+    if ($("place-modal").hidden || !state.places) return;
+    var train = state.places.train;
+    var i = train.findIndex(function (g) { return g.key === state.placeKey; });
+    if (i < 0) { closePlace(); return; }
+    var g = train[i];
+    $("pm-name").textContent = g.label;
+    $("pm-pos").textContent = (i + 1) + " of " + train.length;
+    var sel = $("pm-select");
+    sel.textContent = "";
+    train.forEach(function (x) { sel.appendChild(h("option", { value: x.key, selected: x.key === g.key, text: x.label + " (" + fmtNum(x.wantTo) + ")" })); });
+    $("pm-prev").disabled = $("pm-next").disabled = train.length < 2;
+    $("pm-summary").textContent = fmtNum(g.wantTo) + (g.wantTo === 1 ? " person wants" : " people want") + " to train here" +
+      (g.live ? ", and " + fmtNum(g.live) + " live here" : "") + ". What they do or want to try:";
+    bars($("pm-acts"), g.activities, g.wantTo);
   }
 
   function renderStats() {
@@ -601,10 +782,14 @@
     drawChart(s.by_day || []);
     bars($("wl-regular"), s.regular, s.total);
     bars($("wl-interested"), s.interested, s.total);
-    $("wl-dest-note").textContent = fmtNum(s.with_destination) + " of " + fmtNum(s.total) + " named at least one place.";
-    bars($("wl-dest"), s.destinations, s.with_destination);
-    bars($("wl-home"), s.home_cities, null);
-    bars($("wl-combos"), (s.combos || []).map(function (c) { return { label: c.place + " · " + c.activity, count: c.count }; }), null);
+    var P = state.places;
+    function asBars(list, field) { return list.map(function (g) { return { label: g.label, count: g[field] }; }); }
+    var withDest = P ? P.withDest : s.with_destination;
+    $("wl-dest-note").textContent = fmtNum(withDest) + " of " + fmtNum(s.total) + " named at least one place.";
+    bars($("wl-dest"), P ? asBars(P.train, "wantTo") : s.destinations, withDest);
+    bars($("wl-home"), P ? asBars(P.live, "live") : s.home_cities, null);
+    renderPlaces();
+    renderPlace();
     bars($("wl-other"), s.other_text, null);
 
     var tb = $("wl-latest");
@@ -769,7 +954,15 @@
     });
     $("biz-search").addEventListener("input", function (e) { state.search = e.target.value.trim(); renderVenues(); });
     document.querySelectorAll("#drawer [data-close]").forEach(function (b) { b.addEventListener("click", closeDrawer); });
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("drawer").hidden) closeDrawer(); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !$("place-modal").hidden) { closePlace(); return; }
+      if (e.key === "Escape" && !$("drawer").hidden) closeDrawer();
+      if (!$("place-modal").hidden && e.target.tagName !== "SELECT" && (e.key === "ArrowLeft" || e.key === "ArrowRight")) stepPlace(e.key === "ArrowLeft" ? -1 : 1);
+    });
+    document.querySelectorAll("#place-modal [data-close]").forEach(function (b) { b.addEventListener("click", closePlace); });
+    $("pm-prev").addEventListener("click", function () { stepPlace(-1); });
+    $("pm-next").addEventListener("click", function () { stepPlace(1); });
+    $("pm-select").addEventListener("change", function (e) { state.placeKey = e.target.value; renderPlace(); });
     document.querySelectorAll("#wl-range button").forEach(function (b) {
       b.addEventListener("click", function () {
         state.days = Number(b.dataset.days);

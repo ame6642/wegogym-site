@@ -133,7 +133,7 @@
       <section class="ad-card"><h2>Want to try</h2><ol class="ad-bars" id="wl-interested"></ol></section>
       <section class="ad-card"><h2>Places they want to train</h2><p class="ad-muted ad-small" id="wl-dest-note"></p><ol class="ad-bars" id="wl-dest"></ol></section>
       <section class="ad-card"><h2>Where they live</h2><p class="ad-muted ad-small">Only people who gave a home city.</p><ol class="ad-bars" id="wl-home"></ol></section>
-      <section class="ad-card"><h2>Place and activity</h2><p class="ad-muted ad-small">People who want to train in a place, by what they do or want to try.</p><ol class="ad-bars" id="wl-combos"></ol></section>
+      <section class="ad-card"><h2>Place and activity</h2><p class="ad-muted ad-small">Tap a place to see what the people who want to train there do or want to try.</p><ol class="ad-places" id="wl-combos"></ol></section>
       <section class="ad-card"><h2>&ldquo;Other&rdquo; answers</h2><ol class="ad-bars" id="wl-other"></ol></section>
     </div>
 
@@ -147,6 +147,28 @@
       </div>
     </section>
   </main>
+
+  <!-- ONE PLACE: what people who want to train there do or want to try -->
+  <div class="ad-modal" id="place-modal" hidden>
+    <div class="ad-drawer-backdrop" data-close></div>
+    <section class="ad-modal-panel" role="dialog" aria-modal="true" aria-labelledby="pm-name">
+      <div class="ad-drawer-head">
+        <h2 id="pm-name" tabindex="-1"></h2>
+        <button type="button" class="ad-btn ad-btn-ghost ad-btn-sm" data-close>Close</button>
+      </div>
+      <div class="ad-modal-nav">
+        <button type="button" class="ad-btn ad-btn-secondary ad-btn-sm" id="pm-prev" aria-label="Previous place">&larr;</button>
+        <label class="visually-hidden" for="pm-select">Go to place</label>
+        <select id="pm-select"></select>
+        <button type="button" class="ad-btn ad-btn-secondary ad-btn-sm" id="pm-next" aria-label="Next place">&rarr;</button>
+        <span class="ad-muted ad-small" id="pm-pos"></span>
+      </div>
+      <div class="ad-drawer-body">
+        <p class="ad-muted" id="pm-summary"></p>
+        <ol class="ad-bars ad-gap-sm" id="pm-acts"></ol>
+      </div>
+    </section>
+  </div>
 
   <main class="ad-login" id="view-offline" hidden>
     <h1>Admin is not set up</h1>
