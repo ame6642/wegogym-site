@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!v) continue;
       var dup = cities.some(function (c) { return c.toLocaleLowerCase() === v.toLocaleLowerCase(); });
       if (dup) { say(v + " is already on your list."); continue; }
-      if (cities.length >= 8) { say("You can add up to eight cities."); break; }
+      if (cities.length >= 8) { say("You can add up to eight cities or countries."); break; }
       cities.push(v.slice(0, 80)); added = true;
     }
     cityInput.value = "";
