@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://yxgwywppajvxfmmjudaq.supabase.co; connect-src https://yxgwywppajvxfmmjudaq.supabase.co; form-action 'none'; base-uri 'self'; object-src 'none'">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>Admin | WeGoGym</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/admin.css">
+  <script src="/admin/admin.js" defer></script>
+</head>
+<body>
+  <header class="ad-header">
+    <span class="ad-logo">WeGoGym <span>Admin</span></span>
+    <nav class="ad-tabs" id="ad-tabs" role="tablist" aria-label="Sections" hidden>
+      <button type="button" role="tab" id="tab-biz" aria-controls="view-biz" aria-selected="true">Businesses <span class="ad-count" id="biz-new" hidden></span></button>
+      <button type="button" role="tab" id="tab-wl" aria-controls="view-wl" aria-selected="false" tabindex="-1">Waitlist <span class="ad-count" id="wl-new" hidden></span></button>
+    </nav>
+    <div class="ad-head-right">
+      <span class="ad-live" id="ad-live" hidden><span class="ad-dot" aria-hidden="true"></span><span id="ad-updated">Live</span></span>
+      <button type="button" class="ad-btn ad-btn-ghost ad-btn-sm" id="ad-signout" hidden>Log out</button>
+    </div>
+  </header>
+
+  <div class="ad-alert" id="ad-alert" role="alert"></div>
+  <p class="visually-hidden" id="ad-announce" aria-live="polite"></p>
+
+  <!-- LOGIN -->
+  <main class="ad-login" id="view-login" hidden>
+    <h1>Admin log in</h1>
+    <p class="ad-muted">For WeGoGym staff only. Use an account that has the admin role.</p>
+    <form id="login-form" novalidate>
+      <label for="li-email">Email address</label>
+      <input type="email" id="li-email" autocomplete="username" inputmode="email" maxlength="254" required>
+      <label for="li-password">Password</label>
+      <input type="password" id="li-password" autocomplete="current-password" maxlength="72" required>
+      <button type="submit" class="ad-btn ad-btn-primary">Log in</button>
+    </form>
+  </main>
+
+  <!-- SECOND STEP: CODE FROM THE AUTHENTICATOR APP -->
+  <main class="ad-login" id="view-mfa" hidden>
+    <h1 tabindex="-1">Enter your code</h1>
+    <p class="ad-muted">Open Authy and type the 6-digit code shown for WeGoGym.</p>
+    <form id="mfa-form" novalidate>
+      <label for="mfa-code">6-digit code</label>
+      <input type="text" id="mfa-code" class="ad-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required>
+      <button type="submit" class="ad-btn ad-btn-primary">Verify</button>
+    </form>
+    <p class="ad-muted ad-small ad-gap">Lost your phone? Another admin, or you in Supabase, can reset it (see ADMIN-SETUP.md).</p>
+  </main>
+
+  <!-- FIRST TIME: SET UP THE AUTHENTICATOR APP -->
+  <main class="ad-login" id="view-enrol" hidden>
+    <h1 tabindex="-1">Set up two-step login</h1>
+    <p class="ad-muted">Admin access needs a code from the Authy app as well as your password. You only do this once.</p>
+    <ol class="ad-steps">
+      <li>Install <b>Authy</b> on your phone from the App Store or Google Play, and sign up with your phone number.</li>
+      <li>In Authy, tap <b>+</b> (Add account), then <b>Scan QR code</b>, and scan this code.
+        <img id="enrol-qr" class="ad-qr" alt="QR code to add WeGoGym to your authenticator app">
+        <span class="ad-muted ad-small">Can't scan? Type this key instead: <code id="enrol-secret"></code></span>
+      </li>
+      <li>Type the 6-digit code Authy now shows for WeGoGym.</li>
+    </ol>
+    <form id="enrol-form" novalidate>
+      <label for="enrol-code">6-digit code</label>
+      <input type="text" id="enrol-code" class="ad-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required>
+      <button type="submit" class="ad-btn ad-btn-primary">Turn on and continue</button>
+    </form>
+  </main>
+
+  <!-- NOT AN ADMIN -->
+  <main class="ad-login" id="view-denied" hidden>
+    <h1>No admin access</h1>
+    <p class="ad-muted">You are logged in as <b id="denied-email"></b>, but this account does not have the admin role.</p>
+    <button type="button" class="ad-btn ad-btn-primary" id="denied-out">Log out</button>
+  </main>
+
+  <!-- BUSINESSES -->
+  <main class="ad-main" id="view-biz" role="tabpanel" aria-labelledby="tab-biz" hidden>
+    <div class="ad-toolbar">
+      <div class="ad-chips" role="group" aria-label="Filter businesses" id="biz-filters">
+        <button type="button" data-filter="all" aria-pressed="true">All <span></span></button>
+        <button type="button" data-filter="undecided" aria-pressed="false">To decide <span></span></button>
+        <button type="button" data-filter="accepted" aria-pressed="false">Accepted <span></span></button>
+        <button type="button" data-filter="declined" aria-pressed="false">Declined <span></span></button>
+        <button type="button" data-filter="pending" aria-pressed="false">Listing review <span></span></button>
+        <button type="button" data-filter="live" aria-pressed="false">Live <span></span></button>
+      </div>
+      <label class="visually-hidden" for="biz-search">Search businesses</label>
+      <input type="search" id="biz-search" placeholder="Search name, city, email" autocomplete="off">
+    </div>
+    <ul class="ad-biz-list" id="biz-list" aria-label="Businesses"></ul>
+    <p class="ad-empty" id="biz-empty" hidden>No businesses match.</p>
+  </main>
+
+  <!-- ONE BUSINESS -->
+  <div class="ad-drawer" id="drawer" hidden>
+    <div class="ad-drawer-backdrop" data-close></div>
+    <section class="ad-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="d-name">
+      <div class="ad-drawer-head">
+        <h2 id="d-name" tabindex="-1"></h2>
+        <button type="button" class="ad-btn ad-btn-ghost ad-btn-sm" data-close>Close</button>
+      </div>
+      <div class="ad-drawer-body" id="d-body"></div>
+    </section>
+  </div>
+
+  <!-- WAITLIST -->
+  <main class="ad-main" id="view-wl" role="tabpanel" aria-labelledby="tab-wl" hidden>
+    <div class="ad-toolbar">
+      <div class="ad-chips" role="group" aria-label="Chart range" id="wl-range">
+        <button type="button" data-days="30" aria-pressed="true">30 days</button>
+        <button type="button" data-days="90" aria-pressed="false">90 days</button>
+        <button type="button" data-days="365" aria-pressed="false">1 year</button>
+      </div>
+      <button type="button" class="ad-btn ad-btn-secondary ad-btn-sm" id="wl-csv">Download CSV</button>
+    </div>
+
+    <div class="ad-kpis" id="wl-kpis"></div>
+
+    <section class="ad-card">
+      <h2>Sign-ups per day</h2>
+      <div class="ad-chart" id="wl-chart"></div>
+    </section>
+
+    <div class="ad-grid">
+      <section class="ad-card"><h2>Do regularly</h2><ol class="ad-bars" id="wl-regular"></ol></section>
+      <section class="ad-card"><h2>Want to try</h2><ol class="ad-bars" id="wl-interested"></ol></section>
+      <section class="ad-card"><h2>Places they want to train</h2><p class="ad-muted ad-small" id="wl-dest-note"></p><ol class="ad-bars" id="wl-dest"></ol></section>
+      <section class="ad-card"><h2>Where they live</h2><p class="ad-muted ad-small">Only people who gave a home city.</p><ol class="ad-bars" id="wl-home"></ol></section>
+      <section class="ad-card"><h2>Place and activity</h2><p class="ad-muted ad-small">People who want to train in a place, by what they do or want to try.</p><ol class="ad-bars" id="wl-combos"></ol></section>
+      <section class="ad-card"><h2>&ldquo;Other&rdquo; answers</h2><ol class="ad-bars" id="wl-other"></ol></section>
+    </div>
+
+    <section class="ad-card">
+      <h2>Latest sign-ups</h2>
+      <div class="ad-table-wrap">
+        <table class="ad-table">
+          <thead><tr><th scope="col">When</th><th scope="col">Email</th><th scope="col">Does</th><th scope="col">Wants to try</th><th scope="col">Places</th></tr></thead>
+          <tbody id="wl-latest"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <main class="ad-login" id="view-offline" hidden>
+    <h1>Admin is not set up</h1>
+    <p class="ad-muted">This page cannot run here.</p>
+  </main>
+</body>
+</html>
