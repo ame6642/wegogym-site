@@ -39,18 +39,21 @@
   <main>
     <section class="panels">
 
-      <!-- PANEL 1: replace images/panel-1.webp with your photo (same name) -->
+      <!-- PANEL 1: cyclists photo, tall crop on phones, wide 16:9 crop from 768px up -->
       <article class="panel">
-        <img src="images/panel-1.webp" alt="People dancing together in a park" width="2400" height="1350">
+        <picture>
+          <source media="(min-width: 768px)" srcset="images/panel-1-wide.webp" width="1240" height="698">
+          <img src="images/panel-1-tall.webp" alt="A group of cyclists riding together along a park road, with deer grazing behind them" width="894" height="1490">
+        </picture>
         <div class="panel-content">
           <h2>Find People<br>Find Health<br>Find Community</h2>
           <a class="panel-link" href="/waitlist/">Join the waitlist</a>
         </div>
       </article>
 
-      <!-- PANEL 2 -->
+      <!-- PANEL 2: the photo that used to be panel 1 (images/panel-1.webp) -->
       <article class="panel">
-        <img src="images/panel-2.webp" alt="PLACEHOLDER: describe image 2" width="1200" height="2000" loading="lazy">
+        <img src="images/panel-1.webp" alt="People dancing together in a park" width="2400" height="1350" loading="lazy">
         <div class="panel-content">
           <h2>Train off-peak<br>Train for less</h2>
         <div class="panel-actions"><a class="panel-link" href="/business-register/">Register your business</a><span class="panel-tag">Bookings coming soon</span></div>
