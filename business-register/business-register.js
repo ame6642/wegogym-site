@@ -721,6 +721,7 @@
     if (!name) fieldError($("su-name"), "Enter your name.");
     if (!EMAIL.test(email)) fieldError($("su-email"), "Enter an email address like name@example.com.");
     if (pw.length < 8) fieldError($("su-password"), "Use at least 8 characters.");
+    if ($("su-password2").value !== pw) fieldError($("su-password2"), "The two passwords do not match.");
     if (!/^\d{4}-\d{2}-\d{2}$/.test(dob)) fieldError($("su-dob"), "Enter your date of birth.");
     else if (ageOn(dob) < 18) fieldError($("su-dob"), "You need to be 18 or over to register a business.");
     else if (ageOn(dob) > 120) fieldError($("su-dob"), "Check the year of your date of birth.");
@@ -739,7 +740,7 @@
         business_signup_source: "wegogym.club/business-register"
       } }
     });
-    $("su-password").value = "";
+    $("su-password").value = ""; $("su-password2").value = "";
     var s = fromAuthResponse(d);
     if (s) { saveSession(s); await afterLogin(); return; }
     // No session: the project asks new accounts to confirm their email first.
