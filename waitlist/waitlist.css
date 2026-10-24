@@ -10,6 +10,7 @@
 }
 .page-waitlist { background: #fffef2; }
 .page-waitlist .wl input[type="text"], .page-waitlist .wl input[type="email"], .page-waitlist .wl select, .page-waitlist .wl-handle { background: #fffef2; }
+body .wl input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus-visible, body .wl textarea:focus-visible, body .wl select:focus-visible, body .wl .wl-handle:focus-within { outline: none; }
 .wl { max-width: 720px; margin: 0 auto; padding: 56px 16px 80px; }
 .wl-title { font-size: 2.2rem; line-height: 1.1; }
 .wl-done .wl-title { margin-bottom: 32px; }
