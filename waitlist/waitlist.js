@@ -14,7 +14,7 @@ var PUZZLES = [
 // Matching game: each round picks ROUND_SIZE different activities and one piece of kit from each.
 // Kit must belong to only one activity in this list, or a round could have two right answers.
 // Icons are emoji placeholders until illustrated icons exist.
-var ROUND_SIZE = 8;
+var ROUND_SIZE = 6;
 var KIT = [
   { activity: "Climbing", icon: "\u{1F9D7}", kit: ["Chalk bag", "Carabiner"] },
   { activity: "Swimming", icon: "\u{1F3CA}", kit: ["Goggles", "Kickboard", "Lane ropes"] },
