@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/admin/admin.css">
-  <script src="/admin/admin.js" defer></script>
+  <link rel="stylesheet" href="/admin/admin.css?v=20261024b">
+  <script src="/admin/admin.js?v=20261024b" defer></script>
 </head>
 <body>
   <header class="ad-header">
@@ -118,7 +118,10 @@
         <button type="button" data-days="90" aria-pressed="false">90 days</button>
         <button type="button" data-days="365" aria-pressed="false">1 year</button>
       </div>
-      <button type="button" class="ad-btn ad-btn-secondary ad-btn-sm" id="wl-csv">Download CSV</button>
+      <span class="ad-toolbar-end">
+        <button type="button" class="ad-demo" id="wl-demo" aria-pressed="false">Demo data</button>
+        <button type="button" class="ad-btn ad-btn-secondary ad-btn-sm" id="wl-csv">Download CSV</button>
+      </span>
     </div>
 
     <div class="ad-kpis" id="wl-kpis"></div>
@@ -137,7 +140,7 @@
       <section class="ad-card"><h2>&ldquo;Other&rdquo; answers</h2><ol class="ad-bars" id="wl-other"></ol></section>
     </div>
 
-    <section class="ad-card">
+    <section class="ad-card" id="wl-latest-card">
       <h2>Latest sign-ups</h2>
       <div class="ad-table-wrap">
         <table class="ad-table">

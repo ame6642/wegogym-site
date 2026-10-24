@@ -233,6 +233,7 @@
     state.venues = null; state.stats = null; state.wlBaseline = null; state.rows = null; state.places = null;
     closeDrawer();
     closePlace();
+    if (state.demo) { state.demo = false; $("wl-demo").setAttribute("aria-pressed", "false"); $("wl-csv").disabled = false; $("wl-latest-card").hidden = false; }
     show("view-login");
   }
 
@@ -568,6 +569,13 @@
 
   // ===== Waitlist =====
   async function loadStats(quiet) {
+    if (state.demo) {
+      var demo = demoData();
+      state.rows = demo.rows; state.places = demo.places;
+      state.stats = demoStats(demo.rows);
+      renderStats();
+      return;
+    }
     var s = await rpc("admin_waitlist_stats", { p_days: state.days });
     if (state.view !== "wl" && state.stats && s.total > state.stats.total) {
       if (state.wlBaseline === null) state.wlBaseline = state.stats.total;
@@ -584,6 +592,185 @@
     }
     state.stats = s;
     renderStats();
+  }
+
+  // ===== DEMO DATA: a made-up waitlist of a few thousand people =====
+  // Switched on and off by the "Demo data" button on the Waitlist tab. Nothing is read from or
+  // written to the database while it is on, and the switch stays visible (pressed) so a
+  // screenshot cannot be mistaken for the real list. The same numbers come back every time
+  // (fixed seed), counted back from today.
+  var DEMO_DAYS = 60;
+  var demoCache = null;
+  function seeded(seed) {
+    return function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function demoData() {
+    var today = londonDay(new Date());
+    if (demoCache && demoCache.day === today) return demoCache;
+    var rnd = seeded(20261024);
+    function pick(weights) { // { name: weight }
+      var keys = Object.keys(weights), sum = 0, i;
+      for (i = 0; i < keys.length; i++) sum += weights[keys[i]];
+      var r = rnd() * sum;
+      for (i = 0; i < keys.length; i++) { r -= weights[keys[i]]; if (r <= 0) return keys[i]; }
+      return keys[keys.length - 1];
+    }
+    function pickSome(weights, n, avoid) {
+      var w = {}, out = [];
+      Object.keys(weights).forEach(function (k) { if (!avoid || avoid.indexOf(k) < 0) w[k] = weights[k]; });
+      while (out.length < n && Object.keys(w).length) { var k = pick(w); out.push(k); delete w[k]; }
+      return out;
+    }
+    function boost(base, extra) { var w = {}; Object.keys(base).forEach(function (k) { w[k] = base[k] * (extra[k] || 1); }); return w; }
+
+    // Where people live: 40% London, 35% California, 20% New York, 5% elsewhere.
+    var REGION = { london: 40, cali: 35, ny: 20, other: 5 };
+    var HOME = {
+      london: { "London": 70, "london": 10, "London, UK": 8, "LDN": 5, "Ldn": 3, "London UK": 4 },
+      cali: { "Los Angeles": 26, "LA": 14, "Los Angeles, CA": 6, "los angeles": 4, "San Francisco": 14, "SF": 6,
+        "San Diego": 12, "Santa Monica": 6, "Oakland": 3, "San Jose": 3, "Sacramento": 2, "Long Beach": 2, "Irvine": 2 },
+      ny: { "New York": 34, "NYC": 24, "Brooklyn": 16, "Manhattan": 8, "new york": 6, "New York, NY": 6, "Queens": 4, "NY": 2 },
+      other: { "Manchester": 9, "Paris": 7, "Toronto": 6, "Dublin": 6, "Miami": 6, "Chicago": 6, "Sydney": 5, "Berlin": 5,
+        "Amsterdam": 5, "Edinburgh": 5, "Bristol": 5, "Austin": 4, "Dubai": 4, "Barcelona": 4, "Singapore": 3, "Boston": 4,
+        "Melbourne": 3, "Lisbon": 3, "Madrid": 3, "Seattle": 3 }
+    };
+    // Where they might train while away, by where they live (their own city is left out).
+    var TRAVEL = {
+      london: { "New York": 26, "NYC": 12, "Los Angeles": 16, "LA": 8, "San Francisco": 5, "Miami": 5, "Paris": 7, "Barcelona": 7,
+        "Lisbon": 6, "Amsterdam": 5, "Berlin": 4, "Dubai": 6, "Bali": 7, "Bangkok": 5, "Ibiza": 4, "Mallorca": 3, "Tulum": 2,
+        "Marrakech": 2, "Rome": 3, "Athens": 2, "Mykonos": 2, "Tokyo": 3, "Sydney": 2, "Cape Town": 2, "Phuket": 2,
+        "Copenhagen": 2, "Madrid": 2, "Milan": 2, "Manchester": 3, "Edinburgh": 2, "Singapore": 2, "Mexico City": 1.5 },
+      cali: { "London": 34, "london": 4, "New York": 22, "NYC": 12, "Los Angeles": 7, "LA": 3, "San Francisco": 5, "San Diego": 3,
+        "Miami": 5, "Austin": 3, "Las Vegas": 4, "Mexico City": 5, "Tulum": 5, "Cabo": 3, "Honolulu": 4, "Bali": 6, "Tokyo": 6,
+        "Paris": 5, "Barcelona": 4, "Lisbon": 3, "Bangkok": 3, "Sydney": 2, "Chicago": 2, "Seattle": 2, "Costa Rica": 2 },
+      ny: { "London": 36, "london": 4, "Los Angeles": 20, "LA": 10, "Miami": 8, "San Francisco": 4, "Paris": 5, "Barcelona": 4,
+        "Lisbon": 3, "Tulum": 4, "Mexico City": 3, "San Juan": 2, "Chicago": 3, "Austin": 2, "Bali": 4, "Tokyo": 4,
+        "Bangkok": 3, "Rome": 3, "Amsterdam": 3, "Boston": 3, "Washington DC": 2 },
+      other: { "London": 20, "New York": 14, "NYC": 4, "Los Angeles": 10, "Paris": 5, "Bali": 5, "Bangkok": 4, "Dubai": 4,
+        "Barcelona": 4, "Lisbon": 3, "Tokyo": 3, "Miami": 3 }
+    };
+    var SAME = { london: ["London", "london"], cali: ["Los Angeles", "LA"], ny: ["New York", "NYC"], other: [] };
+    // What people do, then what they want to try, nudged by where they live.
+    var DOES = { "Weightlifting": 30, "Running": 28, "Yoga": 20, "Pilates": 18, "Swimming": 14, "Cycling & spin": 12,
+      "Functional fitness & CrossFit": 12, "Boxing": 10, "Football": 9, "Climbing & bouldering": 7, "Tennis": 7, "Padel": 5,
+      "Dance & barre": 6, "Calisthenics": 5, "Basketball": 4, "Recovery & wellness": 6, "Rowing": 3, "Muay Thai": 3,
+      "Brazilian Jiu-Jitsu": 3, "Kickboxing": 3, "Squash & badminton": 3, "Rugby": 2, "Netball": 1.5, "Cricket": 1.5,
+      "Volleyball": 2, "Gymnastics": 1, "Judo": 1, "Karate": 1, "Other": 2.5 };
+    var TRIES = { "Padel": 16, "Pilates": 18, "Boxing": 15, "Climbing & bouldering": 16, "Muay Thai": 10, "Yoga": 12,
+      "Recovery & wellness": 12, "Dance & barre": 8, "Brazilian Jiu-Jitsu": 7, "Tennis": 8, "Swimming": 6,
+      "Functional fitness & CrossFit": 6, "Calisthenics": 7, "Rowing": 4, "Kickboxing": 5, "Volleyball": 4, "Running": 4,
+      "Weightlifting": 5, "Cycling & spin": 5, "Gymnastics": 2, "Judo": 1.5, "Karate": 1, "Squash & badminton": 3,
+      "Basketball": 2, "Football": 2, "Other": 2.5 };
+    var LEAN = {
+      london: { "Padel": 1.8, "Football": 1.6, "Netball": 2.5, "Cricket": 2.5, "Rugby": 2, "Functional fitness & CrossFit": 1.2 },
+      cali: { "Yoga": 1.6, "Pilates": 1.5, "Volleyball": 2.2, "Climbing & bouldering": 1.5, "Brazilian Jiu-Jitsu": 1.6, "Football": 0.6, "Cricket": 0.2, "Netball": 0.2 },
+      ny: { "Boxing": 1.7, "Pilates": 1.4, "Running": 1.3, "Cycling & spin": 1.6, "Basketball": 2, "Football": 0.6, "Cricket": 0.2, "Netball": 0.2 },
+      other: {}
+    };
+    // People who do these lean towards certain trips (yoga to Bali, Muay Thai to Thailand).
+    var TRIP_PULL = {
+      "Yoga": { "Bali": 2.5, "Tulum": 2, "Ibiza": 1.5, "Costa Rica": 2 },
+      "Recovery & wellness": { "Bali": 2, "Tulum": 1.6, "Marrakech": 1.5 },
+      "Pilates": { "Los Angeles": 1.2, "LA": 1.2, "Ibiza": 1.3 },
+      "Muay Thai": { "Bangkok": 9, "Phuket": 9 }, "Kickboxing": { "Bangkok": 3, "Phuket": 3 }, "Boxing": { "Bangkok": 1.6 },
+      "Brazilian Jiu-Jitsu": { "San Diego": 1.5, "Los Angeles": 1.2 },
+      "Volleyball": { "Los Angeles": 1.3, "San Diego": 1.5, "Honolulu": 1.6 },
+      "Swimming": { "Mallorca": 1.4, "Mykonos": 1.4, "Honolulu": 1.4 }
+    };
+    var OTHER = { "Surfing": 14, "Hyrox": 12, "Golf": 8, "Skiing": 6, "Hiking": 7, "Hot yoga": 6, "Pole fitness": 4,
+      "Ultimate frisbee": 3, "Lacrosse": 3, "Aerial yoga": 3, "surfing": 3, "hyrox": 3, "Sauna and cold plunge": 4,
+      "Spartan races": 2, "Trail running": 3, "Paddleboarding": 3, "Kayaking": 2, "Skateboarding": 2, "Horse riding": 2 };
+
+    // Sign-ups per day: a slow start that builds over two months, quieter at weekends,
+    // with a couple of busier days when word spread.
+    var now = new Date(), rows = [];
+    var dayStart = new Date(today + "T00:00:00Z").getTime();
+    for (var d = 0; d < DEMO_DAYS; d++) {
+      var ago = DEMO_DAYS - 1 - d, x = d / (DEMO_DAYS - 1);
+      var base = 6 + 165 * Math.pow(x, 1.9);
+      var date = new Date(dayStart - ago * 86400000);
+      var dow = date.getUTCDay();
+      var n = base * (dow === 0 || dow === 6 ? 0.78 : 1) * (0.82 + rnd() * 0.36);
+      if (ago === 23) n *= 1.9; if (ago === 9) n *= 1.45;
+      var fraction = 1;
+      if (ago === 0) {
+        var hm = now.toLocaleTimeString("en-GB", { timeZone: TZ, hour12: false }).split(":");
+        fraction = Math.max(0.05, (Number(hm[0]) * 60 + Number(hm[1])) / 1440);
+      }
+      n = Math.round(n * Math.min(1, fraction));
+      for (var i = 0; i < n; i++) {
+        var region = pick(REGION);
+        var does = pickSome(boost(DOES, LEAN[region]), [1, 1, 2, 2, 2, 3, 3, 4][Math.floor(rnd() * 8)]);
+        var tries = pickSome(boost(TRIES, LEAN[region]), [0, 1, 1, 1, 2, 2, 3][Math.floor(rnd() * 7)], does);
+        var pull = {};
+        does.concat(tries).forEach(function (a) {
+          var p = TRIP_PULL[a] || {};
+          Object.keys(p).forEach(function (k) { pull[k] = (pull[k] || 1) * p[k]; });
+        });
+        var howMany = [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 4][Math.floor(rnd() * 12)];
+        var trips = pickSome(boost(TRAVEL[region], pull), howMany, SAME[region]);
+        var minute = ago === 0 ? Math.floor(rnd() * fraction * 1440) : Math.floor(rnd() * 1440);
+        rows.push({
+          created_at: new Date(date.getTime() + minute * 60000).toISOString(),
+          day: date.toISOString().slice(0, 10),
+          home_city: rnd() < 0.88 ? pick(HOME[region]) : null,
+          regular_activities: does, interested_activities: tries, travel_destinations: trips,
+          other_regular_activity: does.indexOf("Other") >= 0 ? pick(OTHER) : null,
+          other_interested_activity: tries.indexOf("Other") >= 0 ? pick(OTHER) : null
+        });
+      }
+    }
+    rows.sort(function (a, b) { return a.created_at < b.created_at ? 1 : -1; });
+    demoCache = { day: today, rows: rows, places: placeStats(rows) };
+    return demoCache;
+  }
+
+  function demoStats(rows) {
+    var today = londonDay(new Date());
+    function daysAgo(n) { return new Date(new Date(today + "T12:00:00Z").getTime() - n * 86400000).toISOString().slice(0, 10); }
+    var perDay = {}, reg = {}, int = {}, other = {}, otherLabel = {};
+    function add(map, k) { map[k] = (map[k] || 0) + 1; }
+    rows.forEach(function (r) {
+      add(perDay, r.day);
+      r.regular_activities.forEach(function (a) { add(reg, a); });
+      r.interested_activities.forEach(function (a) { add(int, a); });
+      [r.other_regular_activity, r.other_interested_activity].forEach(function (o) {
+        if (!o) return;
+        var k = o.trim().toLowerCase(); add(other, k);
+        otherLabel[k] = otherLabel[k] || {}; add(otherLabel[k], o.trim());
+      });
+    });
+    function sorted(map, label) {
+      return Object.keys(map).map(function (k) { return { label: label ? label(k) : k, count: map[k] }; })
+        .sort(function (a, b) { return b.count - a.count || (a.label < b.label ? -1 : 1); });
+    }
+    function between(from, to) { var n = 0; for (var i = from; i < to; i++) n += perDay[daysAgo(i)] || 0; return n; }
+    var by = [];
+    for (var i = state.days - 1; i >= 0; i--) by.push({ day: daysAgo(i), count: perDay[daysAgo(i)] || 0 });
+    return {
+      total: rows.length, today: between(0, 1), last7: between(0, 7), prev7: between(7, 14), last30: between(0, 30),
+      by_day: by, regular: sorted(reg), interested: sorted(int),
+      other_text: sorted(other, function (k) {
+        var m = otherLabel[k]; return Object.keys(m).sort(function (a, b) { return m[b] - m[a]; })[0];
+      }).slice(0, 30),
+      latest: []
+    };
+  }
+  function londonDay(d) { return d.toLocaleDateString("en-CA", { timeZone: TZ }); }
+
+  function setDemo(on) {
+    state.demo = on;
+    $("wl-demo").setAttribute("aria-pressed", String(on));
+    $("wl-csv").disabled = on;
+    $("wl-latest-card").hidden = on;
+    state.rows = null; state.places = null; state.stats = null;
+    closePlace();
+    loadStats(false).catch(function (err) { alertMsg(messageFor(err)); });
   }
 
   async function loadPlaceRows() {
@@ -971,6 +1158,7 @@
       });
     });
     $("wl-csv").addEventListener("click", downloadCsv);
+    $("wl-demo").addEventListener("click", function () { setDemo(!state.demo); });
     var resizeTimer;
     window.addEventListener("resize", function () {
       clearTimeout(resizeTimer);
