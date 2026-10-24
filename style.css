@@ -93,6 +93,7 @@ a { color: inherit; }
   border: 1px solid rgba(255,255,255,.7);
   padding: 6px 14px; border-radius: 999px;
 }
+.panel-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
 
 /* Desktop: full-width landscape panels, stacked (16:9, never taller than the screen) */
 @media (min-width: 768px) {
