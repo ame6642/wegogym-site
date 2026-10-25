@@ -8,7 +8,9 @@ var ENDPOINT = "https://yxgwywppajvxfmmjudaq.supabase.co/functions/v1/waitlist";
 // Slide puzzle: one or more pictures (square, 600 x 600 or larger) with a fun fact each.
 // Leave image empty to play with numbered tiles. Put image files in /waitlist/images/.
 var PUZZLES = [
-  { image: "", alt: "", fact: "" }
+  { image: "/waitlist/images/puzzle-panda.jpg", alt: "A cartoon panda lifting a barbell over its head", fact: "Giant pandas spend up to 14 hours a day eating bamboo." },
+  { image: "/waitlist/images/puzzle-yoga.jpg", alt: "A woman holding a yoga dancer pose", fact: "This pose is Natarajasana, or Lord of the Dance pose." },
+  { image: "/waitlist/images/puzzle-rooster.jpg", alt: "A cartoon rooster with wrapped fists in a boxing ring", fact: "Boxing first appeared at the modern Olympics in 1904, in St. Louis." }
 ];
 
 // Matching game: each round picks ROUND_SIZE different activities and one piece of kit from each.
@@ -56,6 +58,41 @@ document.addEventListener("DOMContentLoaded", function () {
       var t = a[i]; a[i] = a[j]; a[j] = t;
     }
     return a;
+  }
+
+  /* Confetti across the whole screen. Skipped for reduced motion. */
+  function confetti() {
+    if (reduceMotion) return;
+    var c = document.createElement("canvas");
+    c.setAttribute("aria-hidden", "true");
+    c.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999";
+    document.body.appendChild(c);
+    var ctx = c.getContext("2d"), dpr = window.devicePixelRatio || 1;
+    var W = c.width = innerWidth * dpr, H = c.height = innerHeight * dpr;
+    var colours = ["#ffd400", "#111111", "#ff5a5f", "#2f9e6a", "#3b82f6", "#f97316"];
+    var bits = [];
+    for (var i = 0; i < 180; i++) {
+      bits.push({
+        x: Math.random() * W, y: -Math.random() * H * 0.6,
+        vx: (Math.random() - 0.5) * 4 * dpr, vy: (2 + Math.random() * 4) * dpr,
+        w: (6 + Math.random() * 6) * dpr, h: (8 + Math.random() * 8) * dpr,
+        a: Math.random() * 6.28, va: (Math.random() - 0.5) * 0.3,
+        col: colours[i % colours.length]
+      });
+    }
+    var start = performance.now();
+    (function frame(now) {
+      ctx.clearRect(0, 0, W, H);
+      var alive = false;
+      bits.forEach(function (b) {
+        b.vy += 0.06 * dpr; b.x += b.vx; b.y += b.vy; b.a += b.va;
+        if (b.y < H + 20) alive = true;
+        ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(b.a);
+        ctx.fillStyle = b.col; ctx.fillRect(-b.w / 2, -b.h / 2, b.w, b.h * Math.abs(Math.cos(b.a)));
+        ctx.restore();
+      });
+      if (alive && now - start < 6000) requestAnimationFrame(frame); else c.remove();
+    })(start);
   }
 
   /* ===================== SIGNUP ===================== */
@@ -320,7 +357,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var live = $("#puzzle-live");
     var face = $(".game-face", $("#puzzle-flip"));
     var reward = $("#puzzle-reward");
-    var puzzleIndex = 0;
+    var puzzleIndex = Math.floor(Math.random() * PUZZLES.length);
     var order, moves, startTime, timer, solved, rewardTimer;
     var tiles = [];
 
@@ -440,6 +477,7 @@ document.addEventListener("DOMContentLoaded", function () {
       layout();
       var p = PUZZLES[puzzleIndex];
       live.textContent = "Solved in " + moves + " moves and " + fmt(elapsed) + ".";
+      confetti();
       rewardTimer = setTimeout(function () {
         $("#puzzle-fact").textContent = p.fact || "";
         $("#puzzle-fact").hidden = !p.fact;
@@ -551,6 +589,7 @@ document.addEventListener("DOMContentLoaded", function () {
         doneBox.hidden = false;
         $("#match-done-title").focus();
       }, reduceMotion ? 0 : 400);
+      confetti();
       live.textContent = "All matched with " + wrong + " wrong guess" + (wrong === 1 ? "" : "es") + ".";
     }
 
