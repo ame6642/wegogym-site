@@ -134,3 +134,13 @@ a { color: inherit; }
 /* ===== Homepage: dark background so no white shows below the panels (also covers the iPhone bounce past the end of the page) ===== */
 .page-home { background: var(--ink); }
 .page-home .site-footer { color: #b3b3b3; border-top: 0; }
+
+/* ===== Panel headings: Avant Garde Bold (file has one weight, declared as 400 so it is never faux-bolded) ===== */
+@font-face {
+  font-family: "Avant Garde Bold";
+  src: url("fonts/avant-garde-bold.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+.panel-content h2 { font-family: "Avant Garde Bold", "Century Gothic", sans-serif; letter-spacing: 0; }
