@@ -157,10 +157,19 @@
           <select id="f-region-select" autocomplete="address-level1" hidden></select>
         </div>
         <div class="br-field">
-          <label for="f-postcode" id="f-postcode-label">Postcode</label>
+          <label for="f-postcode" id="f-postcode-label">Postcode / ZIP code</label>
           <input type="text" id="f-postcode" maxlength="20" autocomplete="postal-code" required aria-describedby="f-postcode-hint">
           <p class="wl-hint" id="f-postcode-hint">No postcode where you are? Write &ldquo;none&rdquo;.</p>
         </div>
+      </div>
+      <div class="br-field">
+        <label for="f-gmaps">Google Maps link <span class="wl-optional">(optional)</span></label>
+        <input type="url" id="f-gmaps" autocomplete="off" inputmode="url" spellcheck="false" placeholder="https://maps.app.goo.gl/..." aria-describedby="f-maps-hint">
+      </div>
+      <div class="br-field">
+        <label for="f-amaps">Apple Maps link <span class="wl-optional">(optional)</span></label>
+        <input type="url" id="f-amaps" autocomplete="off" inputmode="url" spellcheck="false" placeholder="https://maps.apple.com/..." aria-describedby="f-maps-hint">
+        <p class="wl-hint" id="f-maps-hint">Open your place in the Maps app, choose Share, then copy the link and paste it here. It helps members find you.</p>
       </div>
       <div class="wl-actions">
         <button type="submit" class="btn btn-primary">Save and continue</button>

@@ -28,7 +28,7 @@
   var SESSION_KEY = "wgg-business-session";
   var VENUE_COLS = "id,name,slug,status,country,timezone,description,category_slug,legal_name," +
     "company_number,contact_name,contact_email,contact_phone,address_line1,address_line2," +
-    "city,region,postcode,opening_hours,amenities,category_other";
+    "city,region,postcode,opening_hours,amenities,category_other,google_maps_url,apple_maps_url";
   var PHOTO_MAX_BYTES = 5 * 1024 * 1024; // the bucket's own limit (migration 0011)
   var PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"];
   var PHOTO_LONG_EDGE = 2400;
@@ -721,7 +721,6 @@
     if (!name) fieldError($("su-name"), "Enter your name.");
     if (!EMAIL.test(email)) fieldError($("su-email"), "Enter an email address like name@example.com.");
     if (pw.length < 8) fieldError($("su-password"), "Use at least 8 characters.");
-    if ($("su-password2").value !== pw) fieldError($("su-password2"), "The two passwords do not match.");
     if (!/^\d{4}-\d{2}-\d{2}$/.test(dob)) fieldError($("su-dob"), "Enter your date of birth.");
     else if (ageOn(dob) < 18) fieldError($("su-dob"), "You need to be 18 or over to register a business.");
     else if (ageOn(dob) > 120) fieldError($("su-dob"), "Check the year of your date of birth.");
@@ -740,7 +739,7 @@
         business_signup_source: "wegogym.club/business-register"
       } }
     });
-    $("su-password").value = ""; $("su-password2").value = "";
+    $("su-password").value = "";
     var s = fromAuthResponse(d);
     if (s) { saveSession(s); await afterLogin(); return; }
     // No session: the project asks new accounts to confirm their email first.
@@ -912,7 +911,6 @@
     } else {
       input.value = value || "";
     }
-    $("f-postcode-label").textContent = code === "US" ? "ZIP code" : "Postcode";
   }
 
   function randomTag() { return Math.random().toString(36).slice(2, 8); }
@@ -940,6 +938,29 @@
     }
   }
 
+  // Optional map links. Pasted text is tidied (spaces, a missing https://), then the whole
+  // address must be one of Google's or Apple's own map addresses, so a typo, an unrelated
+  // website or a Google redirect page is caught here. The database repeats exactly the same
+  // check (migration 0066), so keep the two in step.
+  var GOOGLE_LINK = /^https:\/\/(((www\.)?google\.(com|com\.au|com\.br|com\.mx|com\.sg|com\.hk|com\.tr|co\.uk|co\.in|co\.nz|co\.za|co\.jp|co\.kr|ie|ca|de|fr|es|it|nl|be|at|ch|se|no|dk|fi|pl|pt|gr|cz|ae)\/maps([\/?#]|$)|maps\.google\.(com|com\.au|com\.br|com\.mx|com\.sg|com\.hk|com\.tr|co\.uk|co\.in|co\.nz|co\.za|co\.jp|co\.kr|ie|ca|de|fr|es|it|nl|be|at|ch|se|no|dk|fi|pl|pt|gr|cz|ae)(\/maps([\/?#]|$)|\/?([?#]|$)))|maps\.app\.goo\.gl([\/?#]|$)|goo\.gl\/maps([\/?#]|$)|g\.page([\/?#]|$)|g\.co\/kgs([\/?#]|$)|share\.google([\/?#]|$))/i;
+  var APPLE_LINK = /^https:\/\/maps\.apple(\.com)?([\/?#]|$)/i;
+  var MAP_LINK_MAX = 500;
+
+  // Returns {ok:true, value:string|null} or {ok:false}.
+  function readMapLink(raw, pattern) {
+    var s = raw.trim();
+    if (!s) return { ok: true, value: null };
+    if (/\s/.test(s)) return { ok: false };
+    if (!/^[a-z][a-z0-9+.-]*:/i.test(s)) s = "https://" + s;
+    else s = s.replace(/^http:\/\//i, "https://");
+    var u;
+    try { u = new URL(s); } catch (e) { return { ok: false }; }
+    if (u.protocol !== "https:" || u.username || u.password || u.port) return { ok: false };
+    var out = u.href; // lower-case host, dot-segments (/../) resolved
+    if (out.length > MAP_LINK_MAX || !pattern.test(out) || /%2e|%2f/i.test(out.split(/[?#]/)[0])) return { ok: false };
+    return { ok: true, value: out };
+  }
+
   function regionValue(code) { return REGIONS[code] ? $("f-region-select").value : val("f-region"); }
 
   function fillPlace() {
@@ -958,6 +979,8 @@
     $("f-addr2").value = v.address_line2 || "";
     $("f-city").value = v.city || "";
     $("f-postcode").value = v.postcode || "";
+    $("f-gmaps").value = v.google_maps_url || "";
+    $("f-amaps").value = v.apple_maps_url || "";
     renderRegion(v.country || "", v.region);
   }
 
@@ -976,14 +999,19 @@
     if (!a1) fieldError($("f-addr1"), "Enter the street address.");
     if (!city) fieldError($("f-city"), "Enter the town or city.");
     if (c && REGIONS[code] && !region) fieldError($("f-region-select"), "Choose the " + REGIONS[code].label.toLowerCase() + ".");
-    if (!pc) fieldError($("f-postcode"), code === "US" ? "Enter the ZIP code." : "Enter the postcode, or write “none”.");
+    if (!pc) fieldError($("f-postcode"), "Enter the postcode or ZIP code, or write “none”.");
+    var gmaps = readMapLink($("f-gmaps").value, GOOGLE_LINK);
+    var amaps = readMapLink($("f-amaps").value, APPLE_LINK);
+    if (!gmaps.ok) fieldError($("f-gmaps"), "That does not look like a Google Maps link (or it is too long). Use the Share button in Google Maps, copy the link and paste it, or leave this empty.");
+    if (!amaps.ok) fieldError($("f-amaps"), "That does not look like an Apple Maps link (or it is too long). Use the Share button in Apple Maps, copy the link and paste it, or leave this empty.");
     if (form.querySelector(".br-field-error")) { focusFirstError(form); return; }
 
     var timezone = timezoneFor(code, region);
     if (!v) {
       state.venue = v = { id: await registerDraft(name, city, code, c[2], timezone), country: code };
     }
-    var patch = { name: name, address_line1: a1, address_line2: a2, city: city, region: region, postcode: pc };
+    var patch = { name: name, address_line1: a1, address_line2: a2, city: city, region: region, postcode: pc,
+      google_maps_url: gmaps.value, apple_maps_url: amaps.value };
     // The time zone is only (re)derived when it could have changed: on the first save,
     // or when a state or province changes. Otherwise a correction made by an admin stays.
     if (!v.timezone || region !== v.region) patch.timezone = timezone;
