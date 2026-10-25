@@ -130,3 +130,7 @@ a { color: inherit; }
   color: var(--muted);
   border-top: 1px solid #eeeeee;
 }
+
+/* ===== Homepage: dark background so no white shows below the panels (also covers the iPhone bounce past the end of the page) ===== */
+.page-home { background: var(--ink); }
+.page-home .site-footer { color: #b3b3b3; border-top: 0; }
