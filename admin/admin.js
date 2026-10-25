@@ -418,6 +418,13 @@
     return d;
   }
 
+  // A map link the business gave us (optional, added in migration 0066). Only an https
+  // address becomes a link, whatever the database holds.
+  function mapLink(url, label) {
+    return typeof url === "string" && /^https:\/\//i.test(url)
+      ? h("a", { href: url, target: "_blank", rel: "noopener noreferrer", text: label }) : null;
+  }
+
   function renderVenue(d) {
     var v = d.venue;
     $("d-name").textContent = v.name || "(no name yet)";
@@ -469,6 +476,8 @@
       ["Type", d.category],
       ["Description", v.description],
       ["Address", addr],
+      ["Google Maps", mapLink(v.google_maps_url, "Open in Google Maps")],
+      ["Apple Maps", mapLink(v.apple_maps_url, "Open in Apple Maps")],
       ["Time zone", v.timezone],
       ["Opening hours", hoursText(v.opening_hours)],
       ["Amenities", (v.amenities || []).map(amenityLabel).join(", ")]
