@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#ffd401">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://yxgwywppajvxfmmjudaq.supabase.co; form-action 'none'; base-uri 'self'; object-src 'none'">
+  <title>Partnerships | WeGoGym</title>
+  <meta name="description" content="Already run events? Tell WeGoGym about them. Add one-off or recurring events and we will be in touch.">
+  <link rel="canonical" href="https://wegogym.club/partnerships/">
+  <meta property="og:title" content="Partnerships | WeGoGym">
+  <meta property="og:description" content="Already run events? Tell WeGoGym about them. Add one-off or recurring events and we will be in touch.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://wegogym.club/partnerships/">
+  <meta property="og:site_name" content="WeGoGym">
+  <meta property="og:image" content="https://wegogym.club/social-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="WeGoGym">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/waitlist/waitlist.css">
+  <link rel="stylesheet" href="/business-register/business-register.css">
+  <link rel="stylesheet" href="/partnerships/partnerships.css">
+  <script src="/partnerships/partnerships.js" defer></script>
+</head>
+<body class="page-waitlist page-pt">
+
+  <header class="site-header">
+    <a class="logo" href="/">WeGoGym</a>
+  </header>
+
+  <main class="wl pt" id="main">
+    <h1 class="wl-title" id="pt-title" tabindex="-1">Partnerships</h1>
+    <p class="wl-lede">Already run events? Tell us about them. Add as many as you like, one-off or recurring. We read every application ourselves and will email you. Nothing is published until we have spoken.</p>
+
+    <noscript><p class="wl-alert">This form needs JavaScript switched on in your browser.</p></noscript>
+
+    <div id="pt-app" hidden>
+      <div class="wl-progress" aria-hidden="true"><span class="wl-progress-bar" id="pt-bar"></span></div>
+      <p class="wl-progress-text" id="pt-progress"></p>
+
+      <div class="wl-alert" id="pt-alert" role="alert"></div>
+      <p class="visually-hidden" id="pt-live" aria-live="polite"></p>
+
+      <!-- 1. YOU -->
+      <form class="pt-step" data-step="you" aria-labelledby="h-you" novalidate>
+        <h2 class="wl-step-title" id="h-you" tabindex="-1">About you</h2>
+        <div class="br-field">
+          <label for="y-name">Your full name</label>
+          <input type="text" id="y-name" autocomplete="name" maxlength="120" required>
+        </div>
+        <div class="br-field">
+          <label for="y-org">Group or business name <span class="wl-optional">(if you have one)</span></label>
+          <input type="text" id="y-org" autocomplete="organization" maxlength="120">
+        </div>
+        <div class="br-field">
+          <label for="y-email">Email address</label>
+          <input type="email" id="y-email" autocomplete="email" inputmode="email" maxlength="254" required aria-describedby="y-email-hint">
+          <p class="wl-hint" id="y-email-hint">We reply here.</p>
+        </div>
+        <div class="br-field">
+          <label for="y-phone">Phone <span class="wl-optional">(optional)</span></label>
+          <input type="tel" id="y-phone" autocomplete="tel" maxlength="40">
+        </div>
+        <div class="br-field">
+          <label for="y-city">Town or city your events are in</label>
+          <input type="text" id="y-city" autocomplete="address-level2" maxlength="80" required aria-describedby="y-city-hint">
+          <p class="wl-hint" id="y-city-hint">We are launching in London first.</p>
+        </div>
+        <div class="br-field">
+          <label for="y-site">Website or Instagram <span class="wl-optional">(optional)</span></label>
+          <input type="text" id="y-site" autocomplete="off" maxlength="200" spellcheck="false" aria-describedby="y-site-hint">
+          <p class="wl-hint" id="y-site-hint">Somewhere we can see what you already run.</p>
+        </div>
+        <!-- Honeypot: people never see or fill this, bots do -->
+        <div class="hp" aria-hidden="true">
+          <label for="y-hp">Leave this empty</label>
+          <input type="text" id="y-hp" tabindex="-1" autocomplete="off">
+        </div>
+        <div class="wl-actions">
+          <button type="submit" class="btn btn-primary">Continue</button>
+        </div>
+      </form>
+
+      <!-- 2. EVENTS -->
+      <form class="pt-step" data-step="events" aria-labelledby="h-events" novalidate hidden>
+        <h2 class="wl-step-title" id="h-events" tabindex="-1">Your events</h2>
+        <p class="wl-hint pt-intro">Add each event you run. For something that happens every week, add it once and choose that it repeats.</p>
+        <div id="pt-events"></div>
+        <div class="pt-add">
+          <button type="button" class="btn btn-secondary" id="pt-add">Add another event</button>
+          <span class="wl-hint" id="pt-add-note"></span>
+        </div>
+        <div class="wl-actions">
+          <button type="button" class="btn btn-ghost" data-back>Back</button>
+          <button type="submit" class="btn btn-primary">Review</button>
+        </div>
+      </form>
+
+      <!-- 3. REVIEW -->
+      <form class="pt-step" data-step="review" aria-labelledby="h-review" novalidate hidden>
+        <h2 class="wl-step-title" id="h-review" tabindex="-1">Check and send</h2>
+        <div class="pt-summary" id="pt-summary"></div>
+        <label class="br-check">
+          <input type="checkbox" id="r-over18" required>
+          <span>I am 18 or over, and I run these events or am allowed to list them.</span>
+        </label>
+        <label class="br-check">
+          <input type="checkbox" id="r-terms" required>
+          <span>I have read the <a href="/privacy/">privacy notice</a> and the <a href="/terms/">Terms of Use</a>.</span>
+        </label>
+        <p class="br-field-error" id="r-error" hidden></p>
+        <div class="wl-actions">
+          <button type="button" class="btn btn-ghost" data-back>Back</button>
+          <button type="submit" class="btn btn-primary" id="pt-send">Send application</button>
+        </div>
+      </form>
+
+      <!-- DONE -->
+      <section class="pt-step" data-step="done" aria-labelledby="h-done" hidden>
+        <h2 class="wl-step-title" id="h-done" tabindex="-1">Application sent</h2>
+        <p>Thank you. We will read it and email <b id="done-email"></b>, usually within a few working days.</p>
+        <p>Nothing is published yet. WeGoGym is not open to events yet, and anyone who hosts will need to confirm their identity first. We will explain how that works when we write.</p>
+        <div class="wl-actions pt-actions-start">
+          <a class="btn btn-secondary pt-link" href="/">Back to the homepage</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <a href="mailto:hello@wegogym.club">hello@wegogym.club</a>
+    <a href="/privacy/">Privacy Policy</a>
+    <a href="/terms/">Terms of Use</a>
+    <span>&copy; 2026 WeGoGym</span>
+  </footer>
+
+</body>
+</html>

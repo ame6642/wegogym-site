@@ -19,6 +19,7 @@
     <nav class="ad-tabs" id="ad-tabs" role="tablist" aria-label="Sections" hidden>
       <button type="button" role="tab" id="tab-biz" aria-controls="view-biz" aria-selected="true">Businesses <span class="ad-count" id="biz-new" hidden></span></button>
       <button type="button" role="tab" id="tab-wl" aria-controls="view-wl" aria-selected="false" tabindex="-1">Waitlist <span class="ad-count" id="wl-new" hidden></span></button>
+      <button type="button" role="tab" id="tab-pt" aria-controls="view-pt" aria-selected="false" tabindex="-1">Partnerships <span class="ad-count" id="pt-new" hidden></span></button>
     </nav>
     <div class="ad-head-right">
       <span class="ad-live" id="ad-live" hidden><span class="ad-dot" aria-hidden="true"></span><span id="ad-updated">Live</span></span>
@@ -97,6 +98,36 @@
     <ul class="ad-biz-list" id="biz-list" aria-label="Businesses"></ul>
     <p class="ad-empty" id="biz-empty" hidden>No businesses match.</p>
   </main>
+
+  <!-- PARTNERSHIPS -->
+  <main class="ad-main" id="view-pt" role="tabpanel" aria-labelledby="tab-pt" hidden>
+    <div class="ad-toolbar">
+      <div class="ad-chips" role="group" aria-label="Filter partnerships" id="pt-filters">
+        <button type="button" data-filter="all" aria-pressed="true">All <span></span></button>
+        <button type="button" data-filter="new" aria-pressed="false">New <span></span></button>
+        <button type="button" data-filter="contacted" aria-pressed="false">Contacted <span></span></button>
+        <button type="button" data-filter="approved" aria-pressed="false">Approved <span></span></button>
+        <button type="button" data-filter="declined" aria-pressed="false">Declined <span></span></button>
+      </div>
+      <label class="visually-hidden" for="pt-search">Search partnerships</label>
+      <input type="search" id="pt-search" placeholder="Search name, group, city, email" autocomplete="off">
+    </div>
+    <p class="ad-callout" id="pt-setup" hidden>The database is missing the Partnerships functions. Run APPLY-0067.sql in the Supabase SQL Editor first.</p>
+    <ul class="ad-biz-list" id="pt-list" aria-label="Partnership applications"></ul>
+    <p class="ad-empty" id="pt-empty" hidden>No applications match.</p>
+  </main>
+
+  <!-- ONE PARTNERSHIP APPLICATION -->
+  <div class="ad-drawer" id="pt-drawer" hidden>
+    <div class="ad-drawer-backdrop" data-close></div>
+    <section class="ad-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="pt-d-name">
+      <div class="ad-drawer-head">
+        <h2 id="pt-d-name" tabindex="-1"></h2>
+        <button type="button" class="ad-btn ad-btn-ghost ad-btn-sm" data-close>Close</button>
+      </div>
+      <div class="ad-drawer-body" id="pt-d-body"></div>
+    </section>
+  </div>
 
   <!-- ONE BUSINESS -->
   <div class="ad-drawer" id="drawer" hidden>

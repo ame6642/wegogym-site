@@ -1,0 +1,51 @@
+/* ===== Partnerships page (adds to /style.css, /waitlist/waitlist.css and /business-register/business-register.css) ===== */
+
+.pt-step[hidden] { display: none; }
+.pt-step { animation: wl-fade .2s var(--ease); }
+.pt-step p { margin-bottom: 12px; }
+.pt-intro { margin: 0 0 16px; }
+.pt-actions-start { justify-content: flex-start; }
+.pt-link { display: inline-block; text-decoration: none; }
+
+/* One card per event */
+.pt-event {
+  border: 1px solid var(--line); border-radius: var(--radius-lg);
+  padding: 20px 16px 4px; margin: 0 0 20px; min-width: 0;
+}
+.pt-event > legend { font-family: var(--display); font-size: 1.15rem; letter-spacing: .01em; padding: 0 8px; }
+.pt-event-bar { display: flex; justify-content: flex-end; margin: -8px 0 8px; }
+.pt-add { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 4px 0 0; }
+
+/* Radio choices (one-off or repeats, free or ticketed) */
+.pt-choice { border: 0; margin: 0 0 20px; padding: 0; min-width: 0; }
+.pt-choice > legend { font-weight: 600; margin-bottom: 8px; padding: 0; }
+
+/* Groups that appear only when a choice needs them */
+.pt-more[hidden] { display: none; }
+
+.wl input[type="number"] {
+  width: 100%; font: inherit; font-size: 1rem; padding: 12px 14px;
+  border: 1px solid #8a8a86; border-radius: var(--radius-sm); background: var(--paper); color: var(--ink);
+}
+.wl input[type="number"]:focus-visible { outline: 3px solid var(--ink); outline-offset: 1px; }
+.wl input[type="number"][aria-invalid="true"] { border-color: var(--error); }
+
+/* Money: a pound sign sits to the left of the box */
+.pt-money { position: relative; }
+.pt-money > span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-weight: 600; pointer-events: none; }
+.pt-money input { padding-left: 30px; }
+
+.pt-times { display: grid; grid-template-columns: 1fr; gap: 0 16px; }
+@media (min-width: 560px) { .pt-times { grid-template-columns: 1fr 1fr 1fr; } }
+
+/* Review */
+.pt-summary { margin: 0 0 24px; }
+.pt-summary h3 { font-family: "Inter", system-ui, sans-serif; font-size: 1rem; font-weight: 800; margin: 20px 0 6px; }
+.pt-summary h3:first-child { margin-top: 0; }
+.pt-summary dl { display: grid; grid-template-columns: 9rem 1fr; gap: 4px 12px; font-size: .95rem; }
+.pt-summary dt { color: var(--muted); }
+.pt-summary dd { margin: 0; overflow-wrap: anywhere; }
+@media (max-width: 480px) { .pt-summary dl { grid-template-columns: 1fr; } .pt-summary dt { margin-top: 8px; } }
+.pt-summary .pt-edit { margin-top: 8px; }
+
+@media (prefers-reduced-motion: reduce) { .pt-step { animation: none; } }

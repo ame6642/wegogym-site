@@ -213,6 +213,12 @@ input.ad-code { width: 100%; padding: 10px 12px; border: 2px solid var(--line); 
 .ad-modal-nav .ad-small { margin: 0; }
 .ad-gap-sm { margin-top: 10px; }
 
+/* ===== Partnerships list: no photo column ===== */
+.ad-biz.ad-pt { grid-template-columns: 1fr; }
+.ad-dl-event { margin-bottom: 14px; }
+.ad-event-title { font-weight: 800; margin: 14px 0 6px; overflow-wrap: anywhere; }
+.ad-event-title:first-child { margin-top: 0; }
+
 /* ===== Demo data switch ===== */
 .ad-toolbar-end { display: inline-flex; align-items: center; gap: 8px; }
 .ad-demo {

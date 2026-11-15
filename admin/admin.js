@@ -5,6 +5,9 @@
  *     admin_record_venue_note), optional email to the business (admin-notify function),
  *     and the existing listing review (0028's admin_review_venue) once a listing is pending.
  *   Waitlist: numbers from 0063's admin_waitlist_stats, plus a CSV download.
+ *   Partnerships: organisers who applied on /partnerships/ (0067). Each application lists the
+ *     events they run (one-off or repeating). An admin marks it contacted, approved or declined
+ *     with a note (admin_set_partnership_status). Nothing here publishes an event.
  *
  * Only an account whose profile has role = admin AND whose session passed two-step login
  * (an authenticator-app code, JWT aal = aal2) gets any data: every RPC and policy checks
@@ -31,7 +34,8 @@
   var state = {
     session: null, view: "biz", venues: null, filter: "all", search: "",
     stats: null, days: 30, openVenueId: null, seen: null,
-    wlBaseline: null, wlOpenedAt: null, busy: false, lastOk: 0
+    wlBaseline: null, wlOpenedAt: null, busy: false, lastOk: 0,
+    partnerships: null, ptSetupMissing: false, ptFilter: "all", ptSearch: "", openPtId: null
   };
 
   function $(id) { return document.getElementById(id); }
@@ -159,8 +163,8 @@
   }
 
   function show(view) {
-    ["view-login", "view-mfa", "view-enrol", "view-denied", "view-biz", "view-wl", "view-offline"].forEach(function (id) { $(id).hidden = id !== view; });
-    var inApp = view === "view-biz" || view === "view-wl";
+    ["view-login", "view-mfa", "view-enrol", "view-denied", "view-biz", "view-wl", "view-pt", "view-offline"].forEach(function (id) { $(id).hidden = id !== view; });
+    var inApp = view === "view-biz" || view === "view-wl" || view === "view-pt";
     $("ad-tabs").hidden = !inApp;
     $("ad-live").hidden = !inApp;
     $("ad-signout").hidden = !(inApp || view === "view-denied" || view === "view-mfa" || view === "view-enrol");
@@ -274,10 +278,12 @@
       if (err.code === "PGRST202" || err.status === 404) { show("view-login"); alertMsg("The database is missing the admin functions. Run migration 0063 first."); return; }
       throw err;
     }
+    await loadPartnerships();
     markOk();
     loadSeen();
     selectView(state.view);
     renderVenues();
+    renderPartnerships();
   }
 
   // ===== Live refresh =====
@@ -290,11 +296,13 @@
     $("ad-updated").textContent = (stale ? "Not updated since " : "Live · ") + fmtTime(new Date(state.lastOk));
   }
   async function tick() {
-    if (!state.session || document.hidden || state.busy || $("view-biz").hidden && $("view-wl").hidden) return;
+    if (!state.session || document.hidden || state.busy || $("view-biz").hidden && $("view-wl").hidden && $("view-pt").hidden) return;
     try {
       var venues = await rpc("admin_list_venues");
       state.venues = venues;
       renderVenues();
+      await loadPartnerships();
+      renderPartnerships();
       if (state.view === "wl" || state.stats) await loadStats(true);
       markOk();
     } catch (err) {
@@ -304,13 +312,15 @@
   }
 
   // ===== Tabs =====
+  var VIEWS = ["biz", "wl", "pt"];
   function selectView(v) {
     state.view = v;
-    var biz = v === "biz";
-    $("tab-biz").setAttribute("aria-selected", String(biz)); $("tab-biz").tabIndex = biz ? 0 : -1;
-    $("tab-wl").setAttribute("aria-selected", String(!biz)); $("tab-wl").tabIndex = biz ? -1 : 0;
-    show(biz ? "view-biz" : "view-wl");
-    if (!biz) {
+    VIEWS.forEach(function (k) {
+      var on = k === v;
+      $("tab-" + k).setAttribute("aria-selected", String(on)); $("tab-" + k).tabIndex = on ? 0 : -1;
+    });
+    show("view-" + v);
+    if (v === "wl") {
       state.wlBaseline = null; $("wl-new").hidden = true;
       if (!state.wlOpenedAt) state.wlOpenedAt = new Date().toISOString();
       if (!state.stats) loadStats(false).catch(function (err) { alertMsg(messageFor(err)); });
@@ -574,6 +584,170 @@
     alertMsg(message, true);
     announce(message);
     markOk();
+  }
+
+  // ===== Partnerships =====
+  var PT_STATUS = { "new": "New", contacted: "Contacted", approved: "Approved", declined: "Declined" };
+  var PT_TAG = { "new": "warn", contacted: "info", approved: "good", declined: "bad" };
+  var PT_CATEGORY = {
+    run: "Running", ride: "Cycling", walk: "Walking", train: "Strength and gym", yoga_pilates: "Yoga and Pilates",
+    dance: "Dance", swim: "Swimming", climb: "Climbing", ball_sports: "Ball sports", eat_drink: "Food and drink",
+    social: "Social and wellbeing", other: "Something else"
+  };
+  var PT_REPEAT = { weekly: "Every week", fortnightly: "Every two weeks", monthly: "Every month" };
+  var PT_DONE = {
+    contacted: "Marked as contacted.", approved: "Approved. Nothing is published yet.",
+    declined: "Declined.", "new": "Put back to new."
+  };
+
+  function ptDay(iso) {
+    return new Date(iso + "T12:00:00Z").toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+  }
+
+  // Quiet when migration 0067 has not been run yet, so the other tabs keep working.
+  async function loadPartnerships() {
+    try {
+      state.partnerships = await rpc("admin_list_partnerships");
+      state.ptSetupMissing = false;
+    } catch (err) {
+      if (err.code === "PGRST202" || err.status === 404) { state.partnerships = []; state.ptSetupMissing = true; return; }
+      if (err.code === "session") throw err;
+      // Any other failure: keep showing the last good list.
+    }
+  }
+
+  function renderPartnerships() {
+    var all = state.partnerships || [];
+    var counts = { all: all.length, "new": 0, contacted: 0, approved: 0, declined: 0 };
+    all.forEach(function (a) { if (counts[a.status] !== undefined) counts[a.status]++; });
+    document.querySelectorAll("#pt-filters button").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.filter === state.ptFilter));
+      b.querySelector("span").textContent = counts[b.dataset.filter] ? String(counts[b.dataset.filter]) : "";
+    });
+    $("pt-new").hidden = !counts["new"]; $("pt-new").textContent = String(counts["new"]);
+    $("pt-new").setAttribute("aria-label", counts["new"] + " to review");
+    $("pt-setup").hidden = !state.ptSetupMissing;
+
+    var q = state.ptSearch.toLowerCase();
+    var rows = all.filter(function (a) {
+      if (state.ptFilter !== "all" && a.status !== state.ptFilter) return false;
+      if (!q) return true;
+      var hay = [a.organiser_name, a.organisation_name, a.city, a.email].concat((a.events || []).map(function (e) { return e.title; }));
+      return hay.some(function (s) { return s && String(s).toLowerCase().indexOf(q) >= 0; });
+    });
+    var list = $("pt-list");
+    list.textContent = "";
+    rows.forEach(function (a) {
+      var events = a.events || [];
+      var repeats = events.some(function (e) { return e.schedule === "recurring"; });
+      var who = a.organisation_name ? a.organiser_name + " · " : "";
+      var btn = h("button", { type: "button", class: "ad-biz ad-pt" + (a.status === "new" ? " is-new" : ""), onclick: function () { openPartnership(a.id); } }, [
+        h("span", {}, [
+          h("span", { class: "ad-biz-name", text: a.organisation_name || a.organiser_name }),
+          h("span", { class: "ad-biz-meta", text: who + a.city + " · " + a.email }),
+          h("span", { class: "ad-biz-meta", text: events.length + " event" + (events.length === 1 ? "" : "s") + " · applied " + fmtDate(a.created_at) }),
+          h("span", { class: "ad-tags" }, [
+            h("span", { class: "ad-tag " + PT_TAG[a.status], text: PT_STATUS[a.status] || a.status }),
+            repeats ? h("span", { class: "ad-tag info", text: "Repeats" }) : null
+          ])
+        ])
+      ]);
+      list.appendChild(h("li", {}, [btn]));
+    });
+    $("pt-empty").hidden = rows.length > 0 || state.ptSetupMissing;
+  }
+
+  function openPartnership(id) {
+    state.openPtId = id;
+    $("pt-drawer").hidden = false;
+    document.body.style.overflow = "hidden";
+    renderPartnership();
+    $("pt-d-name").focus();
+  }
+  function closePtDrawer() {
+    state.openPtId = null;
+    $("pt-drawer").hidden = true;
+    document.body.style.overflow = "";
+  }
+
+  function renderPartnership() {
+    var a = (state.partnerships || []).filter(function (x) { return x.id === state.openPtId; })[0];
+    if (!a) { closePtDrawer(); return; }
+    $("pt-d-name").textContent = a.organisation_name || a.organiser_name;
+    var body = $("pt-d-body");
+    body.textContent = "";
+
+    body.appendChild(section("Status", [h("p", {}, [
+      h("span", { class: "ad-tag " + PT_TAG[a.status], text: PT_STATUS[a.status] || a.status }),
+      a.decided_at ? "  Decided " + fmtDateTime(a.decided_at) : ""
+    ])]));
+
+    body.appendChild(section("Contact", [dl([
+      ["Name", a.organiser_name],
+      ["Group or business", a.organisation_name],
+      ["Email", h("a", { href: "mailto:" + a.email, text: a.email })],
+      ["Phone", a.phone],
+      ["Based in", a.city],
+      ["Website or Instagram", a.website],
+      ["Applied", fmtDateTime(a.created_at)],
+      ["Privacy notice", a.privacy_version]
+    ])]));
+
+    var events = a.events || [];
+    var evs = [];
+    events.forEach(function (e, i) {
+      var when = e.schedule === "recurring"
+        ? (PT_REPEAT[e.recurrence] || e.recurrence) + " from " + ptDay(e.first_date) + (e.ends_on ? " until " + ptDay(e.ends_on) : ", no end date")
+        : ptDay(e.first_date);
+      evs.push(h("div", { class: "ad-event-title", text: (events.length > 1 ? (i + 1) + ". " : "") + e.title }));
+      evs.push(h("div", { class: "ad-dl-event" }, [dl([
+        ["Kind", PT_CATEGORY[e.category] || e.category],
+        ["Where", e.area],
+        ["What happens", e.description],
+        ["When", when],
+        ["Time", String(e.start_time).slice(0, 5) + (e.end_time ? " to " + String(e.end_time).slice(0, 5) : "")],
+        ["Price", e.price_type === "ticketed" ? "£" + (e.price_pence / 100).toFixed(2) + " per ticket" : "Free (RSVP)"],
+        ["Most people", e.capacity ? String(e.capacity) : ""],
+        ["Where they book now", e.existing_listing_url]
+      ])]));
+    });
+    body.appendChild(section("Events (" + events.length + ")", evs));
+
+    var note = h("textarea", { id: "pt-note", rows: "4", maxlength: "4000", placeholder: "Note for yourself (optional)" });
+    note.value = a.admin_note || "";
+    function btn(label, status, cls) {
+      return h("button", { type: "button", class: "ad-btn " + cls + " ad-btn-sm", disabled: a.status === status, onclick: function (e) { setPtStatus(e, a.id, status); } }, [label]);
+    }
+    body.appendChild(section("Decision", [
+      h("p", { class: "ad-callout", text: "This only records your decision. Nothing is published and the organiser is not emailed from here: write to them from their email address." }),
+      h("label", { for: "pt-note", class: "visually-hidden", text: "Note" }), note,
+      h("div", { class: "ad-actions" }, [
+        btn("Mark contacted", "contacted", "ad-btn-secondary"),
+        btn("Approve", "approved", "ad-btn-primary"),
+        btn("Decline", "declined", "ad-btn-secondary"),
+        btn("Back to new", "new", "ad-btn-ghost")
+      ])
+    ]));
+  }
+
+  async function setPtStatus(e, id, status) {
+    if (state.busy) return;
+    state.busy = true;
+    var buttons = document.querySelectorAll("#pt-d-body button");
+    buttons.forEach(function (x) { x.disabled = true; });
+    alertMsg("");
+    try {
+      await rpc("admin_set_partnership_status", { p_id: id, p_status: status, p_note: $("pt-note").value.trim() || null });
+      await loadPartnerships();
+      renderPartnerships();
+      renderPartnership();
+      alertMsg(PT_DONE[status], true);
+      announce(PT_DONE[status]);
+      markOk();
+    } catch (err) {
+      alertMsg(err.code === "WGG23" ? "That application no longer exists. Refresh the list." : messageFor(err));
+      buttons.forEach(function (x) { x.disabled = false; });
+    } finally { state.busy = false; }
   }
 
   // ===== Waitlist =====
@@ -1140,10 +1314,17 @@
     $("denied-out").addEventListener("click", logOut);
     $("tab-biz").addEventListener("click", function () { selectView("biz"); });
     $("tab-wl").addEventListener("click", function () { selectView("wl"); });
+    $("tab-pt").addEventListener("click", function () { selectView("pt"); });
+    document.querySelectorAll("#pt-filters button").forEach(function (b) {
+      b.addEventListener("click", function () { state.ptFilter = b.dataset.filter; renderPartnerships(); });
+    });
+    $("pt-search").addEventListener("input", function (e) { state.ptSearch = e.target.value.trim(); renderPartnerships(); });
+    document.querySelectorAll("#pt-drawer [data-close]").forEach(function (b) { b.addEventListener("click", closePtDrawer); });
     $("ad-tabs").addEventListener("keydown", function (e) {
       if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
-      var next = state.view === "biz" ? "wl" : "biz";
-      selectView(next); $(next === "biz" ? "tab-biz" : "tab-wl").focus();
+      var at = VIEWS.indexOf(state.view);
+      var next = VIEWS[(at + (e.key === "ArrowRight" ? 1 : VIEWS.length - 1)) % VIEWS.length];
+      selectView(next); $("tab-" + next).focus();
     });
     document.querySelectorAll("#biz-filters button").forEach(function (b) {
       b.addEventListener("click", function () { state.filter = b.dataset.filter; renderVenues(); });
@@ -1151,6 +1332,7 @@
     $("biz-search").addEventListener("input", function (e) { state.search = e.target.value.trim(); renderVenues(); });
     document.querySelectorAll("#drawer [data-close]").forEach(function (b) { b.addEventListener("click", closeDrawer); });
     document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !$("pt-drawer").hidden) { closePtDrawer(); return; }
       if (e.key === "Escape" && !$("place-modal").hidden) { closePlace(); return; }
       if (e.key === "Escape" && !$("drawer").hidden) closeDrawer();
       if (!$("place-modal").hidden && e.target.tagName !== "SELECT" && (e.key === "ArrowLeft" || e.key === "ArrowRight")) stepPlace(e.key === "ArrowLeft" ? -1 : 1);
