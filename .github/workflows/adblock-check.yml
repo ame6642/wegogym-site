@@ -1,0 +1,19 @@
+# Fails if an ad blocker would hide any part of the site (see tools/check-adblock.mjs).
+# Weekly as well as on every push, because the ad-block lists gain new rules over time.
+name: Ad-blocker check
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "17 7 * * 1"
+  workflow_dispatch:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i --no-save playwright@1 && npx playwright install --with-deps chromium
+      - run: node tools/check-adblock.mjs

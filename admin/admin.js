@@ -88,12 +88,12 @@
   function humanList(csv) { return String(csv || "").split(",").filter(Boolean).map(humanise).join(", "); }
 
   function alertMsg(text, ok) {
-    var a = $("ad-alert");
+    var a = $("wgg-alert");
     a.textContent = text || "";
     a.classList.toggle("is-ok", !!ok);
     if (text && ok) setTimeout(function () { if (a.textContent === text) a.textContent = ""; }, 5000);
   }
-  function announce(t) { $("ad-announce").textContent = t; }
+  function announce(t) { $("wgg-announce").textContent = t; }
 
   // ===== HTTP =====
   async function http(path, opts, retried) {
@@ -165,9 +165,9 @@
   function show(view) {
     ["view-login", "view-mfa", "view-enrol", "view-denied", "view-biz", "view-wl", "view-pt", "view-offline"].forEach(function (id) { $(id).hidden = id !== view; });
     var inApp = view === "view-biz" || view === "view-wl" || view === "view-pt";
-    $("ad-tabs").hidden = !inApp;
-    $("ad-live").hidden = !inApp;
-    $("ad-signout").hidden = !(inApp || view === "view-denied" || view === "view-mfa" || view === "view-enrol");
+    $("wgg-tabs").hidden = !inApp;
+    $("wgg-live").hidden = !inApp;
+    $("wgg-signout").hidden = !(inApp || view === "view-denied" || view === "view-mfa" || view === "view-enrol");
     var h1 = $(view).querySelector("h1[tabindex]");
     if (h1) h1.focus();
   }
@@ -292,8 +292,8 @@
     if (!state.lastOk) return;
     var age = Date.now() - state.lastOk;
     var stale = age > CONFIG.refreshSeconds * 3000;
-    $("ad-live").classList.toggle("is-stale", stale);
-    $("ad-updated").textContent = (stale ? "Not updated since " : "Live · ") + fmtTime(new Date(state.lastOk));
+    $("wgg-live").classList.toggle("is-stale", stale);
+    $("wgg-updated").textContent = (stale ? "Not updated since " : "Live · ") + fmtTime(new Date(state.lastOk));
   }
   async function tick() {
     if (!state.session || document.hidden || state.busy || $("view-biz").hidden && $("view-wl").hidden && $("view-pt").hidden) return;
@@ -352,10 +352,10 @@
     var label = { draft: "Draft", pending: "Waiting for listing review", changes_requested: "Changes requested",
       rejected: "Listing rejected", live: "Live", paused: "Paused", suspended: "Suspended" }[v.status] || v.status;
     var cls = { live: "good", pending: "info", rejected: "bad", suspended: "bad", changes_requested: "warn" }[v.status] || "";
-    tags.push(h("span", { class: "ad-tag " + cls, text: label }));
-    if (v.intake === "accepted") tags.push(h("span", { class: "ad-tag good", text: "Accepted" }));
-    else if (v.intake === "declined") tags.push(h("span", { class: "ad-tag bad", text: "Declined" }));
-    else if (v.status === "draft" || v.status === "changes_requested") tags.push(h("span", { class: "ad-tag warn", text: "To decide" }));
+    tags.push(h("span", { class: "wgg-tag " + cls, text: label }));
+    if (v.intake === "accepted") tags.push(h("span", { class: "wgg-tag good", text: "Accepted" }));
+    else if (v.intake === "declined") tags.push(h("span", { class: "wgg-tag bad", text: "Declined" }));
+    else if (v.status === "draft" || v.status === "changes_requested") tags.push(h("span", { class: "wgg-tag warn", text: "To decide" }));
     return tags;
   }
 
@@ -381,16 +381,16 @@
     var list = $("biz-list");
     list.textContent = "";
     rows.forEach(function (v) {
-      var img = v.cover_path ? h("img", { class: "ad-thumb", src: photoUrl(v.cover_path), alt: "", loading: "lazy" }) : h("span", { class: "ad-thumb" });
+      var img = v.cover_path ? h("img", { class: "wgg-thumb", src: photoUrl(v.cover_path), alt: "", loading: "lazy" }) : h("span", { class: "wgg-thumb" });
       var meta = [v.category, [v.city, countryName(v.country)].filter(Boolean).join(", ")].filter(Boolean).join(" · ");
-      var btn = h("button", { type: "button", class: "ad-biz" + (isNew(v) ? " is-new" : ""), onclick: function () { openVenue(v.id); } }, [
+      var btn = h("button", { type: "button", class: "wgg-biz" + (isNew(v) ? " is-new" : ""), onclick: function () { openVenue(v.id); } }, [
         img,
         h("span", {}, [
-          h("span", { class: "ad-biz-name", text: (v.name || "(no name yet)") + (isNew(v) ? "  · New" : "") }),
-          h("span", { class: "ad-biz-meta", text: meta || "No details yet" }),
-          h("span", { class: "ad-biz-meta", text: (v.contact_email || v.owner_email || "") + " · registered " + fmtDate(v.created_at) +
+          h("span", { class: "wgg-biz-name", text: (v.name || "(no name yet)") + (isNew(v) ? "  · New" : "") }),
+          h("span", { class: "wgg-biz-meta", text: meta || "No details yet" }),
+          h("span", { class: "wgg-biz-meta", text: (v.contact_email || v.owner_email || "") + " · registered " + fmtDate(v.created_at) +
             (v.note_count ? " · " + v.note_count + " note" + (v.note_count === 1 ? "" : "s") : "") }),
-          h("span", { class: "ad-tags" }, statusTags(v))
+          h("span", { class: "wgg-tags" }, statusTags(v))
         ])
       ]);
       list.appendChild(h("li", {}, [btn]));
@@ -417,9 +417,9 @@
     document.body.style.overflow = "";
   }
 
-  function section(title, children) { return h("div", { class: "ad-section" }, [h("h3", { text: title })].concat(children)); }
+  function section(title, children) { return h("div", { class: "wgg-section" }, [h("h3", { text: title })].concat(children)); }
   function dl(pairs) {
-    var d = h("dl", { class: "ad-dl" });
+    var d = h("dl", { class: "wgg-dl" });
     pairs.forEach(function (p) {
       if (p[1] === null || p[1] === undefined || p[1] === "") return;
       d.appendChild(h("dt", { text: p[0] }));
@@ -442,25 +442,25 @@
     body.textContent = "";
     var email = v.contact_email || (d.owner && d.owner.email) || "";
 
-    body.appendChild(h("div", { class: "ad-tags ad-section" }, statusTags({ status: v.status, intake: d.intake && d.intake.decision })));
+    body.appendChild(h("div", { class: "wgg-tags wgg-section" }, statusTags({ status: v.status, intake: d.intake && d.intake.decision })));
 
     // Decision and message
     var msg = h("textarea", { id: "d-msg", rows: "4", maxlength: "4000", placeholder: "Message or note" });
     var send = h("input", { type: "checkbox", id: "d-send" });
     var decided = d.intake && d.intake.decision;
-    var actions = h("div", { class: "ad-actions" }, [
-      decided !== "accepted" ? h("button", { type: "button", class: "ad-btn ad-btn-good", onclick: function (e) { act(e, v.id, "accept"); } }, ["Accept"]) : null,
-      decided !== "declined" ? h("button", { type: "button", class: "ad-btn ad-btn-bad", onclick: function (e) { act(e, v.id, "decline"); } }, ["Decline"]) : null,
-      h("button", { type: "button", class: "ad-btn ad-btn-secondary", onclick: function (e) { act(e, v.id, "note"); } }, ["Save note"]),
-      decided ? h("button", { type: "button", class: "ad-btn ad-btn-ghost ad-btn-sm", onclick: function (e) { act(e, v.id, "reopen"); } }, ["Undo decision"]) : null
+    var actions = h("div", { class: "wgg-actions" }, [
+      decided !== "accepted" ? h("button", { type: "button", class: "wgg-btn wgg-btn-good", onclick: function (e) { act(e, v.id, "accept"); } }, ["Accept"]) : null,
+      decided !== "declined" ? h("button", { type: "button", class: "wgg-btn wgg-btn-bad", onclick: function (e) { act(e, v.id, "decline"); } }, ["Decline"]) : null,
+      h("button", { type: "button", class: "wgg-btn wgg-btn-secondary", onclick: function (e) { act(e, v.id, "note"); } }, ["Save note"]),
+      decided ? h("button", { type: "button", class: "wgg-btn wgg-btn-ghost wgg-btn-sm", onclick: function (e) { act(e, v.id, "reopen"); } }, ["Undo decision"]) : null
     ]);
     body.appendChild(section("Decision", [
-      h("p", { class: "ad-callout", text: decided
+      h("p", { class: "wgg-callout", text: decided
         ? (decided === "accepted" ? "Accepted" : "Declined") + " on " + fmtDateTime(d.intake.decided_at) + "."
         : "Not decided yet. Accepting or declining does not publish anything: the listing stays a draft until the business finishes pricing and payments." }),
       h("label", { for: "d-msg", class: "visually-hidden", text: "Message" }), msg,
-      h("label", { class: "ad-check" }, [send, h("span", { text: email ? "Email this message to the business (" + email + ")" : "No email address on this listing" })]),
-      h("p", { class: "ad-muted ad-small", text: "Declining, saving a note, or emailing needs a message." }),
+      h("label", { class: "wgg-check" }, [send, h("span", { text: email ? "Email this message to the business (" + email + ")" : "No email address on this listing" })]),
+      h("p", { class: "wgg-muted wgg-small", text: "Declining, saving a note, or emailing needs a message." }),
       actions
     ]));
     if (!email) send.disabled = true;
@@ -468,17 +468,17 @@
     // The existing go-live review, only when the listing has been submitted
     if (v.status === "pending") {
       body.appendChild(section("Listing review (goes live)", [
-        h("p", { class: "ad-callout", text: "The business submitted this listing to go live. Approving publishes it to members. Request changes and Reject need the message above, which the business sees in the app." }),
-        h("div", { class: "ad-actions" }, [
-          h("button", { type: "button", class: "ad-btn ad-btn-good", onclick: function (e) { review(e, v.id, "approve"); } }, ["Approve listing"]),
-          h("button", { type: "button", class: "ad-btn ad-btn-secondary", onclick: function (e) { review(e, v.id, "changes"); } }, ["Request changes"]),
-          h("button", { type: "button", class: "ad-btn ad-btn-bad", onclick: function (e) { review(e, v.id, "reject"); } }, ["Reject listing"])
+        h("p", { class: "wgg-callout", text: "The business submitted this listing to go live. Approving publishes it to members. Request changes and Reject need the message above, which the business sees in the app." }),
+        h("div", { class: "wgg-actions" }, [
+          h("button", { type: "button", class: "wgg-btn wgg-btn-good", onclick: function (e) { review(e, v.id, "approve"); } }, ["Approve listing"]),
+          h("button", { type: "button", class: "wgg-btn wgg-btn-secondary", onclick: function (e) { review(e, v.id, "changes"); } }, ["Request changes"]),
+          h("button", { type: "button", class: "wgg-btn wgg-btn-bad", onclick: function (e) { review(e, v.id, "reject"); } }, ["Reject listing"])
         ])
       ]));
     }
 
     if (d.missing && d.missing.length) {
-      body.appendChild(section("Still needed before it can go live", [h("p", { class: "ad-muted", text: d.missing.map(humanise).join(", ") })]));
+      body.appendChild(section("Still needed before it can go live", [h("p", { class: "wgg-muted", text: d.missing.map(humanise).join(", ") })]));
     }
 
     var addr = [v.address_line1, v.address_line2, v.city, v.region, v.postcode, countryName(v.country)].filter(Boolean).join("\n");
@@ -503,23 +503,23 @@
       ["Last changed", v.updated_at ? fmtDateTime(v.updated_at) : null]
     ])]));
 
-    var photos = h("ul", { class: "ad-photos" });
+    var photos = h("ul", { class: "wgg-photos" });
     (d.photos || []).forEach(function (p) {
       var a = h("a", { href: photoUrl(p.path), target: "_blank", rel: "noopener" }, [h("img", { src: photoUrl(p.path), alt: p.is_cover ? "Cover photo" : "Photo", loading: "lazy" })]);
       photos.appendChild(h("li", {}, [a]));
     });
-    body.appendChild(section("Photos (" + (d.photos || []).length + ")", [d.photos && d.photos.length ? photos : h("p", { class: "ad-muted", text: "No photos yet." })]));
+    body.appendChild(section("Photos (" + (d.photos || []).length + ")", [d.photos && d.photos.length ? photos : h("p", { class: "wgg-muted", text: "No photos yet." })]));
 
     var hist = (d.notes || []).map(function (n) {
       var label = { accept: "Accepted", decline: "Declined", reopen: "Decision undone", note: "Note" }[n.kind] || n.kind;
       var mail = !n.send_to_owner ? "internal" : n.emailed_at ? "emailed to " + n.emailed_to : n.email_error ? "email failed (" + n.email_error + ")" : "email not sent";
-      return h("div", { class: "ad-note " + n.kind }, [
-        h("div", { class: "ad-note-head", text: label + " · " + (n.admin || "admin") + " · " + fmtDateTime(n.created_at) + " · " + mail }),
-        n.body ? h("div", { class: "ad-note-body", text: n.body }) : null,
-        n.send_to_owner && !n.emailed_at ? h("button", { type: "button", class: "ad-btn ad-btn-ghost ad-btn-sm", onclick: function (e) { resend(e, n.id); } }, ["Try sending again"]) : null
+      return h("div", { class: "wgg-note " + n.kind }, [
+        h("div", { class: "wgg-note-head", text: label + " · " + (n.admin || "admin") + " · " + fmtDateTime(n.created_at) + " · " + mail }),
+        n.body ? h("div", { class: "wgg-note-body", text: n.body }) : null,
+        n.send_to_owner && !n.emailed_at ? h("button", { type: "button", class: "wgg-btn wgg-btn-ghost wgg-btn-sm", onclick: function (e) { resend(e, n.id); } }, ["Try sending again"]) : null
       ]);
     });
-    body.appendChild(section("History", hist.length ? hist : [h("p", { class: "ad-muted", text: "No notes yet." })]));
+    body.appendChild(section("History", hist.length ? hist : [h("p", { class: "wgg-muted", text: "No notes yet." })]));
   }
 
   async function withButton(e, fn) {
@@ -641,14 +641,14 @@
       var events = a.events || [];
       var repeats = events.some(function (e) { return e.schedule === "recurring"; });
       var who = a.organisation_name ? a.organiser_name + " · " : "";
-      var btn = h("button", { type: "button", class: "ad-biz ad-pt" + (a.status === "new" ? " is-new" : ""), onclick: function () { openPartnership(a.id); } }, [
+      var btn = h("button", { type: "button", class: "wgg-biz wgg-pt" + (a.status === "new" ? " is-new" : ""), onclick: function () { openPartnership(a.id); } }, [
         h("span", {}, [
-          h("span", { class: "ad-biz-name", text: a.organisation_name || a.organiser_name }),
-          h("span", { class: "ad-biz-meta", text: who + a.city + " · " + a.email }),
-          h("span", { class: "ad-biz-meta", text: events.length + " event" + (events.length === 1 ? "" : "s") + " · applied " + fmtDate(a.created_at) }),
-          h("span", { class: "ad-tags" }, [
-            h("span", { class: "ad-tag " + PT_TAG[a.status], text: PT_STATUS[a.status] || a.status }),
-            repeats ? h("span", { class: "ad-tag info", text: "Repeats" }) : null
+          h("span", { class: "wgg-biz-name", text: a.organisation_name || a.organiser_name }),
+          h("span", { class: "wgg-biz-meta", text: who + a.city + " · " + a.email }),
+          h("span", { class: "wgg-biz-meta", text: events.length + " event" + (events.length === 1 ? "" : "s") + " · applied " + fmtDate(a.created_at) }),
+          h("span", { class: "wgg-tags" }, [
+            h("span", { class: "wgg-tag " + PT_TAG[a.status], text: PT_STATUS[a.status] || a.status }),
+            repeats ? h("span", { class: "wgg-tag info", text: "Repeats" }) : null
           ])
         ])
       ]);
@@ -678,7 +678,7 @@
     body.textContent = "";
 
     body.appendChild(section("Status", [h("p", {}, [
-      h("span", { class: "ad-tag " + PT_TAG[a.status], text: PT_STATUS[a.status] || a.status }),
+      h("span", { class: "wgg-tag " + PT_TAG[a.status], text: PT_STATUS[a.status] || a.status }),
       a.decided_at ? "  Decided " + fmtDateTime(a.decided_at) : ""
     ])]));
 
@@ -699,8 +699,8 @@
       var when = e.schedule === "recurring"
         ? (PT_REPEAT[e.recurrence] || e.recurrence) + " from " + ptDay(e.first_date) + (e.ends_on ? " until " + ptDay(e.ends_on) : ", no end date")
         : ptDay(e.first_date);
-      evs.push(h("div", { class: "ad-event-title", text: (events.length > 1 ? (i + 1) + ". " : "") + e.title }));
-      evs.push(h("div", { class: "ad-dl-event" }, [dl([
+      evs.push(h("div", { class: "wgg-event-title", text: (events.length > 1 ? (i + 1) + ". " : "") + e.title }));
+      evs.push(h("div", { class: "wgg-dl-event" }, [dl([
         ["Kind", PT_CATEGORY[e.category] || e.category],
         ["Where", e.area],
         ["What happens", e.description],
@@ -716,16 +716,16 @@
     var note = h("textarea", { id: "pt-note", rows: "4", maxlength: "4000", placeholder: "Note for yourself (optional)" });
     note.value = a.admin_note || "";
     function btn(label, status, cls) {
-      return h("button", { type: "button", class: "ad-btn " + cls + " ad-btn-sm", disabled: a.status === status, onclick: function (e) { setPtStatus(e, a.id, status); } }, [label]);
+      return h("button", { type: "button", class: "wgg-btn " + cls + " wgg-btn-sm", disabled: a.status === status, onclick: function (e) { setPtStatus(e, a.id, status); } }, [label]);
     }
     body.appendChild(section("Decision", [
-      h("p", { class: "ad-callout", text: "This only records your decision. Nothing is published and the organiser is not emailed from here: write to them from their email address." }),
+      h("p", { class: "wgg-callout", text: "This only records your decision. Nothing is published and the organiser is not emailed from here: write to them from their email address." }),
       h("label", { for: "pt-note", class: "visually-hidden", text: "Note" }), note,
-      h("div", { class: "ad-actions" }, [
-        btn("Mark contacted", "contacted", "ad-btn-secondary"),
-        btn("Approve", "approved", "ad-btn-primary"),
-        btn("Decline", "declined", "ad-btn-secondary"),
-        btn("Back to new", "new", "ad-btn-ghost")
+      h("div", { class: "wgg-actions" }, [
+        btn("Mark contacted", "contacted", "wgg-btn-secondary"),
+        btn("Approve", "approved", "wgg-btn-primary"),
+        btn("Decline", "declined", "wgg-btn-secondary"),
+        btn("Back to new", "new", "wgg-btn-ghost")
       ])
     ]));
   }
@@ -1076,18 +1076,18 @@
     var ol = $("wl-combos");
     ol.textContent = "";
     var train = state.places ? state.places.train : [];
-    if (!state.places) { ol.appendChild(h("li", { class: "ad-bars-empty", text: "Could not load. It will try again shortly." })); return; }
-    if (!train.length) { ol.appendChild(h("li", { class: "ad-bars-empty", text: "Nothing yet." })); return; }
+    if (!state.places) { ol.appendChild(h("li", { class: "wgg-bars-empty", text: "Could not load. It will try again shortly." })); return; }
+    if (!train.length) { ol.appendChild(h("li", { class: "wgg-bars-empty", text: "Nothing yet." })); return; }
     train.slice(0, PLACES_SHOWN).forEach(function (g) {
       var top = g.activities.slice(0, 3).map(function (a) { return a.label; }).join(", ");
-      ol.appendChild(h("li", {}, [h("button", { type: "button", class: "ad-place", onclick: function (e) { openPlace(g.key, e.currentTarget); } }, [
-        h("span", { class: "ad-place-name", text: g.label }),
-        h("span", { class: "ad-bar-num", text: fmtNum(g.wantTo) + (g.wantTo === 1 ? " person" : " people") }),
-        h("span", { class: "ad-place-top", text: top || "No activities picked" })
+      ol.appendChild(h("li", {}, [h("button", { type: "button", class: "wgg-place", onclick: function (e) { openPlace(g.key, e.currentTarget); } }, [
+        h("span", { class: "wgg-place-name", text: g.label }),
+        h("span", { class: "wgg-bar-num", text: fmtNum(g.wantTo) + (g.wantTo === 1 ? " person" : " people") }),
+        h("span", { class: "wgg-place-top", text: top || "No activities picked" })
       ])]));
     });
     if (train.length > PLACES_SHOWN) {
-      ol.appendChild(h("li", {}, [h("button", { type: "button", class: "ad-btn ad-btn-ghost ad-btn-sm",
+      ol.appendChild(h("li", {}, [h("button", { type: "button", class: "wgg-btn wgg-btn-ghost wgg-btn-sm",
         onclick: function (e) { openPlace(train[PLACES_SHOWN].key, e.currentTarget); } }, ["See all " + fmtNum(train.length) + " places"])]));
     }
   }
@@ -1142,10 +1142,10 @@
       ["Last 7 days", s.last7, change === null ? (s.prev7 === 0 && s.last7 ? "none the week before" : "") : (change >= 0 ? "+" : "") + change + "% on the week before", change === null ? "" : change >= 0 ? "up" : "down"],
       ["Last 30 days", s.last30, ""]
     ].forEach(function (x) {
-      k.appendChild(h("div", { class: "ad-kpi" }, [
-        h("div", { class: "ad-kpi-label", text: x[0] }),
-        h("div", { class: "ad-kpi-value", text: fmtNum(x[1]) }),
-        h("div", { class: "ad-kpi-sub " + (x[3] || ""), text: x[2] })
+      k.appendChild(h("div", { class: "wgg-kpi" }, [
+        h("div", { class: "wgg-kpi-label", text: x[0] }),
+        h("div", { class: "wgg-kpi-value", text: fmtNum(x[1]) }),
+        h("div", { class: "wgg-kpi-sub " + (x[3] || ""), text: x[2] })
       ]));
     });
 
@@ -1174,25 +1174,25 @@
         h("td", { text: (r.travel_destinations || []).concat(r.home_city ? ["home: " + r.home_city] : []).join(", ") })
       ]));
     });
-    if (!(s.latest || []).length) tb.appendChild(h("tr", {}, [h("td", { colspan: "5", class: "ad-muted", text: "No sign-ups yet." })]));
+    if (!(s.latest || []).length) tb.appendChild(h("tr", {}, [h("td", { colspan: "5", class: "wgg-muted", text: "No sign-ups yet." })]));
   }
 
   function bars(ol, items, of) {
     ol.textContent = "";
     items = items || [];
-    if (!items.length) { ol.appendChild(h("li", { class: "ad-bars-empty", text: "Nothing yet." })); return; }
+    if (!items.length) { ol.appendChild(h("li", { class: "wgg-bars-empty", text: "Nothing yet." })); return; }
     var max = Math.max.apply(null, items.map(function (i) { return i.count; }));
     items.slice(0, 15).forEach(function (i) {
       var pct = of ? " (" + Math.round(i.count / of * 100) + "%)" : "";
-      var fill = h("span", { class: "ad-bar-fill" });
+      var fill = h("span", { class: "wgg-bar-fill" });
       fill.style.width = Math.max(2, i.count / max * 100) + "%"; // CSSOM, which the CSP allows (a style attribute it would block)
-      ol.appendChild(h("li", { class: "ad-bar-row" }, [
-        h("span", { class: "ad-bar-label", title: i.label, text: i.label }),
-        h("span", { class: "ad-bar-num", text: fmtNum(i.count) + pct }),
-        h("span", { class: "ad-bar-track", "aria-hidden": "true" }, [fill])
+      ol.appendChild(h("li", { class: "wgg-bar-row" }, [
+        h("span", { class: "wgg-bar-label", title: i.label, text: i.label }),
+        h("span", { class: "wgg-bar-num", text: fmtNum(i.count) + pct }),
+        h("span", { class: "wgg-bar-track", "aria-hidden": "true" }, [fill])
       ]));
     });
-    if (items.length > 15) ol.appendChild(h("li", { class: "ad-bars-empty", text: "+ " + (items.length - 15) + " more in the CSV" }));
+    if (items.length > 15) ol.appendChild(h("li", { class: "wgg-bars-empty", text: "+ " + (items.length - 15) + " more in the CSV" }));
   }
 
   var SVGNS = "http://www.w3.org/2000/svg";
@@ -1227,7 +1227,7 @@
         t2.textContent = fmtShortDay(d.day); root.appendChild(t2);
       }
     });
-    var tip = h("div", { class: "ad-chart-tip", hidden: true });
+    var tip = h("div", { class: "wgg-chart-tip", hidden: true });
     root.addEventListener("pointermove", function (e) {
       var r = root.getBoundingClientRect();
       var i = Math.floor(((e.clientX - r.left) / r.width * W - padL) / bw);
@@ -1310,7 +1310,7 @@
     $("login-form").addEventListener("submit", logIn);
     $("mfa-form").addEventListener("submit", function (e) { submitCode(e, "mfa-code", "Verify"); });
     $("enrol-form").addEventListener("submit", function (e) { submitCode(e, "enrol-code", "Turn on and continue"); });
-    $("ad-signout").addEventListener("click", logOut);
+    $("wgg-signout").addEventListener("click", logOut);
     $("denied-out").addEventListener("click", logOut);
     $("tab-biz").addEventListener("click", function () { selectView("biz"); });
     $("tab-wl").addEventListener("click", function () { selectView("wl"); });
@@ -1320,7 +1320,7 @@
     });
     $("pt-search").addEventListener("input", function (e) { state.ptSearch = e.target.value.trim(); renderPartnerships(); });
     document.querySelectorAll("#pt-drawer [data-close]").forEach(function (b) { b.addEventListener("click", closePtDrawer); });
-    $("ad-tabs").addEventListener("keydown", function (e) {
+    $("wgg-tabs").addEventListener("keydown", function (e) {
       if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
       var at = VIEWS.indexOf(state.view);
       var next = VIEWS[(at + (e.key === "ArrowRight" ? 1 : VIEWS.length - 1)) % VIEWS.length];
