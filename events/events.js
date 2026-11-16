@@ -1,6 +1,6 @@
-// Fills in each event's next date, sorts the listing soonest first, and runs the type filter.
+// Fills in each event's next date (London time), sorts the listing soonest first,
+// runs the type and host filters, and the share button.
 (function () {
-  // Every date here is London wall-clock time, whatever the visitor's own time zone.
   function londonNow() {
     var p = {};
     try {
@@ -9,38 +9,53 @@
       return new Date(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute);
     } catch (e) { return new Date(); }
   }
-  function nextDate(rule, now) {
+  function nextOf(rule, now) {
     var hm = rule.time.split(":").map(Number);
-    var em = (rule.end || rule.time).split(":").map(Number);
-    for (var i = 0; i < 400; i++) {
+    var em = rule.end ? rule.end.split(":").map(Number) : [hm[0] + 1, hm[1]]; // no end given: assume an hour
+    for (var i = 0; i < 8; i++) {
       var d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i, hm[0], hm[1]);
       var ends = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i, em[0], em[1]);
-      if (ends < now || d.getDay() !== rule.weekday) continue;
-      if (rule.type === "weekly") return d;
-      if (rule.type === "lastWeekdayOfMonth") {
-        var inSkip = (rule.skipMonths || []).indexOf(d.getMonth() + 1) !== -1;
-        var isLast = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 7).getMonth() !== d.getMonth();
-        if (isLast && !inSkip) return d;
-      }
+      if (d.getDay() === rule.weekday && ends >= now) return d;
     }
     return null;
   }
-  function label(d, now) {
-    var day = Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 864e5);
-    if (day === 0) return "Today";
-    if (day === 1) return "Tomorrow";
+  function soonest(rules, now) {
+    return rules.map(function (r) { return nextOf(r, now); }).filter(Boolean).sort(function (a, b) { return a - b; })[0] || null;
+  }
+  function dayLabel(d, now) {
+    var n = Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 864e5);
+    if (n === 0) return "Today";
+    if (n === 1) return "Tomorrow";
     return d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
   }
+  function timeLabel(d) {
+    var h = d.getHours(), m = d.getMinutes();
+    return (h % 12 || 12) + (m ? ":" + String(m).padStart(2, "0") : "") + (h < 12 ? "am" : "pm");
+  }
+
   var now = londonNow();
-  document.querySelectorAll("[data-rule]").forEach(function (el) {
+  document.querySelectorAll("[data-rules]").forEach(function (el) {
     var d;
-    try { d = nextDate(JSON.parse(el.getAttribute("data-rule")), now); } catch (e) { d = null; }
+    try { d = soonest(JSON.parse(el.getAttribute("data-rules")), now); } catch (e) { d = null; }
     if (!d) return;
     el.setAttribute("data-next", d.getTime());
-    var full = el.querySelector(".ev-next") || (el.classList.contains("ev-next") ? el : null);
-    if (full) full.textContent = "Next: " + label(d, now);
+    if (el.classList.contains("ev-next")) el.textContent = "Next: " + dayLabel(d, now) + " at " + timeLabel(d);
     var short = el.querySelector(".ev-next-short");
-    if (short) short.textContent = label(d, now) + " · ";
+    if (short) short.textContent = dayLabel(d, now) + ", " + timeLabel(d);
+  });
+
+  var share = document.querySelector("[data-share]");
+  if (share) share.addEventListener("click", function () {
+    var data = { title: document.title, url: location.href };
+    if (navigator.share) { navigator.share(data).catch(function () {}); return; }
+    function copied() {
+      share.setAttribute("aria-label", "Link copied");
+      share.classList.add("is-done");
+      setTimeout(function () { share.setAttribute("aria-label", "Share this event"); share.classList.remove("is-done"); }, 2500);
+    }
+    function manual() { window.prompt("Copy this link", location.href); }
+    if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(copied, manual);
+    else manual();
   });
 
   var grid = document.querySelector(".ev-grid");
@@ -48,6 +63,18 @@
   Array.prototype.slice.call(grid.children)
     .sort(function (a, b) { return (+a.getAttribute("data-next") || 9e15) - (+b.getAttribute("data-next") || 9e15); })
     .forEach(function (li) { grid.appendChild(li); });
+
+  var host = (new URLSearchParams(location.search).get("host") || "").toLowerCase().replace(/[^a-z0-9-]/g, "");
+  if (host) {
+    var match = grid.querySelectorAll('.ev-card[data-host="' + host + '"]');
+    if (match.length) {
+      grid.querySelectorAll(".ev-card").forEach(function (c) { c.hidden = c.getAttribute("data-host") !== host; });
+      var note = document.querySelector(".ev-hostfilter");
+      note.querySelector("strong").textContent = match[0].querySelector(".ev-card-where").textContent.split(" · ")[0];
+      note.hidden = false;
+      return;
+    }
+  }
 
   var filters = document.querySelector(".ev-filters");
   if (filters) filters.hidden = false;

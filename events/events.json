@@ -2,717 +2,975 @@
  {
   "slug": "parkrun-bushy",
   "title": "Bushy parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Bushy Park.",
+  "organiser": {
+   "name": "Bushy parkrun",
+   "url": "https://www.parkrun.org.uk/bushy/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Bushy Park",
   "area": "Teddington",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.41684,
+  "lon": -0.33703,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-bushy.jpg",
+  "imageCredit": "Photo: Bushy parkrun",
   "signupUrl": "https://www.parkrun.org.uk/bushy/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/bushy/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#8bbd28"
  },
  {
   "slug": "parkrun-hampsteadheath",
   "title": "Hampstead Heath parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Hampstead Heath.",
+  "organiser": {
+   "name": "Hampstead Heath parkrun",
+   "url": "https://www.parkrun.org.uk/hampsteadheath/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Hampstead Heath",
   "area": "Hampstead",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.56415,
+  "lon": -0.16714,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-hampsteadheath.jpg",
+  "imageCredit": "Photo: Hampstead Heath parkrun",
   "signupUrl": "https://www.parkrun.org.uk/hampsteadheath/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/hampsteadheath/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#2870bd"
  },
  {
   "slug": "parkrun-finsbury",
   "title": "Finsbury parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Finsbury Park.",
+  "organiser": {
+   "name": "Finsbury parkrun",
+   "url": "https://www.parkrun.org.uk/finsbury/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Finsbury Park",
   "area": "Finsbury Park",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.56483,
+  "lon": -0.10641,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-finsbury.jpg",
+  "imageCredit": "Photo: Finsbury parkrun",
   "signupUrl": "https://www.parkrun.org.uk/finsbury/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/finsbury/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#bd283f"
  },
  {
   "slug": "parkrun-burgess",
   "title": "Burgess parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Burgess Park.",
+  "organiser": {
+   "name": "Burgess parkrun",
+   "url": "https://www.parkrun.org.uk/burgess/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Burgess Park",
   "area": "Camberwell",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.48161,
+  "lon": -0.08994,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-burgess.jpg",
+  "imageCredit": "Photo: Burgess parkrun",
   "signupUrl": "https://www.parkrun.org.uk/burgess/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/burgess/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#287bbd"
  },
  {
   "slug": "parkrun-brockwell",
   "title": "Brockwell parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Brockwell Park.",
+  "organiser": {
+   "name": "Brockwell parkrun",
+   "url": "https://www.parkrun.org.uk/brockwell/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Brockwell Park",
   "area": "Herne Hill",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.45053,
+  "lon": -0.10609,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-brockwell.jpg",
+  "imageCredit": "Photo: Brockwell parkrun",
   "signupUrl": "https://www.parkrun.org.uk/brockwell/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/brockwell/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#bd2835"
  },
  {
   "slug": "parkrun-wormwoodscrubs",
   "title": "Wormwood Scrubs parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Wormwood Scrubs.",
+  "organiser": {
+   "name": "Wormwood Scrubs parkrun",
+   "url": "https://www.parkrun.org.uk/wormwoodscrubs/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Wormwood Scrubs",
   "area": "White City",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.52137,
+  "lon": -0.24054,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-wormwoodscrubs.jpg",
+  "imageCredit": "Photo: Wormwood Scrubs parkrun",
   "signupUrl": "https://www.parkrun.org.uk/wormwoodscrubs/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/wormwoodscrubs/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#bd6228"
  },
  {
   "slug": "parkrun-mileend",
   "title": "Mile End parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Mile End Park.",
+  "organiser": {
+   "name": "Mile End parkrun",
+   "url": "https://www.parkrun.org.uk/mileend/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Mile End Park",
   "area": "Mile End",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.53121,
+  "lon": -0.0417,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-mileend.jpg",
+  "imageCredit": "Photo: Mile End parkrun",
   "signupUrl": "https://www.parkrun.org.uk/mileend/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/mileend/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#bd2c28"
  },
  {
   "slug": "parkrun-hackneymarshes",
   "title": "Hackney Marshes parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Hackney Marshes.",
+  "organiser": {
+   "name": "Hackney Marshes parkrun",
+   "url": "https://www.parkrun.org.uk/hackneymarshes/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Hackney Marshes",
   "area": "Hackney",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.5565,
+  "lon": -0.02906,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": null,
+  "imageCredit": "",
   "signupUrl": "https://www.parkrun.org.uk/hackneymarshes/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/hackneymarshes/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": []
  },
  {
   "slug": "parkrun-southwark",
   "title": "Southwark parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Southwark Park.",
+  "organiser": {
+   "name": "Southwark parkrun",
+   "url": "https://www.parkrun.org.uk/southwark/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Southwark Park",
   "area": "Bermondsey",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.49519,
+  "lon": -0.05627,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-southwark.jpg",
+  "imageCredit": "Photo: Southwark parkrun",
   "signupUrl": "https://www.parkrun.org.uk/southwark/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/southwark/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#bd2836"
  },
  {
   "slug": "parkrun-peckhamrye",
   "title": "Peckham Rye parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Peckham Rye Park.",
+  "organiser": {
+   "name": "Peckham Rye parkrun",
+   "url": "https://www.parkrun.org.uk/peckhamrye/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Peckham Rye Park",
   "area": "Peckham",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.45645,
+  "lon": -0.06008,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-peckhamrye.jpg",
+  "imageCredit": "Photo: Peckham Rye parkrun",
   "signupUrl": "https://www.parkrun.org.uk/peckhamrye/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/peckhamrye/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#bd8428"
  },
  {
   "slug": "parkrun-greenwich",
   "title": "Greenwich parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Avery Hill Park.",
+  "organiser": {
+   "name": "Greenwich parkrun",
+   "url": "https://www.parkrun.org.uk/greenwich/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Avery Hill Park",
   "area": "Eltham",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.44827,
+  "lon": 0.07632,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-greenwich.jpg",
+  "imageCredit": "Photo: Greenwich parkrun",
   "signupUrl": "https://www.parkrun.org.uk/greenwich/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/greenwich/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#bd2830"
  },
  {
   "slug": "parkrun-richmond",
   "title": "Richmond Park parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Richmond Park.",
+  "organiser": {
+   "name": "Richmond Park parkrun",
+   "url": "https://www.parkrun.org.uk/richmond/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Richmond Park",
   "area": "Richmond",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.43851,
+  "lon": -0.27474,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-richmond.jpg",
+  "imageCredit": "Photo: Richmond Park parkrun",
   "signupUrl": "https://www.parkrun.org.uk/richmond/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/richmond/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#bd2838"
  },
  {
   "slug": "parkrun-victoriadock",
   "title": "Victoria Dock parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Royal Victoria Dock.",
+  "organiser": {
+   "name": "Victoria Dock parkrun",
+   "url": "https://www.parkrun.org.uk/victoriadock/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
-  "venue": "Victoria Dock",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
+  "venue": "Royal Victoria Dock",
   "area": "Royal Docks",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.50662,
+  "lon": 0.02842,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-victoriadock.jpg",
+  "imageCredit": "Photo: Victoria Dock parkrun",
   "signupUrl": "https://www.parkrun.org.uk/victoriadock/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/victoriadock/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#bd3a28"
  },
  {
   "slug": "parkrun-gunnersbury",
   "title": "Gunnersbury parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Gunnersbury Park.",
+  "organiser": {
+   "name": "Gunnersbury parkrun",
+   "url": "https://www.parkrun.org.uk/gunnersbury/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Gunnersbury Park",
   "area": "Acton",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.49636,
+  "lon": -0.29012,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-gunnersbury.jpg",
+  "imageCredit": "Photo: Gunnersbury parkrun",
   "signupUrl": "https://www.parkrun.org.uk/gunnersbury/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/gunnersbury/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#bd2830"
  },
  {
   "slug": "parkrun-crystalpalace",
   "title": "Crystal Palace parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Crystal Palace Park.",
+  "organiser": {
+   "name": "Crystal Palace parkrun",
+   "url": "https://www.parkrun.org.uk/crystalpalace/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Crystal Palace Park",
   "area": "Crystal Palace",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.42139,
+  "lon": -0.07004,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-crystalpalace.jpg",
+  "imageCredit": "Photo: Crystal Palace parkrun",
   "signupUrl": "https://www.parkrun.org.uk/crystalpalace/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/crystalpalace/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#bd283c"
  },
  {
   "slug": "parkrun-highburyfields",
   "title": "Highbury Fields parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Highbury Fields.",
+  "organiser": {
+   "name": "Highbury Fields parkrun",
+   "url": "https://www.parkrun.org.uk/highburyfields/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Highbury Fields",
   "area": "Highbury",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.55129,
+  "lon": -0.1001,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-highburyfields.jpg",
+  "imageCredit": "Photo: Highbury Fields parkrun",
   "signupUrl": "https://www.parkrun.org.uk/highburyfields/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/highburyfields/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#bd2832"
  },
  {
   "slug": "parkrun-fulhampalace",
   "title": "Fulham Palace parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Bishop's Park.",
+  "organiser": {
+   "name": "Fulham Palace parkrun",
+   "url": "https://www.parkrun.org.uk/fulhampalace/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Bishop's Park",
   "area": "Fulham",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.47117,
+  "lon": -0.21798,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-fulhampalace.jpg",
+  "imageCredit": "Photo: Fulham Palace parkrun",
   "signupUrl": "https://www.parkrun.org.uk/fulhampalace/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/fulhampalace/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#bdb928"
  },
  {
   "slug": "parkrun-dulwich",
   "title": "Dulwich parkrun",
-  "organiser": "parkrun",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "09:00"
+  "summary": "A free weekly timed 5k in Dulwich Park.",
+  "organiser": {
+   "name": "Dulwich parkrun",
+   "url": "https://www.parkrun.org.uk/dulwich/",
+   "about": "Part of parkrun, the free, volunteer-led 5k held every Saturday morning in parks around the world."
   },
-  "schedule": "Every Saturday, 9:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "09:00",
+    "label": "Saturday, 9:00am"
+   }
+  ],
   "venue": "Dulwich Park",
   "area": "Dulwich",
-  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace. Register once with parkrun (free) and bring your barcode.",
+  "lat": 51.44548,
+  "lon": -0.0779,
+  "description": "A free, timed 5k on the same course every week. Walk, jog or run at any pace; volunteers and spectators are welcome too. Register once with parkrun (free) and bring your barcode. Check the course page on parkrun's site for the exact start point.",
+  "image": "img/parkrun-dulwich.jpg",
+  "imageCredit": "Photo: Dulwich parkrun",
   "signupUrl": "https://www.parkrun.org.uk/dulwich/",
   "signupLabel": "Register with parkrun",
   "sourceUrl": "https://www.parkrun.org.uk/dulwich/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#bd6e28"
+ },
+ {
+  "slug": "london-city-runners-river-run",
+  "title": "River Run",
+  "category": "Running",
+  "summary": "Free group runs along the Thames, three times a week, from Bermondsey.",
+  "organiser": {
+   "name": "London City Runners",
+   "logo": "img/logo-lcr.png",
+   "url": "https://www.londoncityrunners.com/",
+   "instagram": "https://www.instagram.com/londoncityrunners",
+   "email": "londoncityrunners@gmail.com",
+   "about": "A free running club based at the Marquis of Wellington pub in Bermondsey. Social membership is free."
+  },
+  "sessions": [
+   {
+    "weekday": 2,
+    "time": "18:15",
+    "label": "Tuesday, 6:15pm",
+    "note": "All paces. Easy group (about 6:30 per km) leaves at 6:45pm."
+   },
+   {
+    "weekday": 4,
+    "time": "18:15",
+    "label": "Thursday, 6:15pm",
+    "note": "All paces and routes."
+   },
+   {
+    "weekday": 0,
+    "time": "10:30",
+    "label": "Sunday, 10:30am",
+    "note": "Routes head east. No bag drop on Sundays."
+   }
+  ],
+  "venue": "The Marquis of Wellington",
+  "address": "21 Druid Street, London SE1 2HH",
+  "area": "Bermondsey, SE1",
+  "lat": 51.49912,
+  "lon": -0.07368,
+  "description": "Weekday runs head west along the river to Millennium Bridge (about 6.5k), Blackfriars Bridge (8k) or Westminster Bridge (11k) and back. Sunday runs head east: about 6.5k, 10k to Greenland Pier, or 18k through the Greenwich foot tunnel and back over Tower Bridge. Social membership is free: make a profile on the club's website, then turn up.",
+  "image": "img/london-city-runners-river-run.jpg",
+  "imageCredit": "Photo: London City Runners",
+  "gallery": [
+   {
+    "src": "img/lcr-route-millennium.jpg",
+    "caption": "Millennium Bridge route"
+   },
+   {
+    "src": "img/lcr-route-westminster.jpg",
+    "caption": "Westminster Bridge route"
+   }
+  ],
+  "signupUrl": "https://www.londoncityrunners.com/membership",
+  "signupLabel": "Make a free profile",
+  "sourceUrl": "https://www.londoncityrunners.com/river-runs",
+  "verified": "2026-11-16",
+  "accent": "#285bbd"
  },
  {
   "slug": "london-social-runners-wednesday",
   "title": "Wednesday Run & Social",
-  "organiser": "London Social Runners",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 3,
-   "time": "19:00"
+  "summary": "A 7.5k riverside loop over Tower Bridge, then a drink.",
+  "organiser": {
+   "name": "London Social Runners",
+   "logo": "img/lsr-cover.jpg",
+   "url": "https://meetup.com/LondonSocialRunners",
+   "about": "A free social running group with two regular weekly runs, each followed by a drink or brunch together."
   },
-  "schedule": "Every Wednesday, 7:00pm",
-  "venue": "National Theatre (river side main entrance)",
+  "sessions": [
+   {
+    "weekday": 3,
+    "time": "19:00",
+    "label": "Wednesday, 7:00pm"
+   }
+  ],
+  "venue": "National Theatre, river side main entrance",
+  "address": "Upper Ground, London SE1 9PX",
   "area": "South Bank, SE1",
-  "description": "A 7.5km riverside loop over Tower Bridge and back across Waterloo Bridge, then a drink together. Aimed at runners comfortable at around 6 minutes per km or quicker.",
+  "lat": 51.5069,
+  "lon": -0.11275,
+  "description": "A 7.5km loop along the river, over Tower Bridge and back across Waterloo Bridge, then a drink together. Aimed at runners comfortable at around 6 minutes per km or quicker. RSVP on Meetup.",
+  "image": "img/london-social-runners-wednesday.jpg",
+  "imageCredit": "Photo: London Social Runners",
   "signupUrl": "https://meetup.com/LondonSocialRunners",
   "signupLabel": "RSVP on Meetup",
   "sourceUrl": "https://meetup.com/LondonSocialRunners",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#287cbd"
  },
  {
   "slug": "london-social-runners-saturday",
   "title": "Saturday Run & Brunch",
-  "organiser": "London Social Runners",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "10:00"
+  "summary": "One easy lap of Hyde Park, then brunch.",
+  "organiser": {
+   "name": "London Social Runners",
+   "logo": "img/lsr-cover.jpg",
+   "url": "https://meetup.com/LondonSocialRunners",
+   "about": "A free social running group with two regular weekly runs, each followed by a drink or brunch together."
   },
-  "schedule": "Every Saturday, 10:00am",
+  "sessions": [
+   {
+    "weekday": 6,
+    "time": "10:00",
+    "label": "Saturday, 10:00am"
+   }
+  ],
   "venue": "Kensington Gardens, just inside Kings Arms Gate",
+  "address": "Near the Royal Garden Hotel, 2-24 Kensington High Street, London W8",
   "area": "Kensington, W8",
-  "description": "One easy 6.5km lap of Hyde Park, about 30 to 50 minutes, then brunch. The group leaves on time.",
+  "lat": 51.50275,
+  "lon": -0.18807,
+  "description": "One easy 6.5km lap of Hyde Park, about 30 to 50 minutes, then brunch. The group leaves on time. RSVP on Meetup.",
+  "image": "img/london-social-runners-saturday.jpg",
+  "imageCredit": "Photo: London Social Runners",
   "signupUrl": "https://meetup.com/LondonSocialRunners",
   "signupLabel": "RSVP on Meetup",
   "sourceUrl": "https://meetup.com/LondonSocialRunners",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": [],
+  "accent": "#bd9d28"
  },
  {
   "slug": "cheapside-run-club",
   "title": "Cheapside Run Club",
-  "organiser": "Cheapside Business Alliance with Pure Sports Medicine",
   "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 3,
-   "time": "18:00"
+  "summary": "A 5k through the City for all abilities, every Wednesday after work.",
+  "organiser": {
+   "name": "Cheapside Business Alliance",
+   "url": "https://incheapside.com/cheapside-run-club/",
+   "about": "Runs the club with Pure Sports Medicine St Paul's. No booking needed; updates go out on the club's WhatsApp community."
   },
-  "schedule": "Every Wednesday, 6:00pm",
-  "venue": "Pure Sports Medicine St Paul's, 1st floor, One New Change",
+  "sessions": [
+   {
+    "weekday": 3,
+    "time": "18:00",
+    "label": "Wednesday, 6:00pm"
+   }
+  ],
+  "venue": "Pure Sports Medicine St Paul's, 1st floor",
+  "address": "One New Change, London",
   "area": "St Paul's, EC4",
-  "description": "An easy, all-abilities 5k through the City starting and finishing at One New Change. No booking needed; join the WhatsApp community for updates.",
+  "lat": 51.51386,
+  "lon": -0.09505,
+  "description": "A 5k for all abilities through the City, starting and finishing at One New Change. No booking needed; join the WhatsApp community for updates.",
   "signupUrl": "https://incheapside.com/cheapside-run-club/",
   "signupLabel": "Join via the organiser",
   "sourceUrl": "https://incheapside.com/cheapside-run-club/",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": []
  },
  {
-  "slug": "va-friday-late",
-  "title": "V&A Friday Late",
-  "organiser": "Victoria and Albert Museum",
-  "category": "Culture",
-  "rule": {
-   "type": "lastWeekdayOfMonth",
-   "weekday": 5,
-   "time": "18:30",
-   "end": "22:00",
-   "skipMonths": [
-    1,
-    5,
-    12
-   ]
-  },
-  "schedule": "Last Friday of the month, 6:30pm to 10:00pm (not January, May or December)",
-  "venue": "V&A South Kensington, Cromwell Road",
-  "area": "South Kensington, SW7",
-  "description": "The museum opens after hours with live performance, DJs, installations and talks around a different theme each month. Drop in; entry is first come, first served.",
-  "signupUrl": "https://www.vam.ac.uk/info/friday-late",
-  "signupLabel": "See the next Friday Late",
-  "sourceUrl": "https://www.vam.ac.uk/event/yWXAeEABrlQ/friday-late-november-2026",
-  "verified": "2026-11-16"
- },
- {
-  "slug": "our-parks-victory-park-abt",
-  "title": "Abs, Bums & Thighs",
-  "organiser": "Our Parks",
+  "slug": "our-parks-victory-park",
+  "title": "Our Parks at Victory Park",
   "category": "Fitness",
-  "rule": {
-   "type": "weekly",
-   "weekday": 1,
-   "time": "19:00"
+  "summary": "Free coached outdoor classes five days a week in East Village.",
+  "organiser": {
+   "name": "Our Parks",
+   "logo": "img/logo-ourparks.png",
+   "url": "https://ourparks.org.uk/",
+   "about": "Free, coach-led outdoor exercise classes in parks across London. The Victory Park classes are funded by Get Living London."
   },
-  "schedule": "Every Monday, 7:00pm",
-  "venue": "Victory Park outdoor gym, East Village",
+  "sessions": [
+   {
+    "weekday": 1,
+    "time": "19:00",
+    "label": "Monday, 7:00pm",
+    "note": "Abs, Bums & Thighs (60 minutes)"
+   },
+   {
+    "weekday": 2,
+    "time": "18:30",
+    "label": "Tuesday, 6:30pm",
+    "note": "Circuits"
+   },
+   {
+    "weekday": 4,
+    "time": "18:30",
+    "label": "Thursday, 6:30pm",
+    "note": "Box Fit (60 minutes, equipment provided)"
+   },
+   {
+    "weekday": 6,
+    "time": "10:00",
+    "label": "Saturday, 10:00am",
+    "note": "Bootcamp (60 minutes)"
+   },
+   {
+    "weekday": 0,
+    "time": "08:30",
+    "label": "Sunday, 8:30am",
+    "note": "Run Club (5k route)"
+   }
+  ],
+  "venue": "Victory Park outdoor gym",
+  "address": "East Village, London E20 2ST",
   "area": "Stratford, E20",
-  "description": "A 60-minute bodyweight class focused on core, glutes and legs. Suitable for beginners. Free, but book a space with Our Parks first.",
+  "lat": 51.54699,
+  "lon": -0.00952,
+  "description": "Coached classes for all ages and abilities, suitable for beginners. Bring a bottle of water. Free, but register with Our Parks and book each class to reserve your space.",
   "signupUrl": "https://ourparks.org.uk/node/2913",
   "signupLabel": "Book with Our Parks",
   "sourceUrl": "https://ourparks.org.uk/node/2913",
-  "verified": "2026-11-16"
- },
- {
-  "slug": "our-parks-victory-park-circuits",
-  "title": "Circuits",
-  "organiser": "Our Parks",
-  "category": "Fitness",
-  "rule": {
-   "type": "weekly",
-   "weekday": 2,
-   "time": "18:30"
-  },
-  "schedule": "Every Tuesday, 6:30pm",
-  "venue": "Victory Park outdoor gym, East Village",
-  "area": "Stratford, E20",
-  "description": "A new set of bodyweight exercises each week. Suitable for beginners. Free, but book a space with Our Parks first.",
-  "signupUrl": "https://ourparks.org.uk/node/2913",
-  "signupLabel": "Book with Our Parks",
-  "sourceUrl": "https://ourparks.org.uk/node/2913",
-  "verified": "2026-11-16"
- },
- {
-  "slug": "our-parks-victory-park-boxfit",
-  "title": "Box Fit",
-  "organiser": "Our Parks",
-  "category": "Fitness",
-  "rule": {
-   "type": "weekly",
-   "weekday": 4,
-   "time": "18:30"
-  },
-  "schedule": "Every Thursday, 6:30pm",
-  "venue": "Victory Park outdoor gym, East Village",
-  "area": "Stratford, E20",
-  "description": "60 minutes of pad work and fitness drills. Coaches bring the gloves and pads. Free, but book a space with Our Parks first.",
-  "signupUrl": "https://ourparks.org.uk/node/2913",
-  "signupLabel": "Book with Our Parks",
-  "sourceUrl": "https://ourparks.org.uk/node/2913",
-  "verified": "2026-11-16"
- },
- {
-  "slug": "our-parks-victory-park-bootcamp",
-  "title": "Saturday Bootcamp",
-  "organiser": "Our Parks",
-  "category": "Fitness",
-  "rule": {
-   "type": "weekly",
-   "weekday": 6,
-   "time": "10:00"
-  },
-  "schedule": "Every Saturday, 10:00am",
-  "venue": "Victory Park outdoor gym, East Village",
-  "area": "Stratford, E20",
-  "description": "A 60-minute outdoor bootcamp for all levels. Bring water. Free, but book a space with Our Parks first.",
-  "signupUrl": "https://ourparks.org.uk/node/2913",
-  "signupLabel": "Book with Our Parks",
-  "sourceUrl": "https://ourparks.org.uk/node/2913",
-  "verified": "2026-11-16"
- },
- {
-  "slug": "our-parks-victory-park-run-club",
-  "title": "Sunday Run Club",
-  "organiser": "Our Parks",
-  "category": "Running",
-  "rule": {
-   "type": "weekly",
-   "weekday": 0,
-   "time": "08:30"
-  },
-  "schedule": "Every Sunday, 8:30am",
-  "venue": "Victory Park outdoor gym, East Village",
-  "area": "Stratford, E20",
-  "description": "A coached 5k route from the park's outdoor gym. Free, but book a space with Our Parks first.",
-  "signupUrl": "https://ourparks.org.uk/node/2913",
-  "signupLabel": "Book with Our Parks",
-  "sourceUrl": "https://ourparks.org.uk/node/2913",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": []
  },
  {
   "slug": "brent-roundwood-park-walk",
   "title": "Wellbeing Walk: Roundwood Park",
-  "organiser": "Brent Council Walking for Health",
   "category": "Walking",
-  "rule": {
-   "type": "weekly",
-   "weekday": 3,
-   "time": "10:30",
-   "end": "11:30"
+  "summary": "A friendly one-hour walk, with a 30-minute option.",
+  "organiser": {
+   "name": "Brent Council Walking for Health",
+   "url": "https://brent.gov.uk/events-in-brent/regular-events/walking-for-health---roundwood-park",
+   "about": "Free walks led by trained walk leaders, especially welcoming to people new to exercise."
   },
-  "schedule": "Every Wednesday, 10:30am to 11:30am",
-  "venue": "Outside the cafe, Roundwood Park, Harlesden Road",
+  "sessions": [
+   {
+    "weekday": 3,
+    "time": "10:30",
+    "end": "11:30",
+    "label": "Wednesday, 10:30am to 11:30am"
+   }
+  ],
+  "venue": "Outside the cafe, Roundwood Park",
+  "address": "Harlesden Road, London NW10 3SH",
   "area": "Harlesden, NW10",
-  "description": "A friendly one-hour walk led by a trained walk leader, with a 30-minute option. Especially welcoming if you are new to exercise. Just turn up.",
+  "lat": 51.54042,
+  "lon": -0.23832,
+  "description": "A friendly one-hour walk led by a trained walk leader, with a 30-minute option. Especially welcoming if you are new to exercise. No need to book; just turn up.",
   "signupUrl": "https://brent.gov.uk/events-in-brent/regular-events/walking-for-health---roundwood-park",
   "signupLabel": "Details from Brent Council",
   "sourceUrl": "https://brent.gov.uk/events-in-brent/regular-events/walking-for-health---roundwood-park",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": []
  },
  {
   "slug": "walk-tower-hamlets-zacchaeus",
   "title": "Wellbeing Walk: Zacchaeus Project",
-  "organiser": "Walk Tower Hamlets",
   "category": "Walking",
-  "rule": {
-   "type": "weekly",
-   "weekday": 1,
-   "time": "10:30",
-   "end": "12:00"
+  "summary": "A free, sociable walk of about 60 to 90 minutes.",
+  "organiser": {
+   "name": "Walk Tower Hamlets",
+   "url": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
+   "about": "Tower Hamlets Council's free wellbeing walks: six weekly groups, each based at a local health or community centre."
   },
-  "schedule": "Every Monday, 10:30am to 12:00pm",
-  "venue": "Bethnal Green Methodist Church, Approach Road",
+  "sessions": [
+   {
+    "weekday": 1,
+    "time": "10:30",
+    "end": "12:00",
+    "label": "Monday, 10:30am to 12:00pm"
+   }
+  ],
+  "venue": "Bethnal Green Methodist Church",
+  "address": "Approach Road, London E2 9JP",
   "area": "Bethnal Green, E2",
+  "lat": 51.53233,
+  "lon": -0.05081,
   "description": "For over 50s. A free, sociable walk of about 60 to 90 minutes. All walking abilities are welcome. Contact the walk leader before your first walk to confirm the meeting point.",
   "signupUrl": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
   "signupLabel": "Contact the walk leader",
   "sourceUrl": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": []
  },
  {
   "slug": "walk-tower-hamlets-st-stephens",
   "title": "Wellbeing Walk: St Stephen's",
-  "organiser": "Walk Tower Hamlets",
   "category": "Walking",
-  "rule": {
-   "type": "weekly",
-   "weekday": 2,
-   "time": "10:00",
-   "end": "11:30"
+  "summary": "A free, sociable walk of about 60 to 90 minutes.",
+  "organiser": {
+   "name": "Walk Tower Hamlets",
+   "url": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
+   "about": "Tower Hamlets Council's free wellbeing walks: six weekly groups, each based at a local health or community centre."
   },
-  "schedule": "Every Tuesday, 10:00am to 11:30am",
-  "venue": "St Stephen's Health Centre, William Place, off Roman Road",
+  "sessions": [
+   {
+    "weekday": 2,
+    "time": "10:00",
+    "end": "11:30",
+    "label": "Tuesday, 10:00am to 11:30am"
+   }
+  ],
+  "venue": "St Stephen's Health Centre",
+  "address": "William Place, off Roman Road, London E3 5ED",
   "area": "Bow, E3",
+  "lat": 51.53221,
+  "lon": -0.03109,
   "description": "A free, sociable walk of about 60 to 90 minutes. All walking abilities are welcome. Contact the walk leader before your first walk to confirm the meeting point.",
   "signupUrl": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
   "signupLabel": "Contact the walk leader",
   "sourceUrl": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": []
  },
  {
   "slug": "walk-tower-hamlets-harford",
   "title": "Wellbeing Walk: Harford Centre",
-  "organiser": "Walk Tower Hamlets",
   "category": "Walking",
-  "rule": {
-   "type": "weekly",
-   "weekday": 2,
-   "time": "11:30",
-   "end": "13:00"
+  "summary": "A free, sociable walk of about 60 to 90 minutes.",
+  "organiser": {
+   "name": "Walk Tower Hamlets",
+   "url": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
+   "about": "Tower Hamlets Council's free wellbeing walks: six weekly groups, each based at a local health or community centre."
   },
-  "schedule": "Every Tuesday, 11:30am to 1:00pm",
-  "venue": "Harford Centre, 115 Harford Street",
+  "sessions": [
+   {
+    "weekday": 2,
+    "time": "11:30",
+    "end": "13:00",
+    "label": "Tuesday, 11:30am to 1:00pm"
+   }
+  ],
+  "venue": "Harford Centre",
+  "address": "115 Harford Street, London E1 4FG",
   "area": "Stepney, E1",
+  "lat": 51.51829,
+  "lon": -0.03819,
   "description": "A free, sociable walk of about 60 to 90 minutes. All walking abilities are welcome. Contact the walk leader before your first walk to confirm the meeting point.",
   "signupUrl": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
   "signupLabel": "Contact the walk leader",
   "sourceUrl": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": []
  },
  {
   "slug": "walk-tower-hamlets-watts-grove",
   "title": "Wellbeing Walk: Watts Grove",
-  "organiser": "Walk Tower Hamlets",
   "category": "Walking",
-  "rule": {
-   "type": "weekly",
-   "weekday": 4,
-   "time": "10:00",
-   "end": "11:30"
+  "summary": "A free, sociable walk of about 60 to 90 minutes.",
+  "organiser": {
+   "name": "Walk Tower Hamlets",
+   "url": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
+   "about": "Tower Hamlets Council's free wellbeing walks: six weekly groups, each based at a local health or community centre."
   },
-  "schedule": "Every Thursday, 10:00am to 11:30am",
-  "venue": "Outside Lighthouse Baptist Church, 135 Devons Road",
+  "sessions": [
+   {
+    "weekday": 4,
+    "time": "10:00",
+    "end": "11:30",
+    "label": "Thursday, 10:00am to 11:30am"
+   }
+  ],
+  "venue": "Outside Lighthouse Baptist Church",
+  "address": "135 Devons Road, London E3 3QX",
   "area": "Bromley-by-Bow, E3",
+  "lat": 51.52089,
+  "lon": -0.01909,
   "description": "A free, sociable walk of about 60 to 90 minutes. All walking abilities are welcome. Contact the walk leader before your first walk to confirm the meeting point.",
   "signupUrl": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
   "signupLabel": "Contact the walk leader",
   "sourceUrl": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": []
  },
  {
   "slug": "walk-tower-hamlets-bethnal-green-library",
   "title": "Wellbeing Walk: Bethnal Green Library",
-  "organiser": "Walk Tower Hamlets",
   "category": "Walking",
-  "rule": {
-   "type": "weekly",
-   "weekday": 4,
-   "time": "11:30",
-   "end": "13:00"
+  "summary": "A free, sociable walk of about 60 to 90 minutes.",
+  "organiser": {
+   "name": "Walk Tower Hamlets",
+   "url": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
+   "about": "Tower Hamlets Council's free wellbeing walks: six weekly groups, each based at a local health or community centre."
   },
-  "schedule": "Every Thursday, 11:30am to 1:00pm",
-  "venue": "Bethnal Green Library, Cambridge Heath Road",
+  "sessions": [
+   {
+    "weekday": 4,
+    "time": "11:30",
+    "end": "13:00",
+    "label": "Thursday, 11:30am to 1:00pm"
+   }
+  ],
+  "venue": "Bethnal Green Library",
+  "address": "Cambridge Heath Road, London E2 0HL",
   "area": "Bethnal Green, E2",
+  "lat": 51.52649,
+  "lon": -0.05374,
   "description": "A free, sociable walk of about 60 to 90 minutes. All walking abilities are welcome. Contact the walk leader before your first walk to confirm the meeting point.",
   "signupUrl": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
   "signupLabel": "Contact the walk leader",
   "sourceUrl": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": []
  },
  {
   "slug": "walk-tower-hamlets-limehouse",
   "title": "Wellbeing Walk: Limehouse",
-  "organiser": "Walk Tower Hamlets",
   "category": "Walking",
-  "rule": {
-   "type": "weekly",
-   "weekday": 4,
-   "time": "13:30",
-   "end": "15:00"
+  "summary": "A free, sociable walk of about 60 to 90 minutes.",
+  "organiser": {
+   "name": "Walk Tower Hamlets",
+   "url": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
+   "about": "Tower Hamlets Council's free wellbeing walks: six weekly groups, each based at a local health or community centre."
   },
-  "schedule": "Every Thursday, 1:30pm to 3:00pm",
-  "venue": "The Limehouse Practice, Gill Street",
+  "sessions": [
+   {
+    "weekday": 4,
+    "time": "13:30",
+    "end": "15:00",
+    "label": "Thursday, 1:30pm to 3:00pm"
+   }
+  ],
+  "venue": "The Limehouse Practice",
+  "address": "Gill Street, London E14 8HQ",
   "area": "Limehouse, E14",
+  "lat": 51.50983,
+  "lon": -0.02881,
   "description": "A free, sociable walk of about 60 to 90 minutes. All walking abilities are welcome. Contact the walk leader before your first walk to confirm the meeting point.",
   "signupUrl": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
   "signupLabel": "Contact the walk leader",
   "sourceUrl": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
-  "verified": "2026-11-16"
- },
- {
-  "slug": "london-city-runners-tuesday",
-  "title": "Tuesday River Run",
-  "rule": {
-   "type": "weekly",
-   "weekday": 2,
-   "time": "18:15"
-  },
-  "schedule": "Every Tuesday, 6:15pm (easy group 6:45pm)",
-  "description": "London's biggest free running club heads out along the Thames to Millennium, Blackfriars or Westminster Bridge and back: about 6.5k, 8k or 11k. All paces leave at 6:15pm; a slower easy group (around 6:30 per km) leaves at 6:45pm. Social membership is free: make a profile on the club's website, then turn up.",
-  "organiser": "London City Runners",
-  "category": "Running",
-  "venue": "The Marquis of Wellington, 21 Druid Street",
-  "area": "Bermondsey, SE1",
-  "signupUrl": "https://www.londoncityrunners.com/membership",
-  "signupLabel": "Make a free profile",
-  "sourceUrl": "https://www.londoncityrunners.com/river-runs",
-  "verified": "2026-11-16"
- },
- {
-  "slug": "london-city-runners-thursday",
-  "title": "Thursday River Run",
-  "rule": {
-   "type": "weekly",
-   "weekday": 4,
-   "time": "18:15"
-  },
-  "schedule": "Every Thursday, 6:15pm",
-  "description": "A riverside run with the same three bridge routes as Tuesday: about 6.5k, 8k or 11k, all paces together from 6:15pm. Social membership is free: make a profile on the club's website, then turn up.",
-  "organiser": "London City Runners",
-  "category": "Running",
-  "venue": "The Marquis of Wellington, 21 Druid Street",
-  "area": "Bermondsey, SE1",
-  "signupUrl": "https://www.londoncityrunners.com/membership",
-  "signupLabel": "Make a free profile",
-  "sourceUrl": "https://www.londoncityrunners.com/river-runs",
-  "verified": "2026-11-16"
- },
- {
-  "slug": "london-city-runners-sunday",
-  "title": "Sunday River Run",
-  "rule": {
-   "type": "weekly",
-   "weekday": 0,
-   "time": "10:30"
-  },
-  "schedule": "Every Sunday, 10:30am",
-  "description": "A longer Sunday run east along the river: about 6.5k, 10k to Greenland Pier, or 18k through the Greenwich foot tunnel and back over Tower Bridge. No bag drop on Sundays. Social membership is free: make a profile on the club's website, then turn up.",
-  "organiser": "London City Runners",
-  "category": "Running",
-  "venue": "The Marquis of Wellington, 21 Druid Street",
-  "area": "Bermondsey, SE1",
-  "signupUrl": "https://www.londoncityrunners.com/membership",
-  "signupLabel": "Make a free profile",
-  "sourceUrl": "https://www.londoncityrunners.com/river-runs",
-  "verified": "2026-11-16"
+  "verified": "2026-11-16",
+  "gallery": []
  }
 ]
