@@ -1,0 +1,110 @@
+/* Events pages: a dark, poster-led layout. Class prefix ev- (never ad-, banner, promo, sponsor). */
+:root {
+  --accent: #ffd401;
+  --ink: #0d0d0d;
+  --card: #1a1a1a;
+  --line: rgba(255,255,255,.12);
+  --text: #f4f4f4;
+  --muted: #a3a3a3;
+  --display: "Avant Garde Bold", "Century Gothic", Impact, "Anton", sans-serif;
+}
+@font-face {
+  font-family: "Avant Garde Bold";
+  src: url("/fonts/avant-garde-bold.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--ink); }
+body.ev-body { font-family: "Inter", system-ui, sans-serif; color: var(--text); background: var(--ink); line-height: 1.5; min-height: 100vh; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+/* Category colours, used by the poster and the blurred backdrop (fallback first) */
+.ev-flyer, .ev-backdrop { --c1: #444; --c2: #888; }
+.ev-cat-running { --c1: #ff5a1f; --c2: #ffb000; }
+.ev-cat-fitness { --c1: #00b36b; --c2: #c6f432; }
+.ev-cat-walking { --c1: #1f7aff; --c2: #46d9c9; }
+.ev-cat-culture { --c1: #8a2be2; --c2: #ff4fa3; }
+
+/* Header */
+.ev-header { position: relative; z-index: 5; display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; max-width: 1180px; margin: 0 auto; }
+.ev-logo { font-family: Impact, "Anton", sans-serif; font-size: 1.5rem; text-decoration: none; letter-spacing: .01em; }
+.ev-header-link { font-weight: 600; font-size: .9rem; text-decoration: none; background: var(--accent); color: #111; padding: 8px 16px; border-radius: 999px; }
+
+/* Poster (the stand-in for an event flyer) */
+.ev-flyer {
+  position: relative; aspect-ratio: 1 / 1; border-radius: 18px; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: space-between; padding: 8%;
+  background: radial-gradient(120% 90% at 0% 0%, var(--c2) 0%, transparent 60%), linear-gradient(150deg, var(--c1), #111 95%);
+  color: #fff; box-shadow: 0 24px 60px rgba(0,0,0,.45);
+}
+.ev-flyer::after { content: "WeGoGym"; position: absolute; right: 8%; bottom: 7%; font-family: Impact, "Anton", sans-serif; font-size: .8rem; opacity: .75; }
+.ev-flyer-tag { align-self: flex-start; font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; background: rgba(0,0,0,.35); padding: 5px 10px; border-radius: 999px; }
+.ev-flyer-title { font-family: var(--display); font-size: clamp(1.3rem, 5.2vw, 1.9rem); line-height: 1.02; text-transform: uppercase; overflow-wrap: anywhere; }
+.ev-flyer-big .ev-flyer-title { font-size: clamp(2rem, 7vw, 3.2rem); }
+.ev-flyer-when { font-weight: 600; font-size: .9rem; opacity: .9; }
+
+/* Event detail */
+.ev-backdrop {
+  position: fixed; inset: -20% -20% auto -20%; height: 90vh; z-index: 0; pointer-events: none;
+  background: radial-gradient(50% 60% at 30% 40%, var(--c1), transparent 70%), radial-gradient(40% 50% at 70% 30%, var(--c2), transparent 70%);
+  filter: blur(80px); opacity: .45;
+}
+.ev-wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 8px 24px 120px; display: grid; gap: 28px; }
+.ev-detail .ev-flyer { width: min(100%, 420px); margin: 0 auto; }
+.ev-kicker { color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: .12em; font-size: .75rem; }
+.ev-info h1 { font-family: var(--display); font-weight: 400; font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: 1.02; margin: 6px 0 6px; }
+.ev-by { color: var(--muted); margin-bottom: 22px; }
+.ev-row { display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; border-top: 1px solid var(--line); }
+.ev-row svg { flex: none; width: 40px; height: 40px; padding: 9px; border-radius: 12px; background: rgba(255,255,255,.08); fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ev-row strong { display: block; }
+.ev-row span { display: block; color: var(--muted); font-size: .95rem; }
+.ev-row a { color: var(--text); }
+.ev-ticket { margin: 18px 0 30px; padding: 18px; border-radius: 16px; background: rgba(255,255,255,.06); border: 1px solid var(--line); backdrop-filter: blur(10px); }
+.ev-ticket-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+.ev-price { font-weight: 800; font-size: 1.25rem; }
+.ev-ticket-note, .ev-ticket-fine { color: var(--muted); font-size: .85rem; }
+.ev-ticket-fine { margin-top: 10px; text-align: center; }
+.ev-btn { display: block; text-align: center; font-weight: 800; text-decoration: none; background: var(--accent); color: #111; padding: 14px 20px; border-radius: 999px; }
+.ev-btn:hover { background: #fff; }
+.ev-info h2 { font-size: 1.05rem; margin: 26px 0 10px; }
+.ev-about { color: #d6d6d6; max-width: 62ch; }
+.ev-host { display: flex; align-items: center; gap: 12px; font-weight: 600; }
+.ev-avatar { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: #111; font-weight: 800; font-size: .9rem; }
+.ev-source { margin-top: 32px; color: var(--muted); font-size: .8rem; max-width: 70ch; }
+.ev-source a { color: #d6d6d6; }
+
+/* Mobile sticky sign-up bar */
+.ev-sticky { position: fixed; z-index: 10; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px calc(12px + env(safe-area-inset-bottom)); background: rgba(13,13,13,.92); border-top: 1px solid var(--line); backdrop-filter: blur(12px); }
+.ev-sticky div { display: flex; flex-direction: column; }
+.ev-sticky-when { color: var(--muted); font-size: .8rem; }
+.ev-sticky .ev-btn { padding: 12px 26px; }
+
+@media (max-width: 899px) { html { scroll-padding-bottom: 96px; } }
+@media (min-width: 900px) {
+  .ev-wrap { grid-template-columns: 420px 1fr; gap: 56px; padding-top: 32px; padding-bottom: 80px; align-items: start; }
+  .ev-detail .ev-flyer { position: sticky; top: 32px; }
+  .ev-sticky { display: none; }
+}
+
+/* Listing */
+.ev-list-wrap { max-width: 1180px; margin: 0 auto; padding: 24px 24px 64px; }
+.ev-list h1 { font-family: var(--display); font-weight: 400; font-size: clamp(2.4rem, 7vw, 4.2rem); line-height: 1; }
+.ev-lede { color: var(--muted); margin: 12px 0 24px; font-size: 1.1rem; max-width: 52ch; }
+.ev-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.ev-chip { font: inherit; font-weight: 600; font-size: .9rem; color: var(--text); background: transparent; border: 1px solid var(--line); padding: 8px 16px; border-radius: 999px; cursor: pointer; }
+.ev-chip.is-on { background: var(--text); color: #111; border-color: var(--text); }
+.ev-grid { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 28px 20px; }
+.ev-card[hidden] { display: none; }
+.ev-card a { display: flex; flex-direction: column; gap: 4px; text-decoration: none; }
+.ev-card .ev-flyer { margin-bottom: 10px; box-shadow: none; transition: transform .2s; }
+.ev-card a:hover .ev-flyer { transform: translateY(-3px); }
+.ev-card-title { font-weight: 800; font-size: 1.05rem; }
+.ev-card-when { color: var(--accent); font-size: .88rem; font-weight: 600; }
+.ev-card-where { color: var(--muted); font-size: .88rem; }
+
+/* Footer */
+.ev-footer { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: center; padding: 28px 24px 110px; font-size: .875rem; color: #b3b3b3; border-top: 1px solid var(--line); }
+.ev-list .ev-footer { padding-bottom: 28px; }
+@media (min-width: 900px) { .ev-footer { padding-bottom: 28px; } }
+@media (prefers-reduced-motion: reduce) { .ev-card .ev-flyer { transition: none; } }
