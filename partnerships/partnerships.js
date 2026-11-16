@@ -31,6 +31,9 @@
     ["other", "Something else"]
   ];
   var RECURRENCE = [["weekly", "Every week"], ["fortnightly", "Every two weeks"], ["monthly", "Every month"]];
+  // ISO day numbers (1 Monday to 7 Sunday), as the server stores them.
+  var DAYS = [[1, "Mon", "Monday"], [2, "Tue", "Tuesday"], [3, "Wed", "Wednesday"], [4, "Thu", "Thursday"],
+    [5, "Fri", "Friday"], [6, "Sat", "Saturday"], [7, "Sun", "Sunday"]];
   var STEPS = ["you", "events", "review"];
 
   var state = { step: "you", uid: 0, sending: false, sent: false };
@@ -67,6 +70,11 @@
   function isRealDate(iso) {
     return /^\d{4}-\d{2}-\d{2}$/.test(iso) && !isNaN(Date.parse(iso + "T12:00:00Z")) &&
       new Date(iso + "T12:00:00Z").toISOString().slice(0, 10) === iso;
+  }
+  function isoWeekday(iso) { return new Date(iso + "T12:00:00Z").getUTCDay() || 7; }
+  function dayList(nums) {
+    var names = nums.map(function (n) { return DAYS[n - 1][1]; });
+    return names.length > 1 ? names.slice(0, -1).join(", ") + " and " + names[names.length - 1] : names[0];
   }
   function niceDate(iso) {
     return new Date(iso + "T12:00:00Z").toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
@@ -151,6 +159,28 @@
     var recurrence = select(p + "-recurrence", RECURRENCE);
     var endsOn = input(p + "-endson", "date", { min: today, max: addDays(today, MAX_SERIES_END_DAYS) });
 
+    // Which days it runs, for every week or every two weeks (a monthly event repeats on its date).
+    var autoDay = null; // the box the first date ticked, so a changed date can untick it again
+    var dayChips = h("div", { class: "chips" });
+    var dayBoxes = DAYS.map(function (d) {
+      var did = p + "-day-" + d[0];
+      var box = h("input", { type: "checkbox", id: did, value: String(d[0]), "aria-label": d[2] });
+      box.addEventListener("change", function () {
+        if (box === autoDay) autoDay = null; // the organiser has made this day their own choice
+        setError(dayBoxes[0], ""); setError(date, "");
+      });
+      dayChips.appendChild(h("label", { class: "chip", for: did }, [box, h("span", { text: d[1] })]));
+      return box;
+    });
+    var daysBox = h("fieldset", { class: "pt-choice", id: p + "-days" }, [
+      h("legend", { text: "On which days?" }), dayChips,
+      h("p", { class: "wl-hint", text: "Tick every day it runs. If one day starts at a different time, add that day as a separate event." })
+    ]);
+    recurrence.addEventListener("change", function () {
+      daysBox.hidden = recurrence.value === "monthly";
+      if (daysBox.hidden) setError(dayBoxes[0], "");
+    });
+
     var schedule = radios(p + "-sched", p + "-schedule", "How often does it happen?",
       [["one_off", "Once"], ["recurring", "It repeats"]], function () {
         var rec = card.querySelector('input[name="' + p + '-sched"]:checked').value === "recurring";
@@ -159,12 +189,22 @@
         if (!rec) { setError(endsOn, ""); }
       });
     var date = input(p + "-date", "date", { min: today, max: addDays(today, MAX_FIRST_DATE_DAYS), required: true });
+    // Picking the first date ticks its day, so the usual case needs no extra step. Changing the
+    // date unticks the day it ticked before, unless the organiser has touched that day.
+    date.addEventListener("change", function () {
+      if (autoDay) { autoDay.checked = false; autoDay = null; }
+      if (!isRealDate(date.value)) return;
+      var box = dayBoxes[isoWeekday(date.value) - 1];
+      if (!box.checked) { box.checked = true; autoDay = box; }
+      setError(dayBoxes[0], "");
+    });
     var dateField = field(p + "-date", "Date", date);
     var dateLabel = dateField.querySelector("label");
     var start = input(p + "-start", "time", { required: true });
     var end = input(p + "-end", "time");
 
     more.appendChild(field(p + "-recurrence", "How often", recurrence));
+    more.appendChild(daysBox);
     more.appendChild(field(p + "-endson", "Stop repeating on", endsOn, { optional: true, hint: "Leave this empty if it carries on with no end date." }));
 
     var priceBox = h("div", { class: "pt-more", id: p + "-price-more", hidden: true });
@@ -205,7 +245,7 @@
       field(p + "-cap", "Most people you can take", cap, { optional: true, hint: "Leave this empty if there is no limit." }),
       field(p + "-url", "Where do people book now?", url, { optional: true, hint: "A link to your current page or ticket link, if you have one. Start it with https://" })
     ]);
-    card._f = { title: title, cat: cat, area: area, desc: desc, recurrence: recurrence, endsOn: endsOn, date: date, start: start, end: end, price: price, cap: cap, url: url, p: p };
+    card._f = { title: title, cat: cat, area: area, desc: desc, recurrence: recurrence, days: dayBoxes, endsOn: endsOn, date: date, start: start, end: end, price: price, cap: cap, url: url, p: p };
     list.appendChild(card);
     renumber();
     if (focus) title.focus();
@@ -254,7 +294,13 @@
       schedule: schedule, firstDate: f.date.value, startTime: f.start.value, endTime: f.end.value,
       priceType: priceType
     };
-    if (schedule === "recurring") { e.recurrence = f.recurrence.value; if (f.endsOn.value) e.endsOn = f.endsOn.value; }
+    if (schedule === "recurring") {
+      e.recurrence = f.recurrence.value;
+      if (e.recurrence !== "monthly") {
+        e.weekdays = f.days.filter(function (b) { return b.checked; }).map(function (b) { return Number(b.value); });
+      }
+      if (f.endsOn.value) e.endsOn = f.endsOn.value;
+    }
     if (priceType === "ticketed") e.pricePence = penceFrom(f.price.value);
     if (value(f.cap)) e.capacity = Number(value(f.cap));
     if (value(f.url)) e.existingListingUrl = value(f.url);
@@ -274,6 +320,13 @@
       else if (e.firstDate < today) fail(f.date, "Choose today or a later date.");
       else if (e.firstDate > addDays(today, MAX_FIRST_DATE_DAYS)) fail(f.date, "Choose a date within the next 18 months.");
       if (!e.startTime) fail(f.start, "Choose a start time.");
+      if (e.weekdays) {
+        if (!e.weekdays.length) fail(f.days[0], "Tick at least one day.");
+        else if (isRealDate(e.firstDate) && e.weekdays.indexOf(isoWeekday(e.firstDate)) < 0) {
+          var dn = DAYS[isoWeekday(e.firstDate) - 1][2];
+          fail(f.date, "This date is a " + dn + ". Tick " + dn + " too, or choose a first date on one of the days you ticked.");
+        }
+      }
       if (e.schedule === "recurring" && e.endsOn) {
         if (isRealDate(e.firstDate) && e.endsOn < e.firstDate) fail(f.endsOn, "Choose a date after the first one, or leave it empty.");
         else if (e.endsOn > addDays(today, MAX_SERIES_END_DAYS)) fail(f.endsOn, "Choose a date within the next two years, or leave it empty.");
@@ -334,7 +387,7 @@
       row(d, "Where", e.area);
       if (e.description) row(d, "What happens", e.description);
       var when = e.schedule === "recurring"
-        ? recs[e.recurrence] + " from " + niceDate(e.firstDate) + (e.endsOn ? " until " + niceDate(e.endsOn) : ", no end date")
+        ? recs[e.recurrence] + (e.weekdays ? " on " + dayList(e.weekdays) : "") + " from " + niceDate(e.firstDate) + (e.endsOn ? " until " + niceDate(e.endsOn) : ", no end date")
         : niceDate(e.firstDate);
       row(d, "When", when);
       row(d, "Time", e.startTime + (e.endTime ? " to " + e.endTime : ""));
