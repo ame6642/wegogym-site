@@ -595,6 +595,11 @@
     social: "Social and wellbeing", other: "Something else"
   };
   var PT_REPEAT = { weekly: "Every week", fortnightly: "Every two weeks", monthly: "Every month" };
+  var PT_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]; // ISO 1 to 7
+  function ptDays(nums) {
+    var names = nums.map(function (n) { return PT_DAYS[n - 1] || String(n); });
+    return names.length > 1 ? names.slice(0, -1).join(", ") + " and " + names[names.length - 1] : names[0];
+  }
   var PT_DONE = {
     contacted: "Marked as contacted.", approved: "Approved. Nothing is published yet.",
     declined: "Declined.", "new": "Put back to new."
@@ -697,7 +702,7 @@
     var evs = [];
     events.forEach(function (e, i) {
       var when = e.schedule === "recurring"
-        ? (PT_REPEAT[e.recurrence] || e.recurrence) + " from " + ptDay(e.first_date) + (e.ends_on ? " until " + ptDay(e.ends_on) : ", no end date")
+        ? (PT_REPEAT[e.recurrence] || e.recurrence) + (e.weekdays && e.weekdays.length ? " on " + ptDays(e.weekdays) : "") + " from " + ptDay(e.first_date) + (e.ends_on ? " until " + ptDay(e.ends_on) : ", no end date")
         : ptDay(e.first_date);
       evs.push(h("div", { class: "wgg-event-title", text: (events.length > 1 ? (i + 1) + ". " : "") + e.title }));
       evs.push(h("div", { class: "wgg-dl-event" }, [dl([
