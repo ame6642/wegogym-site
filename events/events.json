@@ -657,5 +657,62 @@
   "signupLabel": "Contact the walk leader",
   "sourceUrl": "https://www.towerhamlets.gov.uk/lgnl/leisure_and_culture/walking/walks/walk_tower_hamlets.aspx",
   "verified": "2026-11-16"
+ },
+ {
+  "slug": "london-city-runners-tuesday",
+  "title": "Tuesday River Run",
+  "rule": {
+   "type": "weekly",
+   "weekday": 2,
+   "time": "18:15"
+  },
+  "schedule": "Every Tuesday, 6:15pm (easy group 6:45pm)",
+  "description": "London's biggest free running club heads out along the Thames to Millennium, Blackfriars or Westminster Bridge and back: about 6.5k, 8k or 11k. All paces leave at 6:15pm; a slower easy group (around 6:30 per km) leaves at 6:45pm. Social membership is free: make a profile on the club's website, then turn up.",
+  "organiser": "London City Runners",
+  "category": "Running",
+  "venue": "The Marquis of Wellington, 21 Druid Street",
+  "area": "Bermondsey, SE1",
+  "signupUrl": "https://www.londoncityrunners.com/membership",
+  "signupLabel": "Make a free profile",
+  "sourceUrl": "https://www.londoncityrunners.com/river-runs",
+  "verified": "2026-11-16"
+ },
+ {
+  "slug": "london-city-runners-thursday",
+  "title": "Thursday River Run",
+  "rule": {
+   "type": "weekly",
+   "weekday": 4,
+   "time": "18:15"
+  },
+  "schedule": "Every Thursday, 6:15pm",
+  "description": "A riverside run with the same three bridge routes as Tuesday: about 6.5k, 8k or 11k, all paces together from 6:15pm. Social membership is free: make a profile on the club's website, then turn up.",
+  "organiser": "London City Runners",
+  "category": "Running",
+  "venue": "The Marquis of Wellington, 21 Druid Street",
+  "area": "Bermondsey, SE1",
+  "signupUrl": "https://www.londoncityrunners.com/membership",
+  "signupLabel": "Make a free profile",
+  "sourceUrl": "https://www.londoncityrunners.com/river-runs",
+  "verified": "2026-11-16"
+ },
+ {
+  "slug": "london-city-runners-sunday",
+  "title": "Sunday River Run",
+  "rule": {
+   "type": "weekly",
+   "weekday": 0,
+   "time": "10:30"
+  },
+  "schedule": "Every Sunday, 10:30am",
+  "description": "A longer Sunday run east along the river: about 6.5k, 10k to Greenland Pier, or 18k through the Greenwich foot tunnel and back over Tower Bridge. No bag drop on Sundays. Social membership is free: make a profile on the club's website, then turn up.",
+  "organiser": "London City Runners",
+  "category": "Running",
+  "venue": "The Marquis of Wellington, 21 Druid Street",
+  "area": "Bermondsey, SE1",
+  "signupUrl": "https://www.londoncityrunners.com/membership",
+  "signupLabel": "Make a free profile",
+  "sourceUrl": "https://www.londoncityrunners.com/river-runs",
+  "verified": "2026-11-16"
  }
 ]
