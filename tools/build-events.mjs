@@ -5,8 +5,12 @@ import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, readdirSync
 
 const ROOT = new URL("../", import.meta.url);
 const events = JSON.parse(readFileSync(new URL("events/events.json", ROOT), "utf8"));
-const V = "4"; // bump when events.css or events.js change
+const V = "5"; // bump when events.css or events.js change
 const CATEGORIES = ["Running", "Fitness", "Walking"]; // each needs a colour in events.css
+// Where in London an event is. Central is roughly the area within 3 km of Charing Cross (the City,
+// Westminster, the South Bank); everywhere else is the compass direction from there, and south of the
+// river counts as South even in the south-east (Bermondsey, Greenwich). Every event sets "region" by hand.
+const REGIONS = [["central", "Central"], ["north", "North"], ["east", "East"], ["south", "South"], ["west", "West"]];
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const cat = (c) => c.toLowerCase();
@@ -167,7 +171,7 @@ ${footer}
 
 function listPage() {
   const cards = events.map((e) => `
-      <li class="ev-card ev-cat-${cat(e.category)}" data-cat="${esc(cat(e.category))}" data-host="${esc(slugify(e.organiser.name))}" data-rules="${esc(JSON.stringify(e.sessions.map(({ weekday, time, end }) => ({ weekday, time, end }))))}">
+      <li class="ev-card ev-cat-${cat(e.category)}" data-cat="${esc(cat(e.category))}" data-region="${esc(e.region)}" data-host="${esc(slugify(e.organiser.name))}" data-rules="${esc(JSON.stringify(e.sessions.map(({ weekday, time, end }) => ({ weekday, time, end }))))}">
         <a href="/events/${esc(e.slug)}/">
           <span class="ev-card-img">${poster(e)}</span>
           <span class="ev-card-when ev-next-short">${esc(whenShort(e))}</span>
@@ -181,11 +185,20 @@ ${header}
   <main class="ev-list-wrap" id="main">
     <h1>Free in London</h1>
     <p class="ev-lede">Weekly runs, outdoor classes and walks. Free, open to everyone, and you sign up with the organiser.</p>
-    <div class="ev-filters" role="group" aria-label="Filter by type" hidden>
-      <button type="button" class="ev-chip is-on" data-filter="all" aria-pressed="true">All</button>
-      ${CATEGORIES.map((c) => `<button type="button" class="ev-chip" data-filter="${esc(cat(c))}" aria-pressed="false">${esc(c)}</button>`).join("\n      ")}
+    <div class="ev-filters" hidden>
+      <div class="ev-filter-row" role="group" aria-label="Filter by type" data-group="cat">
+        <span class="ev-filter-label">Type</span>
+        <button type="button" class="ev-chip is-on" data-filter="all" aria-pressed="true">All</button>
+        ${CATEGORIES.map((c) => `<button type="button" class="ev-chip" data-filter="${esc(cat(c))}" aria-pressed="false">${esc(c)}</button>`).join("\n        ")}
+      </div>
+      <div class="ev-filter-row" role="group" aria-label="Filter by area of London" data-group="region">
+        <span class="ev-filter-label">Area</span>
+        <button type="button" class="ev-chip is-on" data-filter="all" aria-pressed="true">All London</button>
+        ${REGIONS.map(([v, l]) => `<button type="button" class="ev-chip" data-filter="${v}" aria-pressed="false">${l}</button>`).join("\n        ")}
+      </div>
     </div>
     <p class="ev-hostfilter" hidden>Showing events by <strong></strong>. <a href="/events/">Show all</a></p>
+    <p class="ev-empty" role="status" hidden>No events match both filters. Try a different type or area.</p>
     <ul class="ev-grid">${cards}
     </ul>
     <p class="ev-source">Listed by WeGoGym from organisers' public information; photos belong to the organisers. WeGoGym does not run these events. Organisers can email <a href="mailto:hello@wegogym.club">hello@wegogym.club</a> to update or remove a listing.</p>
@@ -211,6 +224,7 @@ for (const e of events) {
   if (e.accent && !/^#[0-9a-f]{6}$/i.test(e.accent)) throw new Error(`${e.slug}: accent must be a #rrggbb colour`);
   if (e.organiser.email && !/^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i.test(e.organiser.email)) throw new Error(`${e.slug}: bad organiser email`);
   seen.add(e.slug);
+  if (!REGIONS.some(([v]) => v === e.region)) throw new Error(`${e.slug}: region must be one of ${REGIONS.map(([v]) => v).join(", ")}`);
   if (!CATEGORIES.includes(e.category)) throw new Error(`${e.slug}: category must be one of ${CATEGORIES.join(", ")}`);
   if (!e.organiser.name || !e.organiser.url || !e.organiser.about) throw new Error(`${e.slug}: organiser needs name, url and about`);
   if (!e.sessions.length || e.sessions.some((s) => !(s.weekday >= 0 && s.weekday <= 6) || !/^\d\d:\d\d$/.test(s.time) || !s.label || (s.end && (!/^\d\d:\d\d$/.test(s.end) || s.end <= s.time)))) throw new Error(`${e.slug}: bad sessions`);

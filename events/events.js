@@ -1,5 +1,5 @@
 // Fills in each event's next date (London time), sorts the listing soonest first,
-// runs the type and host filters, and the share button.
+// runs the type, area and host filters, and the share button.
 (function () {
   function londonNow() {
     var p = {};
@@ -78,17 +78,30 @@
 
   var filters = document.querySelector(".ev-filters");
   if (filters) filters.hidden = false;
-  var chips = document.querySelectorAll(".ev-chip");
-  chips.forEach(function (chip) {
-    chip.addEventListener("click", function () {
-      var f = chip.getAttribute("data-filter");
-      chips.forEach(function (c) {
-        var on = c === chip;
-        c.classList.toggle("is-on", on);
-        c.setAttribute("aria-pressed", on ? "true" : "false");
-      });
-      grid.querySelectorAll(".ev-card").forEach(function (card) {
-        card.hidden = f !== "all" && card.getAttribute("data-cat") !== f;
+  var chosen = { cat: "all", region: "all" };
+  var empty = document.querySelector(".ev-empty");
+  function apply() {
+    var shown = 0;
+    grid.querySelectorAll(".ev-card").forEach(function (card) {
+      var show = (chosen.cat === "all" || card.getAttribute("data-cat") === chosen.cat) &&
+        (chosen.region === "all" || card.getAttribute("data-region") === chosen.region);
+      card.hidden = !show;
+      if (show) shown++;
+    });
+    if (empty) empty.hidden = shown > 0;
+  }
+  document.querySelectorAll(".ev-filter-row").forEach(function (row) {
+    var group = row.getAttribute("data-group");
+    var chips = row.querySelectorAll(".ev-chip");
+    chips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        chosen[group] = chip.getAttribute("data-filter");
+        chips.forEach(function (c) {
+          var on = c === chip;
+          c.classList.toggle("is-on", on);
+          c.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        apply();
       });
     });
   });
