@@ -1,6 +1,7 @@
-// Fills in each event's next date (London time), sorts the listing soonest first,
-// runs the type, area and host filters, and the share button.
+// WeGoGym events: next dates in London time, soonest-first sorting, the day / type / area / host filters,
+// the "Happening next" rail, Add to calendar and Share. Without JavaScript every page still reads correctly.
 (function () {
+  "use strict";
   function londonNow() {
     var p = {};
     try {
@@ -9,21 +10,25 @@
       return new Date(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute);
     } catch (e) { return new Date(); }
   }
-  function nextOf(rule, now) {
-    var hm = rule.time.split(":").map(Number);
-    var em = rule.end ? rule.end.split(":").map(Number) : [hm[0] + 1, hm[1]]; // no end given: assume an hour
-    for (var i = 0; i < 8; i++) {
-      var d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i, hm[0], hm[1]);
-      var ends = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i, em[0], em[1]);
-      if (d.getDay() === rule.weekday && ends >= now) return d;
-    }
-    return null;
+  var now = londonNow();
+  var today0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  function hm(s) { return s.split(":").map(Number); }
+  // Every session in the next 8 days that has not finished yet, soonest first.
+  function occurrences(rules) {
+    var out = [];
+    rules.forEach(function (r) {
+      var a = hm(r.time), b = r.end ? hm(r.end) : [a[0] + 1, a[1]];
+      for (var i = 0; i < 8; i++) {
+        var d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i, a[0], a[1]);
+        var end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i, b[0], b[1]);
+        if (d.getDay() === r.weekday && end >= now) out.push(d);
+      }
+    });
+    return out.sort(function (x, y) { return x - y; });
   }
-  function soonest(rules, now) {
-    return rules.map(function (r) { return nextOf(r, now); }).filter(Boolean).sort(function (a, b) { return a - b; })[0] || null;
-  }
-  function dayLabel(d, now) {
-    var n = Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 864e5);
+  function dayDiff(d) { return Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - today0) / 864e5); }
+  function dayLabel(d) {
+    var n = dayDiff(d);
     if (n === 0) return "Today";
     if (n === 1) return "Tomorrow";
     return d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
@@ -32,63 +37,165 @@
     var h = d.getHours(), m = d.getMinutes();
     return (h % 12 || 12) + (m ? ":" + String(m).padStart(2, "0") : "") + (h < 12 ? "am" : "pm");
   }
+  function rulesOf(el) { try { return JSON.parse(el.getAttribute("data-rules")); } catch (e) { return []; } }
 
-  var now = londonNow();
-  document.querySelectorAll("[data-rules]").forEach(function (el) {
-    var d;
-    try { d = soonest(JSON.parse(el.getAttribute("data-rules")), now); } catch (e) { d = null; }
-    if (!d) return;
-    el.setAttribute("data-next", d.getTime());
-    if (el.classList.contains("ev-next")) el.textContent = "Next: " + dayLabel(d, now) + " at " + timeLabel(d);
-    var short = el.querySelector(".ev-next-short");
-    if (short) short.textContent = dayLabel(d, now) + ", " + timeLabel(d);
+  // Cards
+  document.querySelectorAll(".ev-card[data-rules]").forEach(function (card) {
+    var occ = occurrences(rulesOf(card));
+    card._occ = occ;
+    if (!occ.length) return;
+    var d = occ[0];
+    card.setAttribute("data-next", d.getTime());
+    var short = card.querySelector(".ev-next-short");
+    if (short) short.textContent = dayLabel(d) + ", " + timeLabel(d);
+    var badge = card.querySelector(".ev-next-badge");
+    if (badge && dayDiff(d) <= 1) { badge.textContent = dayLabel(d); badge.hidden = false; }
   });
 
+  // Event page: date box, sticky bar
+  var next = document.querySelector(".ev-next");
+  if (next) {
+    var occ = occurrences(rulesOf(next));
+    if (occ.length) {
+      var d = occ[0];
+      var repeat = document.querySelector(".ev-repeat");
+      var schedule = next.textContent;
+      next.textContent = (dayDiff(d) <= 1 ? dayLabel(d) + ", " : "") + d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" }) + " at " + timeLabel(d);
+      if (repeat) repeat.textContent = schedule.replace(/^Every/, "Repeats every");
+      var m = document.querySelector("[data-cal-m]"), dd = document.querySelector("[data-cal-d]");
+      if (m) m.textContent = d.toLocaleDateString("en-GB", { month: "short" });
+      if (dd) dd.textContent = d.getDate();
+      var bar = document.querySelector(".ev-next-cta");
+      if (bar) bar.textContent = "Next: " + dayLabel(d) + ", " + timeLabel(d);
+    }
+  }
+
+  // Share
   var share = document.querySelector("[data-share]");
   if (share) share.addEventListener("click", function () {
+    var label = share.querySelector("[data-share-label]");
     var data = { title: document.title, url: location.href };
     if (navigator.share) { navigator.share(data).catch(function () {}); return; }
-    function copied() {
-      share.setAttribute("aria-label", "Link copied");
-      share.classList.add("is-done");
-      setTimeout(function () { share.setAttribute("aria-label", "Share this event"); share.classList.remove("is-done"); }, 2500);
-    }
+    function copied() { label.textContent = "Link copied"; setTimeout(function () { label.textContent = "Share"; }, 2500); }
     function manual() { window.prompt("Copy this link", location.href); }
-    if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(copied, manual);
-    else manual();
+    if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(copied, manual); else manual();
   });
 
-  var grid = document.querySelector(".ev-grid");
-  if (!grid) return;
-  Array.prototype.slice.call(grid.children)
-    .sort(function (a, b) { return (+a.getAttribute("data-next") || 9e15) - (+b.getAttribute("data-next") || 9e15); })
-    .forEach(function (li) { grid.appendChild(li); });
+  // Add to calendar: a weekly repeating .ics, one entry per session time, in London time
+  var cal = document.querySelector("[data-ics]");
+  if (cal) cal.addEventListener("click", function () {
+    var info; try { info = JSON.parse(cal.getAttribute("data-ics")); } catch (e) { return; }
+    function pad(n) { return String(n).padStart(2, "0"); }
+    function stamp(d) { return d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + "T" + pad(d.getHours()) + pad(d.getMinutes()) + "00"; }
+    function esc(s) { return String(s).replace(/[\\,;]/g, function (c) { return "\\" + c; }).replace(/\n/g, "\\n"); }
+    var lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//WeGoGym//Events//EN", "CALSCALE:GREGORIAN",
+      "BEGIN:VTIMEZONE", "TZID:Europe/London",
+      "BEGIN:DAYLIGHT", "TZOFFSETFROM:+0000", "TZOFFSETTO:+0100", "TZNAME:BST", "DTSTART:19700329T010000", "RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU", "END:DAYLIGHT",
+      "BEGIN:STANDARD", "TZOFFSETFROM:+0100", "TZOFFSETTO:+0000", "TZNAME:GMT", "DTSTART:19701025T020000", "RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU", "END:STANDARD",
+      "END:VTIMEZONE"];
+    var made = new Date();
+    info.rules.forEach(function (r, i) {
+      var first = occurrences([{ weekday: r.wd, time: r.t, end: r.end }])[0];
+      if (!first) return;
+      var b = r.end ? hm(r.end) : [first.getHours() + 1, first.getMinutes()];
+      var end = new Date(first.getFullYear(), first.getMonth(), first.getDate(), b[0], b[1]);
+      lines.push("BEGIN:VEVENT", "UID:" + info.url.replace(/\W+/g, "-") + "-" + i + "@wegogym.club",
+        "DTSTAMP:" + made.toISOString().replace(/[-:]/g, "").replace(/\.\d+/, ""),
+        "DTSTART;TZID=Europe/London:" + stamp(first), "DTEND;TZID=Europe/London:" + stamp(end),
+        "RRULE:FREQ=WEEKLY;BYDAY=" + r.d, "SUMMARY:" + esc(info.title), "LOCATION:" + esc(info.loc),
+        "DESCRIPTION:" + esc("Free. Check with the organiser before you go: " + info.url), "URL:" + info.url, "END:VEVENT");
+    });
+    lines.push("END:VCALENDAR");
+    // Fold lines longer than 75 bytes, as the calendar standard requires
+    function fold(l) {
+      var out = [], cur = "", n = 0, enc = new TextEncoder();
+      Array.from(l).forEach(function (ch) {
+        var b = enc.encode(ch).length;
+        if (n + b > (out.length ? 74 : 75)) { out.push(cur); cur = ""; n = 0; }
+        cur += ch; n += b;
+      });
+      out.push(cur);
+      return out.join("\r\n ");
+    }
+    var blob = new Blob([lines.map(fold).join("\r\n") + "\r\n"], { type: "text/calendar" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = info.url.split("/").filter(Boolean).pop() + ".ics";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+  });
 
+  // Sort any grid or rail soonest first
+  function sortList(list) {
+    Array.prototype.slice.call(list.children)
+      .sort(function (a, b) { return (+a.getAttribute("data-next") || 9e15) - (+b.getAttribute("data-next") || 9e15); })
+      .forEach(function (li) { list.appendChild(li); });
+  }
+  var more = document.querySelector(".ev-grid-more");
+  if (more) sortList(more);
+  var grid = document.querySelector(".ev-list .ev-grid");
+  var rail = document.querySelector("[data-rail-list]");
+  if (rail && grid) {
+    // Rebuild the rail from the whole grid, so it really is the next ten
+    var limit = +rail.getAttribute("data-limit") || 10;
+    var soon = Array.prototype.slice.call(grid.children).filter(function (c) { return c.getAttribute("data-next"); })
+      .sort(function (a, b) { return a.getAttribute("data-next") - b.getAttribute("data-next"); }).slice(0, limit);
+    if (soon.length) {
+      rail.innerHTML = "";
+      soon.forEach(function (c, i) {
+        var n = c.cloneNode(true); n.classList.add("ev-card-rail");
+        if (i < 4) n.querySelectorAll("img").forEach(function (im) { im.removeAttribute("loading"); });
+        rail.appendChild(n);
+      });
+    }
+    document.querySelectorAll("[data-rail]").forEach(function (b) {
+      b.addEventListener("click", function () { rail.scrollBy({ left: +b.getAttribute("data-rail") * rail.clientWidth * .8, behavior: "smooth" }); });
+    });
+  }
+  if (!grid) return;
+  sortList(grid);
+
+  var count = document.querySelector("[data-count]");
   var host = (new URLSearchParams(location.search).get("host") || "").toLowerCase().replace(/[^a-z0-9-]/g, "");
   if (host) {
     var match = grid.querySelectorAll('.ev-card[data-host="' + host + '"]');
     if (match.length) {
       grid.querySelectorAll(".ev-card").forEach(function (c) { c.hidden = c.getAttribute("data-host") !== host; });
       var note = document.querySelector(".ev-hostfilter");
-      note.querySelector("strong").textContent = match[0].querySelector(".ev-card-where").textContent.split(" · ")[0];
+      note.querySelector("strong").textContent = match[0].querySelector(".ev-card-host").textContent.trim();
       note.hidden = false;
+      if (count) count.textContent = match.length;
+      var wrap = document.querySelector(".ev-rail-wrap"); if (wrap) wrap.hidden = true;
+      document.getElementById("all-h").scrollIntoView();
       return;
     }
   }
 
   var filters = document.querySelector(".ev-filters");
   if (filters) filters.hidden = false;
-  var chosen = { cat: "all", region: "all" };
+  var chosen = { when: "all", cat: "all", region: "all" };
   var empty = document.querySelector(".ev-empty");
+  function onDay(card) {
+    if (chosen.when === "all") return true;
+    return (card._occ || []).some(function (d) {
+      var n = dayDiff(d), wd = d.getDay();
+      if (chosen.when === "today") return n === 0;
+      if (chosen.when === "tomorrow") return n === 1;
+      // This weekend: the coming Saturday and Sunday (today included if it is one)
+      var toSun = (7 - today0.getDay()) % 7;
+      return (wd === 6 || wd === 0) && n <= toSun;
+    });
+  }
   function apply() {
     var shown = 0;
     grid.querySelectorAll(".ev-card").forEach(function (card) {
-      var show = (chosen.cat === "all" || card.getAttribute("data-cat") === chosen.cat) &&
+      var show = onDay(card) && (chosen.cat === "all" || card.getAttribute("data-cat") === chosen.cat) &&
         (chosen.region === "all" || card.getAttribute("data-region") === chosen.region);
       card.hidden = !show;
       if (show) shown++;
     });
     if (empty) empty.hidden = shown > 0;
+    if (count) count.textContent = shown;
   }
   document.querySelectorAll(".ev-filter-row").forEach(function (row) {
     var group = row.getAttribute("data-group");
@@ -96,11 +203,7 @@
     chips.forEach(function (chip) {
       chip.addEventListener("click", function () {
         chosen[group] = chip.getAttribute("data-filter");
-        chips.forEach(function (c) {
-          var on = c === chip;
-          c.classList.toggle("is-on", on);
-          c.setAttribute("aria-pressed", on ? "true" : "false");
-        });
+        chips.forEach(function (c) { var on = c === chip; c.classList.toggle("is-on", on); c.setAttribute("aria-pressed", on ? "true" : "false"); });
         apply();
       });
     });
