@@ -74,7 +74,10 @@
    "photo_alt": "Runners passing under autumn trees at Bushy parkrun",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/parkrun-bushy-480.jpg"
+   "photo_small": "/events/img/parkrun-bushy-480.jpg",
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-hampsteadheath",
@@ -135,7 +138,10 @@
    "photo_alt": "Runners at Hampstead Heath parkrun",
    "photo_w": 450,
    "photo_h": 562,
-   "photo_small": null
+   "photo_small": null,
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-finsbury",
@@ -196,7 +202,10 @@
    "photo_alt": "Runners at Finsbury parkrun",
    "photo_w": 450,
    "photo_h": 562,
-   "photo_small": null
+   "photo_small": null,
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-burgess",
@@ -260,7 +269,10 @@
    "photo_alt": "A tree-lined path in Burgess Park",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/parkrun-burgess-480.jpg"
+   "photo_small": "/events/img/parkrun-burgess-480.jpg",
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-brockwell",
@@ -321,7 +333,10 @@
    "photo_alt": "Runners at Brockwell parkrun",
    "photo_w": 450,
    "photo_h": 562,
-   "photo_small": null
+   "photo_small": null,
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-wormwoodscrubs",
@@ -382,7 +397,10 @@
    "photo_alt": "Runners at Wormwood Scrubs parkrun",
    "photo_w": 450,
    "photo_h": 562,
-   "photo_small": null
+   "photo_small": null,
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-mileend",
@@ -443,7 +461,10 @@
    "photo_alt": "Runners at Mile End parkrun",
    "photo_w": 450,
    "photo_h": 562,
-   "photo_small": null
+   "photo_small": null,
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-hackneymarshes",
@@ -507,7 +528,10 @@
    "photo_alt": "A path beside the River Lea on Hackney Marsh",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/parkrun-hackneymarshes-480.jpg"
+   "photo_small": "/events/img/parkrun-hackneymarshes-480.jpg",
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-southwark",
@@ -568,7 +592,10 @@
    "photo_alt": "Runners at Southwark parkrun",
    "photo_w": 450,
    "photo_h": 562,
-   "photo_small": null
+   "photo_small": null,
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-peckhamrye",
@@ -632,7 +659,10 @@
    "photo_alt": "A path across Peckham Rye Park",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/parkrun-peckhamrye-480.jpg"
+   "photo_small": "/events/img/parkrun-peckhamrye-480.jpg",
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-greenwich",
@@ -693,7 +723,10 @@
    "photo_alt": "Runners at Greenwich parkrun",
    "photo_w": 450,
    "photo_h": 562,
-   "photo_small": null
+   "photo_small": null,
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-richmond",
@@ -754,7 +787,10 @@
    "photo_alt": "Runners at Richmond Park parkrun",
    "photo_w": 450,
    "photo_h": 562,
-   "photo_small": null
+   "photo_small": null,
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-victoriadock",
@@ -815,7 +851,10 @@
    "photo_alt": "Runners at Victoria Dock parkrun",
    "photo_w": 450,
    "photo_h": 562,
-   "photo_small": null
+   "photo_small": null,
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-gunnersbury",
@@ -876,7 +915,10 @@
    "photo_alt": "Runners at Gunnersbury parkrun",
    "photo_w": 425,
    "photo_h": 531,
-   "photo_small": null
+   "photo_small": null,
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-crystalpalace",
@@ -937,7 +979,10 @@
    "photo_alt": "Runners at Crystal Palace parkrun",
    "photo_w": 331,
    "photo_h": 413,
-   "photo_small": null
+   "photo_small": null,
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-highburyfields",
@@ -998,7 +1043,10 @@
    "photo_alt": "Runners at Highbury Fields parkrun",
    "photo_w": 450,
    "photo_h": 562,
-   "photo_small": null
+   "photo_small": null,
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-fulhampalace",
@@ -1062,7 +1110,10 @@
    "photo_alt": "The lake and fountain in Bishops Park, Fulham",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/parkrun-fulhampalace-480.jpg"
+   "photo_small": "/events/img/parkrun-fulhampalace-480.jpg",
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "parkrun-dulwich",
@@ -1126,7 +1177,10 @@
    "photo_alt": "Trees and a sandy track in Dulwich Park",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/parkrun-dulwich-480.jpg"
+   "photo_small": "/events/img/parkrun-dulwich-480.jpg",
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "london-city-runners-river-run",
@@ -1218,7 +1272,10 @@
    "photo_alt": "River Run",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/london-city-runners-river-run-480.jpg"
+   "photo_small": "/events/img/london-city-runners-river-run-480.jpg",
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "london-social-runners-wednesday",
@@ -1279,7 +1336,11 @@
    "photo_alt": "Wednesday Run & Social",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/london-social-runners-wednesday-480.jpg"
+   "photo_small": "/events/img/london-social-runners-wednesday-480.jpg",
+   "lines": [
+    "physical",
+    "social"
+   ]
   },
   {
    "slug": "london-social-runners-saturday",
@@ -1340,7 +1401,10 @@
    "photo_alt": "Saturday Run & Brunch",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/london-social-runners-saturday-480.jpg"
+   "photo_small": "/events/img/london-social-runners-saturday-480.jpg",
+   "lines": [
+    "social"
+   ]
   },
   {
    "slug": "cheapside-run-club",
@@ -1404,7 +1468,11 @@
    "photo_alt": "The dome of St Paul's Cathedral seen from One New Change",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/cheapside-run-club-480.jpg"
+   "photo_small": "/events/img/cheapside-run-club-480.jpg",
+   "lines": [
+    "physical",
+    "social"
+   ]
   },
   {
    "slug": "our-parks-victory-park",
@@ -1504,7 +1572,10 @@
    "photo_alt": "Wetland planting and flats in East Village, Stratford",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/our-parks-victory-park-480.jpg"
+   "photo_small": "/events/img/our-parks-victory-park-480.jpg",
+   "lines": [
+    "physical"
+   ]
   },
   {
    "slug": "brent-roundwood-park-walk",
@@ -1569,7 +1640,10 @@
    "photo_alt": "The shelter and flower beds in Roundwood Park",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/brent-roundwood-park-walk-480.jpg"
+   "photo_small": "/events/img/brent-roundwood-park-walk-480.jpg",
+   "lines": [
+    "social"
+   ]
   },
   {
    "slug": "walk-tower-hamlets-zacchaeus",
@@ -1634,7 +1708,10 @@
    "photo_alt": "Weavers Fields in Bethnal Green",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/walk-tower-hamlets-zacchaeus-480.jpg"
+   "photo_small": "/events/img/walk-tower-hamlets-zacchaeus-480.jpg",
+   "lines": [
+    "social"
+   ]
   },
   {
    "slug": "walk-tower-hamlets-st-stephens",
@@ -1699,7 +1776,10 @@
    "photo_alt": "A tree-lined avenue in Victoria Park, Bow",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/walk-tower-hamlets-st-stephens-480.jpg"
+   "photo_small": "/events/img/walk-tower-hamlets-st-stephens-480.jpg",
+   "lines": [
+    "social"
+   ]
   },
   {
    "slug": "walk-tower-hamlets-harford",
@@ -1764,7 +1844,10 @@
    "photo_alt": "A path through Stepney Green",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/walk-tower-hamlets-harford-480.jpg"
+   "photo_small": "/events/img/walk-tower-hamlets-harford-480.jpg",
+   "lines": [
+    "social"
+   ]
   },
   {
    "slug": "walk-tower-hamlets-watts-grove",
@@ -1829,7 +1912,10 @@
    "photo_alt": "The towpath on the Limehouse Cut",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/walk-tower-hamlets-watts-grove-480.jpg"
+   "photo_small": "/events/img/walk-tower-hamlets-watts-grove-480.jpg",
+   "lines": [
+    "social"
+   ]
   },
   {
    "slug": "walk-tower-hamlets-bethnal-green-library",
@@ -1894,7 +1980,10 @@
    "photo_alt": "Bethnal Green Library",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/walk-tower-hamlets-bethnal-green-library-480.jpg"
+   "photo_small": "/events/img/walk-tower-hamlets-bethnal-green-library-480.jpg",
+   "lines": [
+    "social"
+   ]
   },
   {
    "slug": "walk-tower-hamlets-limehouse",
@@ -1959,7 +2048,10 @@
    "photo_alt": "Boats in Limehouse Basin",
    "photo_w": 900,
    "photo_h": 1125,
-   "photo_small": "/events/img/walk-tower-hamlets-limehouse-480.jpg"
+   "photo_small": "/events/img/walk-tower-hamlets-limehouse-480.jpg",
+   "lines": [
+    "social"
+   ]
   }
  ]
 }

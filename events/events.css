@@ -31,19 +31,20 @@ img { display: block; max-width: 100%; }
 .ev-nav .ev-nav-cta:hover { background: #e9e9ec; }
 
 /* ---------- Listing ---------- */
-.ev-hero { position: relative; min-height: min(78vh, 680px); display: flex; flex-direction: column; overflow: hidden; isolation: isolate; }
+.ev-hero { position: relative; display: flex; flex-direction: column; overflow: hidden; isolation: isolate; }
 .ev-hero-img { position: absolute; inset: 0; z-index: -1; }
 .ev-hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
-.ev-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(11,11,12,.55) 0%, rgba(11,11,12,.2) 28%, rgba(11,11,12,.62) 58%, var(--bg) 100%); }
-@media (max-width: 899px) { .ev-hero::after { background: linear-gradient(180deg, rgba(11,11,12,.5) 0%, rgba(11,11,12,.45) 30%, rgba(11,11,12,.78) 55%, var(--bg) 100%); } }
+.ev-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(11,11,12,.55) 0%, rgba(11,11,12,.3) 40%, rgba(11,11,12,.7) 80%, var(--bg) 100%); }
+@media (max-width: 899px) { .ev-hero::after { background: linear-gradient(180deg, rgba(11,11,12,.55) 0%, rgba(11,11,12,.5) 45%, rgba(11,11,12,.8) 80%, var(--bg) 100%); } }
 .ev-hero .ev-header { width: 100%; }
-.ev-hero-copy { width: 100%; max-width: 1200px; margin: auto auto 0; padding: 24px 24px 56px; }
+.ev-hero-copy { width: 100%; max-width: 1200px; margin: 0 auto; padding: 4px 24px 40px; }
 .ev-eyebrow { display: inline-block; font-weight: 700; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); background: rgba(11,11,12,.78); padding: 6px 12px; border-radius: 999px; }
-.ev-hero h1 { font-family: "Anton", Impact, sans-serif; font-weight: 400; text-transform: uppercase; font-size: clamp(3.6rem, 13vw, 8.5rem); line-height: .9; letter-spacing: .005em; margin: 10px 0 18px; text-shadow: 0 4px 30px rgba(0,0,0,.45); }
+.ev-hero h1 { font-family: "Anton", Impact, sans-serif; font-weight: 400; text-transform: uppercase; font-size: clamp(2.3rem, 10vw, 7rem); line-height: .95; letter-spacing: .005em; margin: 0; text-align: right; white-space: nowrap; text-shadow: 0 4px 30px rgba(0,0,0,.45); }
 .ev-lede { font-size: clamp(1.05rem, 2.2vw, 1.25rem); max-width: 44ch; color: #f1f1f3; text-shadow: 0 1px 12px rgba(0,0,0,.7); margin-bottom: 24px; }
 .ev-hero-btn { display: inline-block; font-weight: 700; text-decoration: none; background: var(--brand); color: #111; padding: 13px 26px; border-radius: 999px; }
 .ev-hero-btn:hover { filter: brightness(1.06); }
 .ev-hero-credit { position: absolute; right: 12px; bottom: 10px; }
+@media (max-width: 559px) { .ev-hero-copy { padding-bottom: 52px; } }
 .ev-credit { font-size: .7rem; color: #e5e5ea; background: rgba(0,0,0,.55); padding: 3px 9px; border-radius: 999px; }
 .ev-credit a { color: inherit; }
 
@@ -52,8 +53,10 @@ img { display: block; max-width: 100%; }
 .ev-count { color: var(--muted); font-weight: 500; }
 
 /* Rail: Partiful's "trending in London" row */
-.ev-rail-wrap { margin: 8px 0 56px; }
-.ev-rail-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 16px; }
+.ev-rail-wrap { margin: 0 0 36px; }
+.ev-rail-wrap[hidden] { display: none; }
+.ev-rail-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 12px; }
+.ev-list .ev-rail-head h2 { font-size: clamp(1.1rem, 2.4vw, 1.4rem); }
 .ev-rail-btns { display: none; gap: 8px; }
 @media (min-width: 900px) { .ev-rail-btns { display: flex; } }
 .ev-arrow { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: transparent; font-size: 1.5rem; line-height: 1; cursor: pointer; display: grid; place-items: center; padding-bottom: 3px; }
@@ -63,7 +66,15 @@ img { display: block; max-width: 100%; }
 .ev-rail > li { scroll-snap-align: start; }
 
 /* Filters: posh's Location / Date / Price row, as chips */
-.ev-all-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 16px; }
+.ev-all-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 0; border-top: 1px solid var(--line); cursor: pointer; list-style: none; }
+.ev-all-head::-webkit-details-marker { display: none; }
+.ev-all[open] .ev-all-head { margin-bottom: 8px; }
+.ev-all-toggle { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: .9rem; color: var(--muted); }
+.ev-all-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s ease; }
+.ev-all[open] .ev-all-toggle svg { transform: rotate(180deg); }
+.ev-all-head:hover .ev-all-toggle { color: var(--text); }
+.ev-all-close, .ev-all[open] .ev-all-open { display: none; }
+.ev-all[open] .ev-all-close { display: inline; }
 .ev-filters { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; position: sticky; top: 0; z-index: 4; background: linear-gradient(var(--bg) 82%, transparent); padding: 12px 0 14px; margin-left: -24px; margin-right: -24px; padding-left: 24px; padding-right: 24px; }
 .ev-filters[hidden], .ev-hostfilter[hidden], .ev-empty[hidden] { display: none; }
 .ev-filter-row { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
@@ -102,8 +113,8 @@ img { display: block; max-width: 100%; }
 .ev-av-xs img[src$=".jpg"], .ev-av-sm img[src$=".jpg"], .ev-av-lg img[src$=".jpg"] { object-fit: cover; padding: 0; }
 .ev-initials { background: var(--accent-ev, #c63b2f); color: #fff; }
 
-.ev-host-cta { margin: 72px 0 0; padding: 40px 28px; border-radius: 24px; background: radial-gradient(120% 140% at 100% 0%, rgba(255,210,0,.18), transparent 60%), var(--panel); text-align: center; }
-.ev-host-cta p { color: #d1d1d6; max-width: 56ch; margin: 10px auto 22px; }
+.ev-host-cta { margin: 56px 0 0; padding: 40px 28px; border-radius: 24px; background: radial-gradient(120% 140% at 100% 0%, rgba(255,210,0,.18), transparent 60%), var(--panel); text-align: center; }
+.ev-host-cta .ev-hero-btn { margin-top: 20px; }
 .ev-source { margin-top: 32px; color: var(--muted); font-size: .8rem; }
 .ev-source a { color: #d1d1d6; }
 

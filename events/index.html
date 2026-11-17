@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/events/events.css?v=6">
+  <link rel="stylesheet" href="/events/events.css?v=7">
   <link rel="preload" as="image" href="/events/img/hero-bushy-parkrun-960.jpg" media="(max-width: 899px)">
   <link rel="preload" as="image" href="/events/img/hero-bushy-parkrun.jpg" media="(min-width: 900px)">
 </head>
@@ -34,110 +34,106 @@
   <header class="ev-header">
     <a class="ev-logo" href="/">WeGoGym</a>
     <nav class="ev-nav" aria-label="Main">
-      <a href="/events/" aria-current="page">Events</a>
       <a class="ev-nav-cta" href="/waitlist/">Get the app</a>
     </nav>
   </header>
     <div class="ev-hero-copy">
-      <p class="ev-eyebrow">London &middot; 30 free events &middot; 24 organisers</p>
-      <h1>We go<br>outside</h1>
-      <p class="ev-lede">Free runs, outdoor classes and walks across London, every week. Pick one and turn up: you sign up with the organiser.</p>
-      <a class="ev-hero-btn" href="#main">See what's on</a>
+      <h1>What are we doing?</h1>
     </div>
     <span class="ev-credit ev-hero-credit">Photo: <a href="https://commons.wikimedia.org/wiki/File:Bushy_parkrun_27th_September_2014_(15194006519).jpg" target="_blank" rel="noopener">Kevin Wood</a>, <a href="https://creativecommons.org/licenses/by/2.0" target="_blank" rel="noopener">CC BY 2.0</a>, cropped</span>
   </section>
 
   <main id="main">
-    <section class="ev-rail-wrap" aria-labelledby="next-h">
+    <section class="ev-rail-wrap" aria-labelledby="next-h" data-rail-wrap="next">
       <div class="ev-rail-head">
         <h2 id="next-h">Happening next</h2>
-        <div class="ev-rail-btns"><button type="button" class="ev-arrow" data-rail="-1" aria-label="Scroll back">&lsaquo;</button><button type="button" class="ev-arrow" data-rail="1" aria-label="Scroll forward">&rsaquo;</button></div>
+        <div class="ev-rail-btns"><button type="button" class="ev-arrow" data-rail="-1" aria-label="Scroll Happening next back">&lsaquo;</button><button type="button" class="ev-arrow" data-rail="1" aria-label="Scroll Happening next forward">&rsaquo;</button></div>
       </div>
-      <ul class="ev-rail" data-rail-list data-limit="10">
-      <li class="ev-card ev-card-rail" data-cat="running" data-region="central" data-host="cheapside-business-alliance" data-rules="[{&quot;weekday&quot;:3,&quot;time&quot;:&quot;18:00&quot;}]">
+      <ul class="ev-rail" data-rail-list data-line="next" data-limit="10">
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="central" data-host="cheapside-business-alliance" data-lines="physical social" data-rules="[{&quot;weekday&quot;:3,&quot;time&quot;:&quot;18:00&quot;}]">
         <a href="/events/cheapside-run-club/">
-          <span class="ev-card-img"><img src="/events/img/cheapside-run-club-480.jpg?v=6" alt="" width="480" height="600" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/cheapside-run-club-480.jpg?v=7" alt="" width="480" height="600" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#3965ac">CB</span><span>Cheapside Business Alliance</span></span>
           <span class="ev-card-title">Cheapside Run Club</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Wednesday, 6:00pm</span></span>
           <span class="ev-card-where">Free &middot; St Paul&#x27;s, EC4</span>
         </a>
       </li>
-      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="london-city-runners" data-rules="[{&quot;weekday&quot;:2,&quot;time&quot;:&quot;18:15&quot;},{&quot;weekday&quot;:4,&quot;time&quot;:&quot;18:15&quot;},{&quot;weekday&quot;:0,&quot;time&quot;:&quot;10:30&quot;}]">
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="london-city-runners" data-lines="physical" data-rules="[{&quot;weekday&quot;:2,&quot;time&quot;:&quot;18:15&quot;},{&quot;weekday&quot;:4,&quot;time&quot;:&quot;18:15&quot;},{&quot;weekday&quot;:0,&quot;time&quot;:&quot;10:30&quot;}]">
         <a href="/events/london-city-runners-river-run/">
-          <span class="ev-card-img"><img src="/events/img/london-city-runners-river-run-480.jpg?v=6" alt="" width="480" height="600" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/london-city-runners-river-run-480.jpg?v=7" alt="" width="480" height="600" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs"><img src="/events/img/logo-lcr.png" alt="" loading="lazy"></span><span>London City Runners</span></span>
           <span class="ev-card-title">River Run</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Tuesday, Thursday and Sunday</span></span>
           <span class="ev-card-where">Free &middot; Bermondsey, SE1</span>
         </a>
       </li>
-      <li class="ev-card ev-card-rail" data-cat="running" data-region="west" data-host="london-social-runners" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;10:00&quot;}]">
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="west" data-host="london-social-runners" data-lines="social" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;10:00&quot;}]">
         <a href="/events/london-social-runners-saturday/">
-          <span class="ev-card-img"><img src="/events/img/london-social-runners-saturday-480.jpg?v=6" alt="" width="480" height="600" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/london-social-runners-saturday-480.jpg?v=7" alt="" width="480" height="600" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs"><img src="/events/img/lsr-cover.jpg" alt="" loading="lazy"></span><span>London Social Runners</span></span>
           <span class="ev-card-title">Saturday Run &amp; Brunch</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 10:00am</span></span>
           <span class="ev-card-where">Free &middot; Kensington, W8</span>
         </a>
       </li>
-      <li class="ev-card ev-card-rail" data-cat="running" data-region="central" data-host="london-social-runners" data-rules="[{&quot;weekday&quot;:3,&quot;time&quot;:&quot;19:00&quot;}]">
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="central" data-host="london-social-runners" data-lines="physical social" data-rules="[{&quot;weekday&quot;:3,&quot;time&quot;:&quot;19:00&quot;}]">
         <a href="/events/london-social-runners-wednesday/">
-          <span class="ev-card-img"><img src="/events/img/london-social-runners-wednesday-480.jpg?v=6" alt="" width="480" height="600" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/london-social-runners-wednesday-480.jpg?v=7" alt="" width="480" height="600" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs"><img src="/events/img/lsr-cover.jpg" alt="" loading="lazy"></span><span>London Social Runners</span></span>
           <span class="ev-card-title">Wednesday Run &amp; Social</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Wednesday, 7:00pm</span></span>
           <span class="ev-card-where">Free &middot; South Bank, SE1</span>
         </a>
       </li>
-      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="brockwell-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="brockwell-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-brockwell/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-brockwell.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-brockwell.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd2835">BP</span><span>Brockwell parkrun</span></span>
           <span class="ev-card-title">Brockwell parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Herne Hill</span>
         </a>
       </li>
-      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="burgess-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="burgess-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-burgess/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-burgess-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-burgess-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#757627">BP</span><span>Burgess parkrun</span></span>
           <span class="ev-card-title">Burgess parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Camberwell</span>
         </a>
       </li>
-      <li class="ev-card ev-card-rail" data-cat="running" data-region="west" data-host="bushy-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="west" data-host="bushy-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-bushy/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-bushy-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-bushy-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#866e2c">BP</span><span>Bushy parkrun</span></span>
           <span class="ev-card-title">Bushy parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Teddington</span>
         </a>
       </li>
-      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="crystal-palace-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="crystal-palace-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-crystalpalace/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-crystalpalace.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-crystalpalace.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd283c">CP</span><span>Crystal Palace parkrun</span></span>
           <span class="ev-card-title">Crystal Palace parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Crystal Palace</span>
         </a>
       </li>
-      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="dulwich-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="dulwich-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-dulwich/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-dulwich-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-dulwich-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#86712c">DP</span><span>Dulwich parkrun</span></span>
           <span class="ev-card-title">Dulwich parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Dulwich</span>
         </a>
       </li>
-      <li class="ev-card ev-card-rail" data-cat="running" data-region="north" data-host="finsbury-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="north" data-host="finsbury-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-finsbury/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-finsbury.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-finsbury.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd283f">FP</span><span>Finsbury parkrun</span></span>
           <span class="ev-card-title">Finsbury parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
@@ -146,11 +142,316 @@
       </li>
       </ul>
     </section>
-
-    <section class="ev-all" aria-labelledby="all-h">
-      <div class="ev-all-head">
-        <h2 id="all-h">All events <span class="ev-count" data-count>30</span></h2>
+    <section class="ev-rail-wrap" aria-labelledby="physical-h" data-rail-wrap="physical">
+      <div class="ev-rail-head">
+        <h2 id="physical-h">More physical</h2>
+        <div class="ev-rail-btns"><button type="button" class="ev-arrow" data-rail="-1" aria-label="Scroll More physical back">&lsaquo;</button><button type="button" class="ev-arrow" data-rail="1" aria-label="Scroll More physical forward">&rsaquo;</button></div>
       </div>
+      <ul class="ev-rail" data-rail-list data-line="physical">
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="central" data-host="cheapside-business-alliance" data-lines="physical social" data-rules="[{&quot;weekday&quot;:3,&quot;time&quot;:&quot;18:00&quot;}]">
+        <a href="/events/cheapside-run-club/">
+          <span class="ev-card-img"><img src="/events/img/cheapside-run-club-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#3965ac">CB</span><span>Cheapside Business Alliance</span></span>
+          <span class="ev-card-title">Cheapside Run Club</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Wednesday, 6:00pm</span></span>
+          <span class="ev-card-where">Free &middot; St Paul&#x27;s, EC4</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="london-city-runners" data-lines="physical" data-rules="[{&quot;weekday&quot;:2,&quot;time&quot;:&quot;18:15&quot;},{&quot;weekday&quot;:4,&quot;time&quot;:&quot;18:15&quot;},{&quot;weekday&quot;:0,&quot;time&quot;:&quot;10:30&quot;}]">
+        <a href="/events/london-city-runners-river-run/">
+          <span class="ev-card-img"><img src="/events/img/london-city-runners-river-run-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs"><img src="/events/img/logo-lcr.png" alt="" loading="lazy"></span><span>London City Runners</span></span>
+          <span class="ev-card-title">River Run</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Tuesday, Thursday and Sunday</span></span>
+          <span class="ev-card-where">Free &middot; Bermondsey, SE1</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="central" data-host="london-social-runners" data-lines="physical social" data-rules="[{&quot;weekday&quot;:3,&quot;time&quot;:&quot;19:00&quot;}]">
+        <a href="/events/london-social-runners-wednesday/">
+          <span class="ev-card-img"><img src="/events/img/london-social-runners-wednesday-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs"><img src="/events/img/lsr-cover.jpg" alt="" loading="lazy"></span><span>London Social Runners</span></span>
+          <span class="ev-card-title">Wednesday Run &amp; Social</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Wednesday, 7:00pm</span></span>
+          <span class="ev-card-where">Free &middot; South Bank, SE1</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="brockwell-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-brockwell/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-brockwell.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd2835">BP</span><span>Brockwell parkrun</span></span>
+          <span class="ev-card-title">Brockwell parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Herne Hill</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="burgess-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-burgess/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-burgess-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#757627">BP</span><span>Burgess parkrun</span></span>
+          <span class="ev-card-title">Burgess parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Camberwell</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="west" data-host="bushy-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-bushy/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-bushy-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#866e2c">BP</span><span>Bushy parkrun</span></span>
+          <span class="ev-card-title">Bushy parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Teddington</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="crystal-palace-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-crystalpalace/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-crystalpalace.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd283c">CP</span><span>Crystal Palace parkrun</span></span>
+          <span class="ev-card-title">Crystal Palace parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Crystal Palace</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="dulwich-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-dulwich/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-dulwich-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#86712c">DP</span><span>Dulwich parkrun</span></span>
+          <span class="ev-card-title">Dulwich parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Dulwich</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="north" data-host="finsbury-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-finsbury/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-finsbury.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd283f">FP</span><span>Finsbury parkrun</span></span>
+          <span class="ev-card-title">Finsbury parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Finsbury Park</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="west" data-host="fulham-palace-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-fulhampalace/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-fulhampalace-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#697627">FP</span><span>Fulham Palace parkrun</span></span>
+          <span class="ev-card-title">Fulham Palace parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Fulham</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="greenwich-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-greenwich/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-greenwich.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd2830">GP</span><span>Greenwich parkrun</span></span>
+          <span class="ev-card-title">Greenwich parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Eltham</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="west" data-host="gunnersbury-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-gunnersbury/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-gunnersbury.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd2830">GP</span><span>Gunnersbury parkrun</span></span>
+          <span class="ev-card-title">Gunnersbury parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Acton</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="east" data-host="hackney-marshes-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-hackneymarshes/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-hackneymarshes-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#627627">HM</span><span>Hackney Marshes parkrun</span></span>
+          <span class="ev-card-title">Hackney Marshes parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Hackney</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="north" data-host="hampstead-heath-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-hampsteadheath/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-hampsteadheath.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#2870bd">HH</span><span>Hampstead Heath parkrun</span></span>
+          <span class="ev-card-title">Hampstead Heath parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Hampstead</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="north" data-host="highbury-fields-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-highburyfields/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-highburyfields.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd2832">HF</span><span>Highbury Fields parkrun</span></span>
+          <span class="ev-card-title">Highbury Fields parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Highbury</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="east" data-host="mile-end-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-mileend/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-mileend.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd2c28">ME</span><span>Mile End parkrun</span></span>
+          <span class="ev-card-title">Mile End parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Mile End</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="peckham-rye-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-peckhamrye/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-peckhamrye-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#627627">PR</span><span>Peckham Rye parkrun</span></span>
+          <span class="ev-card-title">Peckham Rye parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Peckham</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="west" data-host="richmond-park-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-richmond/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-richmond.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd2838">RP</span><span>Richmond Park parkrun</span></span>
+          <span class="ev-card-title">Richmond Park parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Richmond</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="south" data-host="southwark-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-southwark/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-southwark.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd2836">SP</span><span>Southwark parkrun</span></span>
+          <span class="ev-card-title">Southwark parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Bermondsey</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="east" data-host="victoria-dock-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-victoriadock/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-victoriadock.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd3a28">VD</span><span>Victoria Dock parkrun</span></span>
+          <span class="ev-card-title">Victoria Dock parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; Royal Docks</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="west" data-host="wormwood-scrubs-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+        <a href="/events/parkrun-wormwoodscrubs/">
+          <span class="ev-card-img"><img src="/events/img/parkrun-wormwoodscrubs.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#ac5924">WS</span><span>Wormwood Scrubs parkrun</span></span>
+          <span class="ev-card-title">Wormwood Scrubs parkrun</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
+          <span class="ev-card-where">Free &middot; White City</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="fitness" data-region="east" data-host="our-parks" data-lines="physical" data-rules="[{&quot;weekday&quot;:1,&quot;time&quot;:&quot;19:00&quot;},{&quot;weekday&quot;:2,&quot;time&quot;:&quot;18:30&quot;},{&quot;weekday&quot;:4,&quot;time&quot;:&quot;18:30&quot;},{&quot;weekday&quot;:6,&quot;time&quot;:&quot;10:00&quot;},{&quot;weekday&quot;:0,&quot;time&quot;:&quot;08:30&quot;}]">
+        <a href="/events/our-parks-victory-park/">
+          <span class="ev-card-img"><img src="/events/img/our-parks-victory-park-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs"><img src="/events/img/logo-ourparks.png" alt="" loading="lazy"></span><span>Our Parks</span></span>
+          <span class="ev-card-title">Our Parks at Victory Park</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Monday, Tuesday, Thursday, Saturday and Sunday</span></span>
+          <span class="ev-card-where">Free &middot; Stratford, E20</span>
+        </a>
+      </li>
+      </ul>
+    </section>
+    <section class="ev-rail-wrap" aria-labelledby="social-h" data-rail-wrap="social">
+      <div class="ev-rail-head">
+        <h2 id="social-h">More social</h2>
+        <div class="ev-rail-btns"><button type="button" class="ev-arrow" data-rail="-1" aria-label="Scroll More social back">&lsaquo;</button><button type="button" class="ev-arrow" data-rail="1" aria-label="Scroll More social forward">&rsaquo;</button></div>
+      </div>
+      <ul class="ev-rail" data-rail-list data-line="social">
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="central" data-host="cheapside-business-alliance" data-lines="physical social" data-rules="[{&quot;weekday&quot;:3,&quot;time&quot;:&quot;18:00&quot;}]">
+        <a href="/events/cheapside-run-club/">
+          <span class="ev-card-img"><img src="/events/img/cheapside-run-club-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#3965ac">CB</span><span>Cheapside Business Alliance</span></span>
+          <span class="ev-card-title">Cheapside Run Club</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Wednesday, 6:00pm</span></span>
+          <span class="ev-card-where">Free &middot; St Paul&#x27;s, EC4</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="west" data-host="london-social-runners" data-lines="social" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;10:00&quot;}]">
+        <a href="/events/london-social-runners-saturday/">
+          <span class="ev-card-img"><img src="/events/img/london-social-runners-saturday-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs"><img src="/events/img/lsr-cover.jpg" alt="" loading="lazy"></span><span>London Social Runners</span></span>
+          <span class="ev-card-title">Saturday Run &amp; Brunch</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 10:00am</span></span>
+          <span class="ev-card-where">Free &middot; Kensington, W8</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="running" data-region="central" data-host="london-social-runners" data-lines="physical social" data-rules="[{&quot;weekday&quot;:3,&quot;time&quot;:&quot;19:00&quot;}]">
+        <a href="/events/london-social-runners-wednesday/">
+          <span class="ev-card-img"><img src="/events/img/london-social-runners-wednesday-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs"><img src="/events/img/lsr-cover.jpg" alt="" loading="lazy"></span><span>London Social Runners</span></span>
+          <span class="ev-card-title">Wednesday Run &amp; Social</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Wednesday, 7:00pm</span></span>
+          <span class="ev-card-where">Free &middot; South Bank, SE1</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="walking" data-region="west" data-host="brent-council-walking-for-health" data-lines="social" data-rules="[{&quot;weekday&quot;:3,&quot;time&quot;:&quot;10:30&quot;,&quot;end&quot;:&quot;11:30&quot;}]">
+        <a href="/events/brent-roundwood-park-walk/">
+          <span class="ev-card-img"><img src="/events/img/brent-roundwood-park-walk-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#1975b7">BC</span><span>Brent Council Walking for Health</span></span>
+          <span class="ev-card-title">Wellbeing Walk: Roundwood Park</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Wednesday, 10:30am to 11:30am</span></span>
+          <span class="ev-card-where">Free &middot; Harlesden, NW10</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-lines="social" data-rules="[{&quot;weekday&quot;:4,&quot;time&quot;:&quot;11:30&quot;,&quot;end&quot;:&quot;13:00&quot;}]">
+        <a href="/events/walk-tower-hamlets-bethnal-green-library/">
+          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-bethnal-green-library-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#9d6634">WT</span><span>Walk Tower Hamlets</span></span>
+          <span class="ev-card-title">Wellbeing Walk: Bethnal Green Library</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Thursday, 11:30am to 1:00pm</span></span>
+          <span class="ev-card-where">Free &middot; Bethnal Green, E2</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-lines="social" data-rules="[{&quot;weekday&quot;:2,&quot;time&quot;:&quot;11:30&quot;,&quot;end&quot;:&quot;13:00&quot;}]">
+        <a href="/events/walk-tower-hamlets-harford/">
+          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-harford-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#697627">WT</span><span>Walk Tower Hamlets</span></span>
+          <span class="ev-card-title">Wellbeing Walk: Harford Centre</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Tuesday, 11:30am to 1:00pm</span></span>
+          <span class="ev-card-where">Free &middot; Stepney, E1</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-lines="social" data-rules="[{&quot;weekday&quot;:4,&quot;time&quot;:&quot;13:30&quot;,&quot;end&quot;:&quot;15:00&quot;}]">
+        <a href="/events/walk-tower-hamlets-limehouse/">
+          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-limehouse-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#2a75b0">WT</span><span>Walk Tower Hamlets</span></span>
+          <span class="ev-card-title">Wellbeing Walk: Limehouse</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Thursday, 1:30pm to 3:00pm</span></span>
+          <span class="ev-card-where">Free &middot; Limehouse, E14</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-lines="social" data-rules="[{&quot;weekday&quot;:2,&quot;time&quot;:&quot;10:00&quot;,&quot;end&quot;:&quot;11:30&quot;}]">
+        <a href="/events/walk-tower-hamlets-st-stephens/">
+          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-st-stephens-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#767627">WT</span><span>Walk Tower Hamlets</span></span>
+          <span class="ev-card-title">Wellbeing Walk: St Stephen&#x27;s</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Tuesday, 10:00am to 11:30am</span></span>
+          <span class="ev-card-where">Free &middot; Bow, E3</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-lines="social" data-rules="[{&quot;weekday&quot;:4,&quot;time&quot;:&quot;10:00&quot;,&quot;end&quot;:&quot;11:30&quot;}]">
+        <a href="/events/walk-tower-hamlets-watts-grove/">
+          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-watts-grove-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#2a7e43">WT</span><span>Walk Tower Hamlets</span></span>
+          <span class="ev-card-title">Wellbeing Walk: Watts Grove</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Thursday, 10:00am to 11:30am</span></span>
+          <span class="ev-card-where">Free &middot; Bromley-by-Bow, E3</span>
+        </a>
+      </li>
+      <li class="ev-card ev-card-rail" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-lines="social" data-rules="[{&quot;weekday&quot;:1,&quot;time&quot;:&quot;10:30&quot;,&quot;end&quot;:&quot;12:00&quot;}]">
+        <a href="/events/walk-tower-hamlets-zacchaeus/">
+          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-zacchaeus-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#3764ae">WT</span><span>Walk Tower Hamlets</span></span>
+          <span class="ev-card-title">Wellbeing Walk: Zacchaeus Project</span>
+          <span class="ev-card-meta"><span class="ev-next-short">Every Monday, 10:30am to 12:00pm</span></span>
+          <span class="ev-card-where">Free &middot; Bethnal Green, E2</span>
+        </a>
+      </li>
+      </ul>
+    </section>
+
+    <details class="ev-all" aria-labelledby="all-h">
+      <summary class="ev-all-head">
+        <h2 id="all-h">All events <span class="ev-count" data-count>30</span></h2>
+        <span class="ev-all-toggle" aria-hidden="true"><span class="ev-all-open">Show all</span><span class="ev-all-close">Hide</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>
+      </summary>
       <div class="ev-filters" hidden>
         <div class="ev-filter-row" role="group" aria-label="When" data-group="when">
           <button type="button" class="ev-chip is-on" data-filter="all" aria-pressed="true">Any day</button>
@@ -168,270 +469,270 @@
       <p class="ev-hostfilter" hidden>Showing events by <strong></strong>. <a href="/events/">See all events</a></p>
       <p class="ev-empty" role="status" hidden>Nothing matches those filters. Try another day or area.</p>
       <ul class="ev-grid">
-      <li class="ev-card" data-cat="running" data-region="central" data-host="cheapside-business-alliance" data-rules="[{&quot;weekday&quot;:3,&quot;time&quot;:&quot;18:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="central" data-host="cheapside-business-alliance" data-lines="physical social" data-rules="[{&quot;weekday&quot;:3,&quot;time&quot;:&quot;18:00&quot;}]">
         <a href="/events/cheapside-run-club/">
-          <span class="ev-card-img"><img src="/events/img/cheapside-run-club-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/cheapside-run-club-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#3965ac">CB</span><span>Cheapside Business Alliance</span></span>
           <span class="ev-card-title">Cheapside Run Club</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Wednesday, 6:00pm</span></span>
           <span class="ev-card-where">Free &middot; St Paul&#x27;s, EC4</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="south" data-host="london-city-runners" data-rules="[{&quot;weekday&quot;:2,&quot;time&quot;:&quot;18:15&quot;},{&quot;weekday&quot;:4,&quot;time&quot;:&quot;18:15&quot;},{&quot;weekday&quot;:0,&quot;time&quot;:&quot;10:30&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="south" data-host="london-city-runners" data-lines="physical" data-rules="[{&quot;weekday&quot;:2,&quot;time&quot;:&quot;18:15&quot;},{&quot;weekday&quot;:4,&quot;time&quot;:&quot;18:15&quot;},{&quot;weekday&quot;:0,&quot;time&quot;:&quot;10:30&quot;}]">
         <a href="/events/london-city-runners-river-run/">
-          <span class="ev-card-img"><img src="/events/img/london-city-runners-river-run-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/london-city-runners-river-run-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs"><img src="/events/img/logo-lcr.png" alt="" loading="lazy"></span><span>London City Runners</span></span>
           <span class="ev-card-title">River Run</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Tuesday, Thursday and Sunday</span></span>
           <span class="ev-card-where">Free &middot; Bermondsey, SE1</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="west" data-host="london-social-runners" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;10:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="west" data-host="london-social-runners" data-lines="social" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;10:00&quot;}]">
         <a href="/events/london-social-runners-saturday/">
-          <span class="ev-card-img"><img src="/events/img/london-social-runners-saturday-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/london-social-runners-saturday-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs"><img src="/events/img/lsr-cover.jpg" alt="" loading="lazy"></span><span>London Social Runners</span></span>
           <span class="ev-card-title">Saturday Run &amp; Brunch</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 10:00am</span></span>
           <span class="ev-card-where">Free &middot; Kensington, W8</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="central" data-host="london-social-runners" data-rules="[{&quot;weekday&quot;:3,&quot;time&quot;:&quot;19:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="central" data-host="london-social-runners" data-lines="physical social" data-rules="[{&quot;weekday&quot;:3,&quot;time&quot;:&quot;19:00&quot;}]">
         <a href="/events/london-social-runners-wednesday/">
-          <span class="ev-card-img"><img src="/events/img/london-social-runners-wednesday-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/london-social-runners-wednesday-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs"><img src="/events/img/lsr-cover.jpg" alt="" loading="lazy"></span><span>London Social Runners</span></span>
           <span class="ev-card-title">Wednesday Run &amp; Social</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Wednesday, 7:00pm</span></span>
           <span class="ev-card-where">Free &middot; South Bank, SE1</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="south" data-host="brockwell-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="south" data-host="brockwell-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-brockwell/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-brockwell.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-brockwell.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd2835">BP</span><span>Brockwell parkrun</span></span>
           <span class="ev-card-title">Brockwell parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Herne Hill</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="south" data-host="burgess-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="south" data-host="burgess-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-burgess/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-burgess-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-burgess-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#757627">BP</span><span>Burgess parkrun</span></span>
           <span class="ev-card-title">Burgess parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Camberwell</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="west" data-host="bushy-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="west" data-host="bushy-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-bushy/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-bushy-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-bushy-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#866e2c">BP</span><span>Bushy parkrun</span></span>
           <span class="ev-card-title">Bushy parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Teddington</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="south" data-host="crystal-palace-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="south" data-host="crystal-palace-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-crystalpalace/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-crystalpalace.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-crystalpalace.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd283c">CP</span><span>Crystal Palace parkrun</span></span>
           <span class="ev-card-title">Crystal Palace parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Crystal Palace</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="south" data-host="dulwich-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="south" data-host="dulwich-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-dulwich/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-dulwich-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-dulwich-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#86712c">DP</span><span>Dulwich parkrun</span></span>
           <span class="ev-card-title">Dulwich parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Dulwich</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="north" data-host="finsbury-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="north" data-host="finsbury-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-finsbury/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-finsbury.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-finsbury.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd283f">FP</span><span>Finsbury parkrun</span></span>
           <span class="ev-card-title">Finsbury parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Finsbury Park</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="west" data-host="fulham-palace-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="west" data-host="fulham-palace-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-fulhampalace/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-fulhampalace-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-fulhampalace-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#697627">FP</span><span>Fulham Palace parkrun</span></span>
           <span class="ev-card-title">Fulham Palace parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Fulham</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="south" data-host="greenwich-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="south" data-host="greenwich-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-greenwich/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-greenwich.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-greenwich.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd2830">GP</span><span>Greenwich parkrun</span></span>
           <span class="ev-card-title">Greenwich parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Eltham</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="west" data-host="gunnersbury-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="west" data-host="gunnersbury-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-gunnersbury/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-gunnersbury.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-gunnersbury.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd2830">GP</span><span>Gunnersbury parkrun</span></span>
           <span class="ev-card-title">Gunnersbury parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Acton</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="east" data-host="hackney-marshes-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="east" data-host="hackney-marshes-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-hackneymarshes/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-hackneymarshes-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-hackneymarshes-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#627627">HM</span><span>Hackney Marshes parkrun</span></span>
           <span class="ev-card-title">Hackney Marshes parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Hackney</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="north" data-host="hampstead-heath-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="north" data-host="hampstead-heath-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-hampsteadheath/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-hampsteadheath.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-hampsteadheath.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#2870bd">HH</span><span>Hampstead Heath parkrun</span></span>
           <span class="ev-card-title">Hampstead Heath parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Hampstead</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="north" data-host="highbury-fields-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="north" data-host="highbury-fields-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-highburyfields/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-highburyfields.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-highburyfields.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd2832">HF</span><span>Highbury Fields parkrun</span></span>
           <span class="ev-card-title">Highbury Fields parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Highbury</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="east" data-host="mile-end-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="east" data-host="mile-end-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-mileend/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-mileend.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-mileend.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd2c28">ME</span><span>Mile End parkrun</span></span>
           <span class="ev-card-title">Mile End parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Mile End</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="south" data-host="peckham-rye-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="south" data-host="peckham-rye-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-peckhamrye/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-peckhamrye-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-peckhamrye-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#627627">PR</span><span>Peckham Rye parkrun</span></span>
           <span class="ev-card-title">Peckham Rye parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Peckham</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="west" data-host="richmond-park-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="west" data-host="richmond-park-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-richmond/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-richmond.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-richmond.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd2838">RP</span><span>Richmond Park parkrun</span></span>
           <span class="ev-card-title">Richmond Park parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Richmond</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="south" data-host="southwark-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="south" data-host="southwark-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-southwark/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-southwark.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-southwark.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd2836">SP</span><span>Southwark parkrun</span></span>
           <span class="ev-card-title">Southwark parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Bermondsey</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="east" data-host="victoria-dock-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="east" data-host="victoria-dock-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-victoriadock/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-victoriadock.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-victoriadock.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#bd3a28">VD</span><span>Victoria Dock parkrun</span></span>
           <span class="ev-card-title">Victoria Dock parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; Royal Docks</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="running" data-region="west" data-host="wormwood-scrubs-parkrun" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
+      <li class="ev-card" data-cat="running" data-region="west" data-host="wormwood-scrubs-parkrun" data-lines="physical" data-rules="[{&quot;weekday&quot;:6,&quot;time&quot;:&quot;09:00&quot;}]">
         <a href="/events/parkrun-wormwoodscrubs/">
-          <span class="ev-card-img"><img src="/events/img/parkrun-wormwoodscrubs.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/parkrun-wormwoodscrubs.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#ac5924">WS</span><span>Wormwood Scrubs parkrun</span></span>
           <span class="ev-card-title">Wormwood Scrubs parkrun</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Saturday, 9:00am</span></span>
           <span class="ev-card-where">Free &middot; White City</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="walking" data-region="west" data-host="brent-council-walking-for-health" data-rules="[{&quot;weekday&quot;:3,&quot;time&quot;:&quot;10:30&quot;,&quot;end&quot;:&quot;11:30&quot;}]">
+      <li class="ev-card" data-cat="walking" data-region="west" data-host="brent-council-walking-for-health" data-lines="social" data-rules="[{&quot;weekday&quot;:3,&quot;time&quot;:&quot;10:30&quot;,&quot;end&quot;:&quot;11:30&quot;}]">
         <a href="/events/brent-roundwood-park-walk/">
-          <span class="ev-card-img"><img src="/events/img/brent-roundwood-park-walk-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/brent-roundwood-park-walk-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#1975b7">BC</span><span>Brent Council Walking for Health</span></span>
           <span class="ev-card-title">Wellbeing Walk: Roundwood Park</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Wednesday, 10:30am to 11:30am</span></span>
           <span class="ev-card-where">Free &middot; Harlesden, NW10</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="fitness" data-region="east" data-host="our-parks" data-rules="[{&quot;weekday&quot;:1,&quot;time&quot;:&quot;19:00&quot;},{&quot;weekday&quot;:2,&quot;time&quot;:&quot;18:30&quot;},{&quot;weekday&quot;:4,&quot;time&quot;:&quot;18:30&quot;},{&quot;weekday&quot;:6,&quot;time&quot;:&quot;10:00&quot;},{&quot;weekday&quot;:0,&quot;time&quot;:&quot;08:30&quot;}]">
+      <li class="ev-card" data-cat="fitness" data-region="east" data-host="our-parks" data-lines="physical" data-rules="[{&quot;weekday&quot;:1,&quot;time&quot;:&quot;19:00&quot;},{&quot;weekday&quot;:2,&quot;time&quot;:&quot;18:30&quot;},{&quot;weekday&quot;:4,&quot;time&quot;:&quot;18:30&quot;},{&quot;weekday&quot;:6,&quot;time&quot;:&quot;10:00&quot;},{&quot;weekday&quot;:0,&quot;time&quot;:&quot;08:30&quot;}]">
         <a href="/events/our-parks-victory-park/">
-          <span class="ev-card-img"><img src="/events/img/our-parks-victory-park-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/our-parks-victory-park-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs"><img src="/events/img/logo-ourparks.png" alt="" loading="lazy"></span><span>Our Parks</span></span>
           <span class="ev-card-title">Our Parks at Victory Park</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Monday, Tuesday, Thursday, Saturday and Sunday</span></span>
           <span class="ev-card-where">Free &middot; Stratford, E20</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-rules="[{&quot;weekday&quot;:4,&quot;time&quot;:&quot;11:30&quot;,&quot;end&quot;:&quot;13:00&quot;}]">
+      <li class="ev-card" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-lines="social" data-rules="[{&quot;weekday&quot;:4,&quot;time&quot;:&quot;11:30&quot;,&quot;end&quot;:&quot;13:00&quot;}]">
         <a href="/events/walk-tower-hamlets-bethnal-green-library/">
-          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-bethnal-green-library-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-bethnal-green-library-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#9d6634">WT</span><span>Walk Tower Hamlets</span></span>
           <span class="ev-card-title">Wellbeing Walk: Bethnal Green Library</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Thursday, 11:30am to 1:00pm</span></span>
           <span class="ev-card-where">Free &middot; Bethnal Green, E2</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-rules="[{&quot;weekday&quot;:2,&quot;time&quot;:&quot;11:30&quot;,&quot;end&quot;:&quot;13:00&quot;}]">
+      <li class="ev-card" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-lines="social" data-rules="[{&quot;weekday&quot;:2,&quot;time&quot;:&quot;11:30&quot;,&quot;end&quot;:&quot;13:00&quot;}]">
         <a href="/events/walk-tower-hamlets-harford/">
-          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-harford-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-harford-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#697627">WT</span><span>Walk Tower Hamlets</span></span>
           <span class="ev-card-title">Wellbeing Walk: Harford Centre</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Tuesday, 11:30am to 1:00pm</span></span>
           <span class="ev-card-where">Free &middot; Stepney, E1</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-rules="[{&quot;weekday&quot;:4,&quot;time&quot;:&quot;13:30&quot;,&quot;end&quot;:&quot;15:00&quot;}]">
+      <li class="ev-card" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-lines="social" data-rules="[{&quot;weekday&quot;:4,&quot;time&quot;:&quot;13:30&quot;,&quot;end&quot;:&quot;15:00&quot;}]">
         <a href="/events/walk-tower-hamlets-limehouse/">
-          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-limehouse-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-limehouse-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#2a75b0">WT</span><span>Walk Tower Hamlets</span></span>
           <span class="ev-card-title">Wellbeing Walk: Limehouse</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Thursday, 1:30pm to 3:00pm</span></span>
           <span class="ev-card-where">Free &middot; Limehouse, E14</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-rules="[{&quot;weekday&quot;:2,&quot;time&quot;:&quot;10:00&quot;,&quot;end&quot;:&quot;11:30&quot;}]">
+      <li class="ev-card" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-lines="social" data-rules="[{&quot;weekday&quot;:2,&quot;time&quot;:&quot;10:00&quot;,&quot;end&quot;:&quot;11:30&quot;}]">
         <a href="/events/walk-tower-hamlets-st-stephens/">
-          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-st-stephens-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-st-stephens-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#767627">WT</span><span>Walk Tower Hamlets</span></span>
           <span class="ev-card-title">Wellbeing Walk: St Stephen&#x27;s</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Tuesday, 10:00am to 11:30am</span></span>
           <span class="ev-card-where">Free &middot; Bow, E3</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-rules="[{&quot;weekday&quot;:4,&quot;time&quot;:&quot;10:00&quot;,&quot;end&quot;:&quot;11:30&quot;}]">
+      <li class="ev-card" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-lines="social" data-rules="[{&quot;weekday&quot;:4,&quot;time&quot;:&quot;10:00&quot;,&quot;end&quot;:&quot;11:30&quot;}]">
         <a href="/events/walk-tower-hamlets-watts-grove/">
-          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-watts-grove-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-watts-grove-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#2a7e43">WT</span><span>Walk Tower Hamlets</span></span>
           <span class="ev-card-title">Wellbeing Walk: Watts Grove</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Thursday, 10:00am to 11:30am</span></span>
           <span class="ev-card-where">Free &middot; Bromley-by-Bow, E3</span>
         </a>
       </li>
-      <li class="ev-card" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-rules="[{&quot;weekday&quot;:1,&quot;time&quot;:&quot;10:30&quot;,&quot;end&quot;:&quot;12:00&quot;}]">
+      <li class="ev-card" data-cat="walking" data-region="east" data-host="walk-tower-hamlets" data-lines="social" data-rules="[{&quot;weekday&quot;:1,&quot;time&quot;:&quot;10:30&quot;,&quot;end&quot;:&quot;12:00&quot;}]">
         <a href="/events/walk-tower-hamlets-zacchaeus/">
-          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-zacchaeus-480.jpg?v=6" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
+          <span class="ev-card-img"><img src="/events/img/walk-tower-hamlets-zacchaeus-480.jpg?v=7" alt="" width="480" height="600" loading="lazy" decoding="async"><span class="ev-card-date ev-next-badge" hidden></span></span>
           <span class="ev-card-host"><span class="ev-av-xs ev-initials" style="--accent-ev:#3764ae">WT</span><span>Walk Tower Hamlets</span></span>
           <span class="ev-card-title">Wellbeing Walk: Zacchaeus Project</span>
           <span class="ev-card-meta"><span class="ev-next-short">Every Monday, 10:30am to 12:00pm</span></span>
@@ -439,15 +740,12 @@
         </a>
       </li>
       </ul>
-    </section>
+    </details>
 
     <section class="ev-host-cta">
-      <h2>Run something people should know about?</h2>
-      <p>WeGoGym is where London's runs, classes and walks get found. Listings are free. Email us and we will add yours, or fix or remove one that is already here.</p>
+      <h2>Throw your own event</h2>
       <a class="ev-hero-btn" href="mailto:hello@wegogym.club?subject=List%20my%20event">List your event</a>
     </section>
-
-    <p class="ev-source">Listed by WeGoGym from organisers' public information. WeGoGym does not run these events; confirm details with the organiser before you go. Photos belong to the organisers or are credited on each event page.</p>
   </main>
 
   <footer class="ev-footer">
@@ -456,6 +754,6 @@
     <a href="/terms/">Terms of Use</a>
     <span>&copy; 2026 WeGoGym</span>
   </footer>
-  <script src="/events/events.js?v=6" defer></script>
+  <script src="/events/events.js?v=7" defer></script>
 </body>
 </html>

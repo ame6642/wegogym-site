@@ -1,5 +1,5 @@
 // WeGoGym events: next dates in London time, soonest-first sorting, the day / type / area / host filters,
-// the "Happening next" rail, Add to calendar and Share. Without JavaScript every page still reads correctly.
+// the three scrolling rows, the collapsible all-events list, Add to calendar and Share. Without JavaScript every page still reads correctly.
 (function () {
   "use strict";
   function londonNow() {
@@ -134,22 +134,28 @@
   var more = document.querySelector(".ev-grid-more");
   if (more) sortList(more);
   var grid = document.querySelector(".ev-list .ev-grid");
-  var rail = document.querySelector("[data-rail-list]");
-  if (rail && grid) {
-    // Rebuild the rail from the whole grid, so it really is the next ten
-    var limit = +rail.getAttribute("data-limit") || 10;
-    var soon = Array.prototype.slice.call(grid.children).filter(function (c) { return c.getAttribute("data-next"); })
-      .sort(function (a, b) { return a.getAttribute("data-next") - b.getAttribute("data-next"); }).slice(0, limit);
-    if (soon.length) {
-      rail.innerHTML = "";
-      soon.forEach(function (c, i) {
-        var n = c.cloneNode(true); n.classList.add("ev-card-rail");
-        if (i < 4) n.querySelectorAll("img").forEach(function (im) { im.removeAttribute("loading"); });
-        rail.appendChild(n);
+  if (grid) {
+    // Rebuild every row from the whole grid, so each really is soonest first
+    var cards = Array.prototype.slice.call(grid.children);
+    document.querySelectorAll("[data-rail-wrap]").forEach(function (wrap) {
+      var rail = wrap.querySelector("[data-rail-list]");
+      var line = rail.getAttribute("data-line");
+      var limit = +rail.getAttribute("data-limit") || 0;
+      var picked = cards.filter(function (c) {
+        return c.getAttribute("data-next") && (line === "next" || (c.getAttribute("data-lines") || "").split(" ").indexOf(line) > -1);
+      }).sort(function (x, y) { return x.getAttribute("data-next") - y.getAttribute("data-next"); });
+      if (limit) picked = picked.slice(0, limit);
+      if (picked.length) {
+        rail.innerHTML = "";
+        picked.forEach(function (c, i) {
+          var n = c.cloneNode(true); n.classList.add("ev-card-rail");
+          n.querySelectorAll("img").forEach(function (im) { if (line === "next" && i < 4) im.removeAttribute("loading"); });
+          rail.appendChild(n);
+        });
+      }
+      wrap.querySelectorAll("[data-rail]").forEach(function (btn) {
+        btn.addEventListener("click", function () { rail.scrollBy({ left: +btn.getAttribute("data-rail") * rail.clientWidth * .8, behavior: "smooth" }); });
       });
-    }
-    document.querySelectorAll("[data-rail]").forEach(function (b) {
-      b.addEventListener("click", function () { rail.scrollBy({ left: +b.getAttribute("data-rail") * rail.clientWidth * .8, behavior: "smooth" }); });
     });
   }
   if (!grid) return;
@@ -165,7 +171,8 @@
       note.querySelector("strong").textContent = match[0].querySelector(".ev-card-host").textContent.trim();
       note.hidden = false;
       if (count) count.textContent = match.length;
-      var wrap = document.querySelector(".ev-rail-wrap"); if (wrap) wrap.hidden = true;
+      document.querySelectorAll(".ev-rail-wrap").forEach(function (w) { w.hidden = true; });
+      var all = document.querySelector(".ev-all"); if (all) all.open = true;
       document.getElementById("all-h").scrollIntoView();
       return;
     }
