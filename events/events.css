@@ -37,9 +37,9 @@ img { display: block; max-width: 100%; }
 .ev-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(11,11,12,.55) 0%, rgba(11,11,12,.3) 40%, rgba(11,11,12,.7) 80%, var(--bg) 100%); }
 @media (max-width: 899px) { .ev-hero::after { background: linear-gradient(180deg, rgba(11,11,12,.55) 0%, rgba(11,11,12,.5) 45%, rgba(11,11,12,.8) 80%, var(--bg) 100%); } }
 .ev-hero .ev-header { width: 100%; }
-.ev-hero-copy { width: 100%; max-width: 1200px; margin: 0 auto; padding: 4px 24px 40px; }
+.ev-hero-copy { width: 100%; max-width: 1200px; margin: 0 auto; padding: 4px 24px 28px; }
 .ev-eyebrow { display: inline-block; font-weight: 700; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); background: rgba(11,11,12,.78); padding: 6px 12px; border-radius: 999px; }
-.ev-hero h1 { font-family: "Anton", Impact, sans-serif; font-weight: 400; text-transform: uppercase; font-size: clamp(2.3rem, 10vw, 7rem); line-height: .95; letter-spacing: .005em; margin: 0; text-align: right; white-space: nowrap; text-shadow: 0 4px 30px rgba(0,0,0,.45); }
+.ev-hero h1 { font-family: "Anton", Impact, sans-serif; font-weight: 400; text-transform: uppercase; font-size: clamp(1.7rem, 6.5vw, 3.75rem); line-height: .95; letter-spacing: .005em; margin: 0; text-align: right; white-space: nowrap; text-shadow: 0 4px 30px rgba(0,0,0,.45); }
 .ev-lede { font-size: clamp(1.05rem, 2.2vw, 1.25rem); max-width: 44ch; color: #f1f1f3; text-shadow: 0 1px 12px rgba(0,0,0,.7); margin-bottom: 24px; }
 .ev-hero-btn { display: inline-block; font-weight: 700; text-decoration: none; background: var(--brand); color: #111; padding: 13px 26px; border-radius: 999px; }
 .ev-hero-btn:hover { filter: brightness(1.06); }
@@ -53,29 +53,26 @@ img { display: block; max-width: 100%; }
 .ev-count { color: var(--muted); font-weight: 500; }
 
 /* Rail: Partiful's "trending in London" row */
-.ev-rail-wrap { margin: 0 0 36px; }
+.ev-rail-wrap { margin: 0 0 44px; }
 .ev-rail-wrap[hidden] { display: none; }
-.ev-rail-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 12px; }
-.ev-list .ev-rail-head h2 { font-size: clamp(1.1rem, 2.4vw, 1.4rem); }
+.ev-rail-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 16px; }
+.ev-list .ev-rail-head h2 { font-size: clamp(1.6rem, 3.6vw, 2.2rem); line-height: 1.1; }
+.ev-rail-tools { display: flex; align-items: center; gap: 16px; }
+.ev-rail-all { font-weight: 700; font-size: 1rem; text-decoration: none; color: var(--brand); padding: 6px 0; }
+.ev-rail-all:hover { text-decoration: underline; text-underline-offset: 4px; }
 .ev-rail-btns { display: none; gap: 8px; }
 @media (min-width: 900px) { .ev-rail-btns { display: flex; } }
 .ev-arrow { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: transparent; font-size: 1.5rem; line-height: 1; cursor: pointer; display: grid; place-items: center; padding-bottom: 3px; }
 .ev-arrow:hover { background: rgba(255,255,255,.1); }
-.ev-rail { list-style: none; display: grid; grid-auto-flow: column; grid-auto-columns: min(72vw, 250px); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 -24px; padding: 0 24px 4px; scroll-padding: 0 24px; }
+.ev-rail { list-style: none; display: grid; grid-auto-flow: column; grid-auto-columns: min(42vw, 156px); gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 -24px; padding: 0 24px 4px; scroll-padding: 0 24px; }
 .ev-rail::-webkit-scrollbar { display: none; }
 .ev-rail > li { scroll-snap-align: start; }
 
-/* Filters: posh's Location / Date / Price row, as chips */
-.ev-all-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 0; border-top: 1px solid var(--line); cursor: pointer; list-style: none; }
-.ev-all-head::-webkit-details-marker { display: none; }
-.ev-all[open] .ev-all-head { margin-bottom: 8px; }
-.ev-all-toggle { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: .9rem; color: var(--muted); }
-.ev-all-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s ease; }
-.ev-all[open] .ev-all-toggle svg { transform: rotate(180deg); }
-.ev-all-head:hover .ev-all-toggle { color: var(--text); }
-.ev-all-close, .ev-all[open] .ev-all-open { display: none; }
-.ev-all[open] .ev-all-close { display: inline; }
-.ev-filters { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; position: sticky; top: 0; z-index: 4; background: linear-gradient(var(--bg) 82%, transparent); padding: 12px 0 14px; margin-left: -24px; margin-right: -24px; padding-left: 24px; padding-right: 24px; }
+/* All events page: title, then the filter chips (day, type, area, who runs it) */
+.ev-allpage main { padding-top: 0; }
+.ev-page-title { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; margin-bottom: 8px; }
+.ev-allpage .ev-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 156px), 1fr)); gap: 28px 16px; }
+.ev-filters { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; position: sticky; top: 0; z-index: 4; background: linear-gradient(var(--bg) 82%, transparent); padding: 12px 0 14px; margin-left: -24px; margin-right: -24px; padding-left: 24px; padding-right: 24px; }
 .ev-filters[hidden], .ev-hostfilter[hidden], .ev-empty[hidden] { display: none; }
 .ev-filter-row { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
 .ev-filter-row::-webkit-scrollbar { display: none; }
@@ -94,16 +91,15 @@ img { display: block; max-width: 100%; }
 .ev-card-img { position: relative; display: block; aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; background: var(--panel-2); margin-bottom: 10px; }
 .ev-card-img > img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
 .ev-card a:hover .ev-card-img > img { transform: scale(1.04); }
-.ev-card-tag, .ev-card-date { position: absolute; top: 10px; font-size: .72rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; }
-.ev-card-tag { right: 10px; background: rgba(0,0,0,.6); color: #fff; backdrop-filter: blur(6px); }
-.ev-card-date { left: 10px; background: var(--brand); color: #111; }
+.ev-card-tag, .ev-card-date { position: absolute; top: 8px; font-size: .66rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: 4px 8px; border-radius: 999px; }
+.ev-card-tag { right: 8px; background: rgba(0,0,0,.6); color: #fff; backdrop-filter: blur(6px); }
+.ev-card-date { left: 8px; background: var(--brand); color: #111; }
 .ev-card-date[hidden] { display: none; }
 .ev-card-host { display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: .82rem; font-weight: 500; min-width: 0; }
 .ev-card-host > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ev-card-title { font-weight: 700; font-size: 1.05rem; line-height: 1.25; margin: 2px 0; letter-spacing: -.01em; }
-.ev-card-meta { color: var(--brand); font-size: .86rem; font-weight: 600; }
-.ev-card-where { color: var(--muted); font-size: .86rem; }
-@media (max-width: 559px) { .ev-card-title { font-size: .98rem; } }
+.ev-card-title { font-weight: 700; font-size: .95rem; line-height: 1.25; margin: 2px 0; letter-spacing: -.01em; }
+.ev-card-meta { color: var(--brand); font-size: .8rem; font-weight: 600; }
+.ev-card-where { color: var(--muted); font-size: .8rem; }
 
 .ev-av-xs, .ev-av-sm, .ev-av-lg { display: grid; place-items: center; border-radius: 50%; overflow: hidden; background: #fff; color: #111; font-weight: 800; flex: none; }
 .ev-av-xs { width: 20px; height: 20px; font-size: .5rem; }

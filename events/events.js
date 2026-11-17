@@ -1,5 +1,5 @@
-// WeGoGym events: next dates in London time, soonest-first sorting, the day / type / area / host filters,
-// the three scrolling rows, the collapsible all-events list, Add to calendar and Share. Without JavaScript every page still reads correctly.
+// WeGoGym events: next dates in London time, soonest-first sorting, the day / type / area / who-runs-it / host filters,
+// the scrolling rows on the home page, the filtered all-events page, Add to calendar and Share. Without JavaScript every page still reads correctly.
 (function () {
   "use strict";
   function londonNow() {
@@ -134,9 +134,11 @@
   var more = document.querySelector(".ev-grid-more");
   if (more) sortList(more);
   var grid = document.querySelector(".ev-list .ev-grid");
-  if (grid) {
-    // Rebuild every row from the whole grid, so each really is soonest first
-    var cards = Array.prototype.slice.call(grid.children);
+  // The home page has no grid: its "All events" row holds every card, so rebuild each row from that
+  var source = grid || document.querySelector('[data-rail-list][data-line="all"]');
+  if (source) {
+    // Rebuild every row from the whole list, so each really is soonest first
+    var cards = Array.prototype.slice.call(source.children);
     document.querySelectorAll("[data-rail-wrap]").forEach(function (wrap) {
       var rail = wrap.querySelector("[data-rail-list]");
       var line = rail.getAttribute("data-line");
@@ -171,16 +173,13 @@
       note.querySelector("strong").textContent = match[0].querySelector(".ev-card-host").textContent.trim();
       note.hidden = false;
       if (count) count.textContent = match.length;
-      document.querySelectorAll(".ev-rail-wrap").forEach(function (w) { w.hidden = true; });
-      var all = document.querySelector(".ev-all"); if (all) all.open = true;
-      document.getElementById("all-h").scrollIntoView();
       return;
     }
   }
 
   var filters = document.querySelector(".ev-filters");
   if (filters) filters.hidden = false;
-  var chosen = { when: "all", cat: "all", region: "all" };
+  var chosen = { when: "all", cat: "all", region: "all", by: "all" };
   var empty = document.querySelector(".ev-empty");
   function onDay(card) {
     if (chosen.when === "all") return true;
@@ -197,7 +196,8 @@
     var shown = 0;
     grid.querySelectorAll(".ev-card").forEach(function (card) {
       var show = onDay(card) && (chosen.cat === "all" || card.getAttribute("data-cat") === chosen.cat) &&
-        (chosen.region === "all" || card.getAttribute("data-region") === chosen.region);
+        (chosen.region === "all" || card.getAttribute("data-region") === chosen.region) &&
+        (chosen.by === "all" || card.getAttribute("data-by") === chosen.by);
       card.hidden = !show;
       if (show) shown++;
     });
