@@ -1,4 +1,4 @@
-/* WeGoGym waitlist: four-step signup, then two games. No dependencies, nothing stored in the browser. */
+/* WeGoGym waitlist: three-step signup, then two games. No dependencies, nothing stored in the browser. */
 document.documentElement.classList.add("js");
 
 /* ===== EDIT HERE ===== */
@@ -97,6 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* ===================== SIGNUP ===================== */
   var form = $("#wl-form");
+  form.noValidate = true; // the script shows its own messages; without the script the browser enforces the required fields
   var done = $("#joined");
   var steps = $$(".wl-step", form);
   var alertBox = $("#wl-alert");
@@ -130,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
       $('input[name="regularActivities"]', form).focus();
       return false;
     }
-    if (index === 3) {
+    if (index === 2) {
       var email = $("#email");
       email.value = email.value.trim();
       if (!email.value || !email.checkValidity()) {
@@ -147,7 +148,6 @@ document.addEventListener("DOMContentLoaded", function () {
   $$("[data-next]", form).forEach(function (b) {
     b.addEventListener("click", function () {
       if (current === 0) { continueFromUsername(b); return; }
-      if (current === 2) addCity();
       if (!validateStep(current)) return;
       say("");
       goTo(current + 1, 1);
@@ -156,54 +156,12 @@ document.addEventListener("DOMContentLoaded", function () {
   $$("[data-back]", form).forEach(function (b) {
     b.addEventListener("click", function () { say(""); goTo(current - 1, -1); });
   });
-  $("[data-skip]", form).addEventListener("click", function () {
-    cities = []; renderCities(); $("#city-input").value = "";
-    say(""); goTo(3, 1);
-  });
 
   // Enter key moves forward instead of submitting early.
   form.addEventListener("keydown", function (e) {
     if (e.key !== "Enter" || e.target.tagName !== "INPUT" || e.target.type === "checkbox") return;
-    if (e.target.id === "city-input") { e.preventDefault(); addCity(); return; }
-    if (current < 3) { e.preventDefault(); $("[data-next]", steps[current]).click(); }
+    if (current < steps.length - 1) { e.preventDefault(); $("[data-next]", steps[current]).click(); }
   });
-
-  /* Travel cities */
-  var cities = [];
-  var cityInput = $("#city-input");
-  cityInput.removeAttribute("name"); // sent from the list instead
-  function addCity() {
-    var parts = cityInput.value.split(",");
-    var added = false;
-    for (var i = 0; i < parts.length; i++) {
-      var v = parts[i].trim();
-      if (!v) continue;
-      var dup = cities.some(function (c) { return c.toLocaleLowerCase() === v.toLocaleLowerCase(); });
-      if (dup) { say(v + " is already on your list."); continue; }
-      if (cities.length >= 8) { say("You can add up to eight cities or countries."); break; }
-      cities.push(v.slice(0, 80)); added = true;
-    }
-    cityInput.value = "";
-    if (added) { say(""); renderCities(); }
-  }
-  function renderCities() {
-    var list = $("#city-list");
-    list.innerHTML = "";
-    cities.forEach(function (c, i) {
-      var li = document.createElement("li");
-      li.textContent = c;
-      var rm = document.createElement("button");
-      rm.type = "button";
-      rm.setAttribute("aria-label", "Remove " + c);
-      rm.textContent = "×";
-      rm.addEventListener("click", function () {
-        cities.splice(i, 1); renderCities(); cityInput.focus();
-      });
-      li.appendChild(rm);
-      list.appendChild(li);
-    });
-  }
-  $("#city-add").addEventListener("click", function () { addCity(); cityInput.focus(); });
 
   /* Username (optional) */
   var handleInput = $("#username");
@@ -268,7 +226,27 @@ document.addEventListener("DOMContentLoaded", function () {
     if (problem) setHandleStatus("invalid", problem);
   });
 
+  // First and last name are required. Returns true when both are filled in.
+  function validateNames() {
+    var first = $("#first-name"), last = $("#last-name");
+    first.value = first.value.trim();
+    last.value = last.value.trim();
+    var missing = !first.value ? first : (!last.value ? last : null);
+    [first, last].forEach(function (f) {
+      if (f.value) f.removeAttribute("aria-invalid"); else f.setAttribute("aria-invalid", "true");
+    });
+    if (!missing) return true;
+    say(!first.value && !last.value ? "Enter your first name and last name to continue."
+      : !first.value ? "Enter your first name to continue." : "Enter your last name to continue.");
+    missing.focus();
+    return false;
+  }
+  ["#first-name", "#last-name"].forEach(function (sel) {
+    $(sel).addEventListener("input", function (e) { if (e.target.value.trim()) e.target.removeAttribute("aria-invalid"); });
+  });
+
   function continueFromUsername(btn) {
+    if (!validateNames()) return;
     var u = handleInput.value.trim();
     if (!u) { say(""); goTo(1, 1); return; }
     var problem = handleProblem(u, true);
@@ -282,25 +260,20 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  $("[data-skip-username]", form).addEventListener("click", function () {
-    handleInput.value = ""; $("#first-name").value = ""; $("#last-name").value = ""; $("#title").value = "";
-    clearTimeout(handleTimer); handleSeq++;
-    setHandleStatus("", ""); say(""); goTo(1, 1);
-  });
-
   /* Submit */
   var submitBtn = $("#wl-submit");
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-    if (current !== 3) return;
-    if (!validateStep(3)) return;
+    if (current !== 2) return;
+    if (!validateNames()) { goTo(0, -1); validateNames(); return; }
+    if (!validateStep(2)) return;
     var regular = checked("regularActivities");
     var interested = checked("interestedActivities");
     var body = {
       email: $("#email").value,
       regularActivities: regular,
       interestedActivities: interested,
-      destinations: cities,
+      destinations: [], // the travel question was removed; the receiver still expects the list
       website: $("#website").value
     };
     var otherR = $("#other-regular").value.trim();
@@ -309,10 +282,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (interested.indexOf("Other") > -1 && otherI) body.otherInterestedActivity = otherI;
     var handle = handleInput.value.trim();
     if (handle) body.username = handle;
-    var firstName = $("#first-name").value.trim();
-    var lastName = $("#last-name").value.trim();
-    if (firstName) body.firstName = firstName;
-    if (lastName) body.lastName = lastName;
+    body.firstName = $("#first-name").value.trim();
+    body.lastName = $("#last-name").value.trim();
     if ($("#title").value) body.title = $("#title").value;
 
     submitBtn.disabled = true;
@@ -323,12 +294,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (res.ok) { showDone(true); return; }
         if (res.status === 409) {
           goTo(0, -1);
-          setHandleStatus("taken", "@" + body.username + " was just taken. Pick another, or skip this step.");
+          setHandleStatus("taken", "@" + body.username + " was just taken. Pick another, or clear the username box to carry on without one.");
           handleInput.focus();
           return;
         }
         if (res.status === 429) say("Too many sign-ups from this connection in the last hour. Try again later.");
-        else if (res.status === 400) say("Something in the form is not valid. Check your username, email address and activities, then try again.");
+        else if (res.status === 400) say("Something in the form is not valid. Check your name, username, email address and activities, then try again.");
         else say("That did not go through on our side. Your answers are still here, so try again in a minute.");
       })
       .catch(function () {
