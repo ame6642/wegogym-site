@@ -26,11 +26,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
-  <link rel="stylesheet" href="/waitlist/waitlist.css">
+  <link rel="stylesheet" href="/waitlist/waitlist.css?v=20261119b">
   <!-- Not deferred: it sets the "js" class before first paint. The rest waits for the page. -->
-  <script src="/waitlist/waitlist.js?v=20261119"></script>
+  <script src="/waitlist/waitlist.js?v=20261119b"></script>
 </head>
-<body class="page-waitlist">
+<body class="page-waitlist page-wl">
 
   <header class="site-header">
     <a class="logo" href="/">WeGoGym</a>
@@ -40,7 +40,6 @@
 
     <form class="wl-form" id="wl-form" action="https://yxgwywppajvxfmmjudaq.supabase.co/functions/v1/waitlist" method="post">
       <h1 class="wl-title">Join the waitlist</h1>
-      <p class="wl-lede">Book gyms, pools and studios one session at a time, off-peak and for less. No subscription. Tell us what you would book and we will let you know when we open.</p>
 
       <div class="wl-progress" aria-hidden="true"><span class="wl-progress-bar"></span></div>
       <p class="wl-progress-text" id="wl-progress-text">Three short steps</p>
@@ -96,7 +95,7 @@
           <h2 class="wl-step-title" id="wl-h1" tabindex="-1">Your activities</h2>
 
           <fieldset class="wl-group" data-group="regular">
-            <legend>What do you do regularly?</legend>
+            <legend>What are you interested in?</legend>
             <div class="chips">
               <label class="chip"><input type="checkbox" name="regularActivities" value="Weightlifting"><span>Weightlifting</span></label>
               <label class="chip"><input type="checkbox" name="regularActivities" value="Running"><span>Running</span></label>
@@ -135,7 +134,7 @@
           </fieldset>
 
           <fieldset class="wl-group" data-group="interested">
-            <legend>What would you like to try?</legend>
+            <legend>What would you like to try? <span class="wl-optional">(optional)</span></legend>
             <div class="chips">
               <label class="chip"><input type="checkbox" name="interestedActivities" value="Weightlifting"><span>Weightlifting</span></label>
               <label class="chip"><input type="checkbox" name="interestedActivities" value="Running"><span>Running</span></label>
@@ -173,7 +172,7 @@
             </div>
           </fieldset>
 
-          <p class="wl-hint">Pick at least one, in either list.</p>
+          <p class="wl-hint">Pick at least one thing you are interested in. What you would like to try is optional.</p>
           <div class="wl-actions">
             <button type="button" class="btn btn-ghost js-only" data-back>Back</button>
             <button type="button" class="btn btn-primary js-only" data-next>Continue</button>

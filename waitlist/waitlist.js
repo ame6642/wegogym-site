@@ -126,8 +126,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function validateStep(index) {
-    if (index === 1 && checked("regularActivities").length + checked("interestedActivities").length === 0) {
-      say("Pick at least one activity in either list to continue.");
+    if (index === 1 && checked("regularActivities").length === 0) {
+      say("Pick at least one thing you are interested in to continue.");
       $('input[name="regularActivities"]', form).focus();
       return false;
     }

@@ -229,3 +229,32 @@ html:not(.js) .js-only { display: none !important; }
   .match-btn.is-wrong, .js .wl-done.is-shown { animation: none; }
   .tile, .wl-progress-bar { transition: none; }
 }
+
+/* Waitlist page only (body.page-wl): compact spacing so step 1 fits on one screen. The partnerships,
+   business-register, privacy and terms pages share this file and the page-waitlist body class, so
+   these rules must hang off page-wl, never off page-waitlist. */
+.page-wl .wl { padding: 24px 16px 48px; }
+.page-wl .wl-title { font-size: 1.9rem; }
+.page-wl .wl-form .wl-title { margin-bottom: 14px; }
+.page-wl .wl-progress-text { margin: 6px 0 12px; }
+.page-wl .wl-step { padding: 0; }
+.page-wl .wl-step-title { margin-bottom: 12px; }
+.page-wl .wl-group { margin-bottom: 20px; }
+.page-wl .wl-group legend, .page-wl .wl-label { margin-bottom: 8px; }
+.page-wl .wl-hint { margin-top: 6px; }
+.page-wl .wl-username-status { min-height: 1.3em; margin: 4px 0 12px; }
+.page-wl .wl-name-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+.page-wl .wl-title-field { grid-column: 1 / -1; max-width: 200px; }
+.page-wl .wl-actions { margin-top: 20px; }
+@media (min-width: 600px) {
+  .page-wl .wl-name-grid { grid-template-columns: 120px 1fr 1fr; }   /* title, first name, last name on one row */
+  .page-wl .wl-title-field { grid-column: auto; max-width: none; }
+}
+@media (max-width: 599px) {
+  .page-wl .wl { padding: 12px 16px 32px; }
+  .page-wl .wl-title { font-size: 1.6rem; }
+  .page-wl .wl-form .wl-title { margin-bottom: 10px; }
+  .page-wl .wl-step-title { margin-bottom: 8px; }
+  .page-wl .wl-actions { margin-top: 14px; }
+  .page-wl .wl-username-status:empty { min-height: 0; margin: 0 0 12px; }   /* no blank gap on phones until there is a message */
+}
