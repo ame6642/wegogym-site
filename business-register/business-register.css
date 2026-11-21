@@ -108,3 +108,25 @@
 .wl select:focus-visible { outline: 3px solid var(--ink); outline-offset: 1px; }
 .wl select:disabled { background-color: var(--soft); color: var(--muted); }
 .wl select[aria-invalid="true"] { border-color: var(--error); }
+
+/* Prices step */
+.br-money { position: relative; }
+.br-money > span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-weight: 600; pointer-events: none; }
+.br-money input { padding-left: 30px; }
+.br-price-row { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 14px 0; margin: 0 0 14px; }
+.br-price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+@media (min-width: 560px) { .br-price-grid { grid-template-columns: repeat(5, 1fr); } }
+.br-row-even { grid-template-columns: 1fr 1fr; }
+.br-price-row .br-small { margin: 0 0 12px; }
+.br-nudge { margin: 24px 0 8px; padding: 16px; border-radius: var(--radius-lg); background: var(--soft); border-left: 4px solid var(--accent); }
+.br-nudge h3 { margin: 0 0 6px; font-size: 1.1rem; }
+.br-nudge .chips { margin: 8px 0 12px; }
+
+/* Front-desk logins and the waiting-for-approval checklist */
+.br-team, .br-checklist { list-style: none; padding: 0; margin: 0 0 16px; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.br-team li, .br-checklist li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 14px; border-top: 1px solid var(--line); }
+.br-team li:first-child, .br-checklist li:first-child { border-top: 0; }
+.br-checklist b { font-weight: 600; }
+.br-check-done b { color: var(--success); }
+.br-check-todo b { color: var(--error); }
+.br-check-wait b { color: #8a6d00; }

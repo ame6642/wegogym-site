@@ -427,7 +427,8 @@
   var DAYS = [["mon", "Monday"], ["tue", "Tuesday"], ["wed", "Wednesday"], ["thu", "Thursday"],
     ["fri", "Friday"], ["sat", "Saturday"], ["sun", "Sunday"]];
   var STEPS = [["place", "Name and address"], ["business", "Your business"],
-    ["facility", "Your facility"], ["amenities", "What you offer"], ["photos", "Photos"], ["payouts", "Getting paid"]];
+    ["facility", "Your facility"], ["amenities", "What you offer"], ["photos", "Photos"], ["payouts", "Getting paid"],
+    ["prices", "Prices"], ["team", "Front-desk logins"]];
   // Facility-type headings, in the order the list shows them (venue_categories.category_group).
   var CATEGORY_GROUPS = ["Fitness", "Mind and body", "Dance and movement", "Combat sports", "Water",
     "Climbing", "Racket and court sports", "Pitches and outdoor sports", "Wellness and recovery"];
@@ -669,9 +670,12 @@
     if (name === "amenities") fillAmenities();
     if (name === "photos") renderPhotos();
     if (name === "payouts") refreshPayouts();
+    if (name === "prices") initPrices();
+    if (name === "team") renderTeam();
     if (name === "done") {
       $("done-name").textContent = state.venue ? state.venue.name : "";
       $("done-email").textContent = state.venue ? (state.venue.contact_email || "") : "";
+      renderChecklist();
       showMarketState();
     }
     var h = stepEl(name).querySelector("h2");
@@ -1424,6 +1428,161 @@
     return http("/functions/v1/" + name, { method: "POST", json: body });
   }
 
+  // ===== Prices (after payouts) =====
+  // NOT SAVED YET: this step is shown for review. Saving to day_pass_prices, slot_templates and
+  // promotions is wired once the layout is approved.
+  var WEEK = [[1, "Mon", "Monday"], [2, "Tue", "Tuesday"], [3, "Wed", "Wednesday"], [4, "Thu", "Thursday"],
+    [5, "Fri", "Friday"], [6, "Sat", "Saturday"], [7, "Sun", "Sunday"]];
+  var pricesReady = false;
+
+  function penceFrom(text) {
+    var m = /^£?\s*(\d{1,4})(?:\.(\d{1,2}))?$/.exec(String(text || "").trim());
+    if (!m) return null;
+    var p = parseInt(m[1], 10) * 100 + (m[2] ? parseInt((m[2] + "0").slice(0, 2), 10) : 0);
+    return p >= 100 && p <= 100000 ? p : null;
+  }
+  function pounds(p) { return "£" + (p / 100).toFixed(2); }
+  function el(tag, attrs, kids) {
+    var e = document.createElement(tag);
+    Object.keys(attrs || {}).forEach(function (k) { if (k === "text") e.textContent = attrs[k]; else e.setAttribute(k, attrs[k]); });
+    (kids || []).forEach(function (c) { e.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
+    return e;
+  }
+  var fieldSeq = 0;
+  function moneyField(label) {
+    var id = "pr-x" + (++fieldSeq), inp = el("input", { type: "text", id: id, inputmode: "decimal", autocomplete: "off", maxlength: "9" });
+    return { input: inp, el: el("div", { class: "br-field" }, [el("label", { for: id, text: label }),
+      el("div", { class: "br-money" }, [el("span", { "aria-hidden": "true", text: "£" }), inp])]) };
+  }
+  function plainField(label, control) {
+    control.id = "pr-x" + (++fieldSeq);
+    return el("div", { class: "br-field" }, [el("label", { for: control.id, text: label }), control]);
+  }
+  function removeBtn(row) {
+    var b = el("button", { type: "button", class: "btn btn-ghost br-small", text: "Remove" });
+    b.addEventListener("click", function () { row.remove(); quietExample(); });
+    return b;
+  }
+  function addMulti() {
+    var days = el("select"), price = moneyField("Price");
+    [2, 3, 4, 5, 6, 7].forEach(function (n) { days.appendChild(el("option", { value: String(n), text: n + " days" })); });
+    var row = el("div", { class: "br-price-row br-multi" });
+    row.appendChild(el("div", { class: "br-row-even br-row" }, [plainField("Pass length", days), price.el]));
+    row.appendChild(removeBtn(row));
+    row._f = { days: days, price: price.input };
+    $("pr-multi").appendChild(row);
+  }
+  function addSlot() {
+    var day = el("select"), start = el("input", { type: "time" }), end = el("input", { type: "time" });
+    var cap = el("input", { type: "number", min: "1", max: "1000", step: "1", inputmode: "numeric" }), price = moneyField("Price");
+    WEEK.forEach(function (d) { day.appendChild(el("option", { value: String(d[0]), text: d[2] })); });
+    price.input.addEventListener("input", quietExample);
+    var row = el("div", { class: "br-price-row br-slot" });
+    row.appendChild(el("div", { class: "br-price-grid" }, [plainField("Day", day), plainField("Starts", start),
+      plainField("Ends", end), plainField("Spaces", cap), price.el]));
+    if ($("pr-slots").children.length) row.appendChild(removeBtn(row));
+    row._f = { day: day, start: start, end: end, cap: cap, price: price.input };
+    $("pr-slots").appendChild(row);
+  }
+  function mode() { return document.querySelector('input[name="pr-mode"]:checked').value; }
+  function quietExample() {
+    var off = Number(document.querySelector('input[name="pr-off"]:checked').value);
+    var base = mode() === "day_pass" ? penceFrom($("pr-day1").value)
+      : (function () { var r = $("pr-slots").firstChild; return r ? penceFrom(r._f.price.value) : null; })();
+    base = base || 1000;
+    var days = WEEK.filter(function (d) { return $("pr-qd-" + d[0]).checked; }).map(function (d) { return d[2]; });
+    var what = mode() === "day_pass" ? "day pass" : "session";
+    $("pr-qexample").textContent = "A " + pounds(base) + " " + what + " would cost " + pounds(Math.round(base * (100 - off) / 100)) +
+      (days.length ? " on " + (days.length === 7 ? "every day" : days.join(", ")) : "") +
+      " from " + ($("pr-qfrom").value || "…") + " until " + ($("pr-qto").value || "…") + ".";
+  }
+  function initPrices() {
+    if (pricesReady) return;
+    pricesReady = true;
+    WEEK.forEach(function (d) {
+      var id = "pr-qd-" + d[0], box = el("input", { type: "checkbox", id: id, value: String(d[0]) });
+      if (d[0] <= 5) box.checked = true;
+      box.addEventListener("change", quietExample);
+      $("pr-qdays").appendChild(el("label", { class: "chip", for: id }, [box, el("span", { text: d[1] })]));
+    });
+    addSlot();
+    document.querySelectorAll('input[name="pr-mode"]').forEach(function (r) {
+      r.addEventListener("change", function () { $("pr-day").hidden = mode() !== "day_pass"; $("pr-slot").hidden = mode() === "day_pass"; quietExample(); });
+    });
+    $("pr-multi-add").addEventListener("click", addMulti);
+    $("pr-slot-add").addEventListener("click", addSlot);
+    $("pr-quiet").addEventListener("change", function () { $("pr-quiet-more").hidden = !$("pr-quiet").checked; quietExample(); });
+    ["pr-day1", "pr-qfrom", "pr-qto"].forEach(function (id) { $(id).addEventListener("input", quietExample); });
+    document.querySelectorAll('input[name="pr-off"]').forEach(function (r) { r.addEventListener("change", quietExample); });
+    quietExample();
+  }
+  function readPrices() {
+    var out = { mode: mode(), quiet: null };
+    if (out.mode === "day_pass") {
+      out.passes = [{ days: 1, price: penceFrom($("pr-day1").value) }].concat(
+        Array.prototype.map.call($("pr-multi").children, function (r) { return { days: Number(r._f.days.value), price: penceFrom(r._f.price.value) }; }));
+    } else {
+      out.slots = Array.prototype.map.call($("pr-slots").children, function (r) {
+        return { day: Number(r._f.day.value), start: r._f.start.value, end: r._f.end.value, capacity: Number(r._f.cap.value), price: penceFrom(r._f.price.value) };
+      });
+    }
+    if ($("pr-quiet").checked) {
+      out.quiet = { percent: Number(document.querySelector('input[name="pr-off"]:checked').value),
+        days: WEEK.filter(function (d) { return $("pr-qd-" + d[0]).checked; }).map(function (d) { return d[0]; }),
+        from: $("pr-qfrom").value, to: $("pr-qto").value };
+    }
+    return out;
+  }
+  async function savePrices() {
+    var p = readPrices(), bad = null;
+    if (p.mode === "day_pass" && p.passes.some(function (x) { return x.price === null; })) bad = "Enter each price between £1.00 and £1,000.00, for example 12.50.";
+    if (p.mode === "time_slot" && p.slots.some(function (x) { return x.price === null || !x.start || !x.end || x.end <= x.start || !(x.capacity >= 1); }))
+      bad = "Give each class or session a start, an end after the start, a number of spaces and a price.";
+    if (p.quiet && (!p.quiet.days.length || !p.quiet.from || !p.quiet.to || p.quiet.to <= p.quiet.from))
+      bad = "For the quieter-times discount, tick at least one day and choose an end time after the start.";
+    if (bad) { showAlert(bad); return; }
+    state.prices = p;
+    showAlert("");
+    showStep("team");
+  }
+
+  // ===== Front-desk logins (view-only operators) =====
+  function renderTeam() {
+    var list = $("tm-list"), team = state.team || [];
+    list.textContent = "";
+    team.forEach(function (t) { list.appendChild(el("li", {}, [el("span", { text: t.name + " (" + t.email + ")" }), el("b", { text: "Login created" })])); });
+    list.hidden = !team.length;
+    $("tm-continue").textContent = team.length ? "Continue" : "Skip for now";
+  }
+  async function addOperator() {
+    var name = $("tm-name").value.trim(), email = $("tm-email").value.trim().toLowerCase();
+    var dob = $("tm-dob").value, pw = $("tm-pw").value, pw2 = $("tm-pw2").value;
+    if (!name) { showAlert("Enter their name."); $("tm-name").focus(); return; }
+    if (!EMAIL.test(email)) { showAlert("Enter their email address, like name@example.com."); $("tm-email").focus(); return; }
+    if (!dob || ageOn(dob) < 18) { showAlert("They need to be 18 or over. Check their date of birth."); $("tm-dob").focus(); return; }
+    if (pw.length < 8) { showAlert(COPY.weak_password); $("tm-pw").focus(); return; }
+    if (pw !== pw2) { showAlert("The two passwords do not match."); $("tm-pw2").focus(); return; }
+    await fn("create-venue-operator", { venue_id: state.venue.id, full_name: name, email: email, password: pw, date_of_birth: dob });
+    state.team = (state.team || []).concat([{ name: name, email: email }]);
+    ["tm-name", "tm-email", "tm-dob", "tm-pw", "tm-pw2"].forEach(function (id) { $(id).value = ""; });
+    showAlert("Login created for " + email + ". When they first log in at wegogym.club/business, we email them a 6-digit code to confirm the address is theirs.");
+    renderTeam();
+  }
+
+  // ===== Waiting for approval =====
+  function renderChecklist() {
+    var list = $("done-list"), team = (state.team || []).length;
+    var items = [["Details and photos", "done"], ["Getting paid (Stripe)", "done"],
+      ["Prices", state.prices ? "done" : "todo"],
+      ["Front-desk logins", team ? "done" : "skip"], ["WeGoGym review", "wait"]];
+    list.textContent = "";
+    items.forEach(function (it) {
+      var word = { done: "Done", todo: "Not finished", skip: "None yet", wait: "Waiting" }[it[1]];
+      if (it[0] === "Front-desk logins" && team) word = team + " added";
+      list.appendChild(el("li", { class: "br-check-" + it[1] }, [el("span", { text: it[0] }), el("b", { text: word })]));
+    });
+  }
+
   // ?stripe=return|refresh from /connect/*.html, read once at start.
   var stripeBack = (function () {
     var v = new URLSearchParams(location.search).get("stripe");
@@ -1541,7 +1700,14 @@
     onSubmit(stepEl("amenities"), null, saveAmenities);
     onSubmit(stepEl("photos"), null, finishPhotos);
     $("po-connect").addEventListener("click", startPayouts);
-    $("po-continue").addEventListener("click", function () { showAlert(""); showStep("done"); });
+    $("po-continue").addEventListener("click", function () { showAlert(""); showStep("prices"); });
+    onSubmit(stepEl("prices"), null, savePrices);
+    onSubmit(stepEl("team"), null, async function () { showStep("done"); });
+    $("tm-add").addEventListener("click", function () {
+      if (running) return;
+      running = true;
+      addOperator().catch(function (err) { handleError(err); }).finally(function () { running = false; });
+    });
     document.querySelectorAll("[data-back]").forEach(function (b) {
       b.addEventListener("click", function () { showAlert(""); showStep(previous(b.closest(".br-step").dataset.step)); });
     });

@@ -291,16 +291,112 @@
       </div>
       <div class="wl-actions">
         <button type="button" class="btn btn-ghost" data-back>Back</button>
-        <button type="button" class="btn btn-primary" id="po-continue" hidden>Finish</button>
+        <button type="button" class="btn btn-primary" id="po-continue" hidden>Save and continue</button>
       </div>
     </section>
+    <!-- 7. PRICES -->
+    <form class="br-step" data-step="prices" aria-labelledby="h-prices" novalidate hidden>
+      <h2 class="wl-step-title" id="h-prices" tabindex="-1">Your prices</h2>
+      <fieldset class="br-field">
+        <legend>How do members book?</legend>
+        <div class="chips">
+          <label class="chip" for="pr-mode-day"><input type="radio" name="pr-mode" id="pr-mode-day" value="day_pass" checked><span>Day passes: come any time you are open</span></label>
+          <label class="chip" for="pr-mode-slot"><input type="radio" name="pr-mode" id="pr-mode-slot" value="time_slot"><span>Classes or sessions at set times</span></label>
+        </div>
+      </fieldset>
+
+      <div id="pr-day">
+        <div class="br-field">
+          <label for="pr-day1">Price for one day</label>
+          <div class="br-money"><span aria-hidden="true">&pound;</span><input type="text" id="pr-day1" inputmode="decimal" autocomplete="off" maxlength="9"></div>
+        </div>
+        <div id="pr-multi"></div>
+        <button type="button" class="btn btn-secondary br-small" id="pr-multi-add">Add a multi-day pass</button>
+      </div>
+
+      <div id="pr-slot" hidden>
+        <p class="wl-hint br-hint-top">Add each class or session you run in a normal week. You can give a quieter one a lower price.</p>
+        <div id="pr-slots"></div>
+        <button type="button" class="btn btn-secondary br-small" id="pr-slot-add">Add another class or session</button>
+      </div>
+
+      <section class="br-nudge" aria-labelledby="h-quiet">
+        <h3 id="h-quiet">Fill your quieter times</h3>
+        <p>Most places have times that are rarely busy, such as weekday mornings and early afternoons. Similar facilities on WeGoGym are running discounts on their quieter times to fill spaces that would otherwise go empty.</p>
+        <div class="chips">
+          <label class="chip" for="pr-quiet"><input type="checkbox" id="pr-quiet"><span>Add a quieter-times discount</span></label>
+        </div>
+        <div id="pr-quiet-more" hidden>
+          <fieldset class="br-field">
+            <legend>How much off?</legend>
+            <div class="chips" id="pr-off">
+              <label class="chip" for="pr-off-10"><input type="radio" name="pr-off" id="pr-off-10" value="10"><span>10%</span></label>
+              <label class="chip" for="pr-off-20"><input type="radio" name="pr-off" id="pr-off-20" value="20" checked><span>20%</span></label>
+              <label class="chip" for="pr-off-30"><input type="radio" name="pr-off" id="pr-off-30" value="30"><span>30%</span></label>
+              <label class="chip" for="pr-off-50"><input type="radio" name="pr-off" id="pr-off-50" value="50"><span>50%</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="br-field">
+            <legend>On which days?</legend>
+            <div class="chips" id="pr-qdays"></div>
+          </fieldset>
+          <div class="br-row br-row-even">
+            <div class="br-field"><label for="pr-qfrom">From</label><input type="time" id="pr-qfrom" value="10:00"></div>
+            <div class="br-field"><label for="pr-qto">Until</label><input type="time" id="pr-qto" value="16:00"></div>
+          </div>
+          <p class="wl-hint" id="pr-qexample" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <div class="wl-actions">
+        <button type="button" class="btn btn-ghost" data-back>Back</button>
+        <button type="submit" class="btn btn-primary">Save and continue</button>
+      </div>
+    </form>
+
+    <!-- 8. FRONT-DESK LOGINS -->
+    <form class="br-step" data-step="team" aria-labelledby="h-team" novalidate hidden>
+      <h2 class="wl-step-title" id="h-team" tabindex="-1">Front-desk logins</h2>
+      <p>Give the people on your front desk their own login. They can see bookings, who is coming and your door codes, so they can let members in. They cannot change your listing or prices, and cannot see your bank or Stripe details.</p>
+      <p class="wl-hint br-hint-top">Optional. You can add or remove these later from your business dashboard.</p>
+      <ul class="br-team" id="tm-list" hidden></ul>
+      <div class="br-field">
+        <label for="tm-name">Their name</label>
+        <input type="text" id="tm-name" maxlength="120" autocomplete="off">
+      </div>
+      <div class="br-field">
+        <label for="tm-email">Their email</label>
+        <input type="email" id="tm-email" maxlength="254" autocomplete="off" inputmode="email" aria-describedby="tm-email-hint">
+        <p class="wl-hint" id="tm-email-hint">This is what they log in with. It cannot already have a WeGoGym account.</p>
+      </div>
+      <div class="br-field">
+        <label for="tm-dob">Their date of birth</label>
+        <input type="date" id="tm-dob" aria-describedby="tm-dob-hint">
+        <p class="wl-hint" id="tm-dob-hint">They need to be 18 or over.</p>
+      </div>
+      <div class="br-field">
+        <label for="tm-pw">Password for them</label>
+        <input type="password" id="tm-pw" autocomplete="new-password" minlength="8" maxlength="72" aria-describedby="tm-pw-hint">
+        <p class="wl-hint" id="tm-pw-hint">At least 8 characters. Give it to them privately and ask them to change it after they log in.</p>
+      </div>
+      <div class="br-field">
+        <label for="tm-pw2">Type the password again</label>
+        <input type="password" id="tm-pw2" autocomplete="new-password" maxlength="72">
+      </div>
+      <button type="button" class="btn btn-secondary br-small" id="tm-add">Add this login</button>
+      <div class="wl-actions">
+        <button type="button" class="btn btn-ghost" data-back>Back</button>
+        <button type="submit" class="btn btn-primary" id="tm-continue">Skip for now</button>
+      </div>
+    </form>
+
     <!-- DONE -->
     <section class="br-step" data-step="done" aria-labelledby="h-done" hidden>
-      <h2 class="wl-step-title" id="h-done" tabindex="-1">Your details are saved</h2>
-      <p><b id="done-name"></b> is saved as a draft. It is not shown to members yet.</p>
-      <p id="done-open">Next we will set up your prices, how members get in and your house rules. We will email <b id="done-email"></b> when that is ready.</p>
-      <p>When you set your prices, consider discounting your quieter times and less busy classes. Similar facilities on WeGoGym are running off-peak discounts to fill spaces that would otherwise go empty.</p>
-      <p>Your <a href="/business/">business dashboard</a> shows your listing and whether payouts are ready, and lets you create view-only logins for your team.</p>
+      <h2 class="wl-step-title" id="h-done" tabindex="-1">Waiting for approval</h2>
+      <p><b id="done-name"></b> is with WeGoGym for review. It is not shown to members yet.</p>
+      <ul class="br-checklist" id="done-list"></ul>
+      <p id="done-open">We will check your listing and email <b id="done-email"></b>, usually within a few working days. After that we will set up how members get in and your house rules.</p>
+      <p>Your <a href="/business/">business dashboard</a> shows where your listing has got to, whether payouts are ready, and your front-desk logins.</p>
       <p id="done-closed" hidden>WeGoGym is not open in <span id="done-country"></span> yet. We open one region at a time, and we will be in touch when we open there. Your draft stays saved until then.</p>
       <div class="wl-actions br-actions-start">
         <button type="button" class="btn btn-secondary" data-goto="place">Edit your details</button>
