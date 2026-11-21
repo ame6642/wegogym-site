@@ -1495,18 +1495,11 @@
     var base = mode() === "day_pass" ? penceFrom($("pr-day1").value)
       : (function () { var r = $("pr-slots").firstChild; return r ? penceFrom(r._f.price.value) : null; })();
     base = base || 1000;
-    var nums = WEEK.filter(function (d) { return $("pr-qd-" + d[0]).checked; }).map(function (d) { return d[0]; });
-    var run = nums.length > 2 && nums[nums.length - 1] - nums[0] === nums.length - 1; // e.g. Monday to Friday
-    var days = run ? [WEEK[nums[0] - 1][2] + " to " + WEEK[nums[nums.length - 1] - 1][2]] : nums.map(function (n) { return WEEK[n - 1][2]; });
     var what = mode() === "day_pass" ? "day pass" : "session";
     var to = byPrice ? penceFrom($("pr-to").value) : null, off = byPrice ? null : pctFrom($("pr-pct").value);
     if (byPrice ? !to : !off) { $("pr-qexample").textContent = byPrice ? "Type the price members pay at quieter times." : "Type a percentage between 1 and 99."; return; }
     if (byPrice && to >= base) { $("pr-qexample").textContent = "This is not lower than your normal " + pounds(base) + " " + what + "."; return; }
-    var cost = byPrice ? to : Math.round(base * (100 - off) / 100);
-    $("pr-qexample").textContent = "A " + pounds(base) + " " + what + " would cost " + pounds(cost) +
-      (byPrice ? " (" + Math.round((base - cost) * 100 / base) + "% off)" : "") +
-      (nums.length ? " on " + (nums.length === 7 ? "every day" : days.join(", ")) : "") +
-      " from " + ($("pr-qfrom").value || "…") + " until " + ($("pr-qto").value || "…") + ".";
+    $("pr-qexample").textContent = ""; // only problems are shown here
   }
   function initPrices() {
     if (pricesReady) return;
