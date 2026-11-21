@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#ffd401">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://yxgwywppajvxfmmjudaq.supabase.co; connect-src https://yxgwywppajvxfmmjudaq.supabase.co; form-action 'none'; base-uri 'self'; object-src 'none'">
+  <title>Business dashboard | WeGoGym</title>
+  <meta name="description" content="See your WeGoGym listing, set up payouts and manage view-only logins for your team.">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://wegogym.club/business/">
+  <meta property="og:title" content="Business dashboard | WeGoGym">
+  <meta property="og:description" content="See your WeGoGym listing, set up payouts and manage view-only logins for your team.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://wegogym.club/business/">
+  <meta property="og:site_name" content="WeGoGym">
+  <meta property="og:image" content="https://wegogym.club/social-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="WeGoGym">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/waitlist/waitlist.css">
+  <link rel="stylesheet" href="/business-register/business-register.css">
+  <link rel="stylesheet" href="/business/business.css?v=1">
+  <script src="/business/business.js?v=1" defer></script>
+</head>
+<body class="page-waitlist page-br">
+  <header class="site-header">
+    <a class="logo" href="/">WeGoGym</a>
+    <button type="button" class="br-signout" id="bd-signout" hidden>Log out</button>
+  </header>
+  <main class="wl br bd">
+    <h1 class="wl-title" id="bd-title" tabindex="-1">Business dashboard</h1>
+    <noscript><p class="wl-alert">This page needs JavaScript switched on in your browser.</p></noscript>
+    <div class="wl-alert" id="bd-alert" role="alert"></div>
+    <p class="visually-hidden" id="bd-live" aria-live="polite"></p>
+
+    <!-- LOG IN -->
+    <section class="br-step" data-view="login" aria-labelledby="h-login" hidden>
+      <h2 class="wl-step-title" id="h-login" tabindex="-1">Log in</h2>
+      <p>Owners and team members log in here. New to WeGoGym? <a href="/business-register/">Register your facility</a>.</p>
+      <form id="li-form" novalidate>
+        <div class="br-field">
+          <label for="li-email">Email address</label>
+          <input type="email" id="li-email" autocomplete="email" inputmode="email" maxlength="254" required>
+        </div>
+        <div class="br-field">
+          <label for="li-password">Password</label>
+          <input type="password" id="li-password" autocomplete="current-password" maxlength="72" required>
+        </div>
+        <div class="wl-actions">
+          <button type="submit" class="btn btn-primary">Log in</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- CONFIRM EMAIL (first login of an operator) -->
+    <section class="br-step" data-view="confirm" aria-labelledby="h-confirm" hidden>
+      <h2 class="wl-step-title" id="h-confirm" tabindex="-1">Check your email</h2>
+      <p>This is your first login. We sent a 6-digit code to <b id="cf-email"></b> to check the address is yours.</p>
+      <form id="cf-form" novalidate>
+        <div class="br-field">
+          <label for="cf-code">Code</label>
+          <input type="text" id="cf-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" class="br-code" required>
+        </div>
+        <div class="wl-actions">
+          <button type="button" class="btn btn-ghost" id="cf-resend">Send a new code</button>
+          <button type="submit" class="btn btn-primary">Confirm</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- NO LISTING -->
+    <section class="br-step" data-view="none" aria-labelledby="h-none" hidden>
+      <h2 class="wl-step-title" id="h-none" tabindex="-1">No listing yet</h2>
+      <p>This account is not linked to a facility. <a href="/business-register/">Register your facility</a> to get started.</p>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section class="br-step" data-view="dash" aria-labelledby="h-dash" hidden>
+      <div class="br-field" id="bd-pick-wrap" hidden>
+        <label for="bd-pick">Facility</label>
+        <select id="bd-pick"></select>
+      </div>
+      <h2 class="wl-step-title" id="h-dash" tabindex="-1"></h2>
+      <p class="bd-role" id="bd-role"></p>
+
+      <div class="bd-card">
+        <h3>Your listing</h3>
+        <p id="bd-status"></p>
+        <img id="bd-cover" class="bd-cover" alt="" hidden>
+        <dl class="bd-list" id="bd-details"></dl>
+        <p id="bd-edit" hidden><a class="btn btn-secondary br-small" href="/business-register/">Edit your details</a></p>
+      </div>
+
+      <div class="bd-card">
+        <h3>Getting in</h3>
+        <dl class="bd-list" id="bd-access"></dl>
+      </div>
+
+      <div class="bd-card">
+        <h3>Bookings</h3>
+        <p class="wl-hint">From today onwards.</p>
+        <ul class="bd-people" id="bd-bookings"></ul>
+      </div>
+
+      <div class="bd-card" id="bd-pay">
+        <h3>Getting paid</h3>
+        <p id="bd-pay-status" aria-live="polite"></p>
+        <p id="bd-pay-action" hidden><button type="button" class="btn btn-primary" id="bd-pay-btn">Set up payouts with Stripe</button></p>
+        <p class="wl-hint" id="bd-pay-note" hidden>Only the owner can set up or change where the money goes.</p>
+      </div>
+
+      <div class="bd-card" id="bd-team" hidden>
+        <h3>Your team</h3>
+        <p>An operator can log in here and see the listing and whether payouts are ready. They cannot change anything.</p>
+        <ul class="bd-people" id="bd-people"></ul>
+        <h4>Create an operator login</h4>
+        <form id="op-form" novalidate>
+          <div class="br-field">
+            <label for="op-name">Their full name</label>
+            <input type="text" id="op-name" maxlength="120" autocomplete="off" required>
+          </div>
+          <div class="br-field">
+            <label for="op-email">Their email address</label>
+            <input type="email" id="op-email" maxlength="254" autocomplete="off" inputmode="email" required aria-describedby="op-email-hint">
+            <p class="wl-hint" id="op-email-hint">This is what they log in with. It cannot already have a WeGoGym account.</p>
+          </div>
+          <div class="br-field">
+            <label for="op-dob">Their date of birth</label>
+            <input type="date" id="op-dob" required aria-describedby="op-dob-hint">
+            <p class="wl-hint" id="op-dob-hint">They need to be 18 or over.</p>
+          </div>
+          <div class="br-field">
+            <label for="op-password">Choose a password for them</label>
+            <input type="password" id="op-password" autocomplete="new-password" minlength="8" maxlength="72" required aria-describedby="op-password-hint">
+            <p class="wl-hint" id="op-password-hint">At least 8 characters. Give it to them privately and ask them to change it after they log in.</p>
+          </div>
+          <div class="br-field">
+            <label for="op-password2">Confirm the password</label>
+            <input type="password" id="op-password2" autocomplete="new-password" maxlength="72" required>
+          </div>
+          <div class="wl-actions">
+            <button type="submit" class="btn btn-primary">Create login</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="bd-card" id="bd-leave" hidden>
+        <h3>Leave this facility</h3>
+        <p>If you no longer work here, or did not expect to be added, you can remove yourself.</p>
+        <p><button type="button" class="btn btn-secondary br-small" id="bd-leave-btn">Leave</button></p>
+      </div>
+
+      <div class="bd-card">
+        <h3>Your password</h3>
+        <form id="pw-form" novalidate>
+          <div class="br-field">
+            <label for="pw-new">New password</label>
+            <input type="password" id="pw-new" autocomplete="new-password" minlength="8" maxlength="72" required>
+          </div>
+          <div class="br-field">
+            <label for="pw-new2">Confirm new password</label>
+            <input type="password" id="pw-new2" autocomplete="new-password" maxlength="72" required>
+          </div>
+          <div class="wl-actions">
+            <button type="submit" class="btn btn-secondary">Change password</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="br-step" data-view="offline" aria-labelledby="h-offline" hidden>
+      <h2 class="wl-step-title" id="h-offline" tabindex="-1">Not available</h2>
+      <p>This page cannot run here. Open wegogym.club/business/ directly.</p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <a href="mailto:hello@wegogym.club">hello@wegogym.club</a>
+    <a href="/privacy/">Privacy notice</a>
+    <a href="/terms/">Terms of Use</a>
+    <span>&copy; 2026 WeGoGym</span>
+  </footer>
+</body>
+</html>

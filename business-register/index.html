@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/waitlist/waitlist.css">
   <link rel="stylesheet" href="/business-register/business-register.css">
-  <script src="/business-register/business-register.js" defer></script>
+  <script src="/business-register/business-register.js?v=4" defer></script>
 </head>
 <body class="page-waitlist page-br">
 
@@ -276,15 +276,30 @@
       <ul class="br-photos" id="f-photos" aria-label="Your photos"></ul>
       <div class="wl-actions">
         <button type="button" class="btn btn-ghost" data-back>Back</button>
-        <button type="submit" class="btn btn-primary">Save and finish</button>
+        <button type="submit" class="btn btn-primary">Save and continue</button>
       </div>
     </form>
 
+    <!-- 5. GETTING PAID -->
+    <section class="br-step" data-step="payouts" aria-labelledby="h-payouts" hidden>
+      <h2 class="wl-step-title" id="h-payouts" tabindex="-1">Getting paid</h2>
+      <p>Members pay through Stripe, and the money goes to your own Stripe account. Stripe asks for your bank details and checks who you are. It takes about five minutes. WeGoGym never sees your bank details.</p>
+      <p>You need to finish this step before your listing can go to WeGoGym for review.</p>
+      <p class="wl-hint" id="po-status" aria-live="polite"></p>
+      <div class="wl-actions br-actions-start">
+        <button type="button" class="btn btn-primary" id="po-connect">Set up payouts with Stripe</button>
+      </div>
+      <div class="wl-actions">
+        <button type="button" class="btn btn-ghost" data-back>Back</button>
+        <button type="button" class="btn btn-primary" id="po-continue" hidden>Finish</button>
+      </div>
+    </section>
     <!-- DONE -->
     <section class="br-step" data-step="done" aria-labelledby="h-done" hidden>
       <h2 class="wl-step-title" id="h-done" tabindex="-1">Your details are saved</h2>
       <p><b id="done-name"></b> is saved as a draft. It is not shown to members yet.</p>
-      <p id="done-open">Next we will set up your prices, how members get in, your house rules and how you get paid. We will email <b id="done-email"></b> when that is ready.</p>
+      <p id="done-open">Next we will set up your prices, how members get in and your house rules. We will email <b id="done-email"></b> when that is ready.</p>
+      <p>Your <a href="/business/">business dashboard</a> shows your listing and whether payouts are ready, and lets you create view-only logins for your team.</p>
       <p id="done-closed" hidden>WeGoGym is not open in <span id="done-country"></span> yet. We open one region at a time, and we will be in touch when we open there. Your draft stays saved until then.</p>
       <div class="wl-actions br-actions-start">
         <button type="button" class="btn btn-secondary" data-goto="place">Edit your details</button>
@@ -297,6 +312,7 @@
       <h2 class="wl-step-title" id="h-submitted" tabindex="-1">You already have a listing</h2>
       <p id="sub-text"></p>
       <p>To change it, or to add another location, email <a href="mailto:hello@wegogym.club">hello@wegogym.club</a>.</p>
+      <p><a class="btn btn-primary" href="/business/">Open your business dashboard</a></p>
     </section>
 
     <!-- SETUP NOT FINISHED (site owner has not added the key) -->

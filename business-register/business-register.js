@@ -5,8 +5,13 @@
  *   register_venue (creates the draft, the owner membership and the business-owner role)
  *   -> PATCH venues (business, facility and amenity details)
  *   -> venue-photos storage bucket + venue_photos rows.
- * Nothing here submits the listing for review or touches payments: pricing, access,
- * house rules, the fee agreement and payouts are finished later.
+ *   -> connect-onboarding-link (the last step hands the owner to Stripe's own page, where
+ *      the business enters its bank details; connect-status reads back what Stripe says).
+ * Nothing here submits the listing for review: pricing, access, house rules and the fee
+ * agreement are finished later. Operators (view-only logins) are sent to /business/.
+ * Getting paid cannot be skipped (user decision 2026-11-21): Finish appears only once Stripe
+ * has the business's details. Stripe sends owners back through /connect/return.html and
+ * /connect/refresh.html, which forward here with ?stripe=return|refresh.
  *
  * Plain fetch rather than supabase-js, because the site's Content-Security-Policy only
  * allows scripts from this domain and the library would otherwise have to be vendored.
@@ -422,7 +427,7 @@
   var DAYS = [["mon", "Monday"], ["tue", "Tuesday"], ["wed", "Wednesday"], ["thu", "Thursday"],
     ["fri", "Friday"], ["sat", "Saturday"], ["sun", "Sunday"]];
   var STEPS = [["place", "Name and address"], ["business", "Your business"],
-    ["facility", "Your facility"], ["amenities", "What you offer"], ["photos", "Photos"]];
+    ["facility", "Your facility"], ["amenities", "What you offer"], ["photos", "Photos"], ["payouts", "Getting paid"]];
   // Facility-type headings, in the order the list shows them (venue_categories.category_group).
   var CATEGORY_GROUPS = ["Fitness", "Mind and body", "Dance and movement", "Combat sports", "Water",
     "Climbing", "Racket and court sports", "Pitches and outdoor sports", "Wellness and recovery"];
@@ -663,6 +668,7 @@
     if (name === "facility") fillFacility();
     if (name === "amenities") fillAmenities();
     if (name === "photos") renderPhotos();
+    if (name === "payouts") refreshPayouts();
     if (name === "done") {
       $("done-name").textContent = state.venue ? state.venue.name : "";
       $("done-email").textContent = state.venue ? (state.venue.contact_email || "") : "";
@@ -823,13 +829,19 @@
   async function afterLogin() {
     $("br-signout").hidden = false;
     showAlert("");
-    var members = await http("/rest/v1/venue_members?select=venue_id&profile_id=eq." + uid());
+    var all = await http("/rest/v1/venue_members?select=venue_id,member_role&profile_id=eq." + uid());
+    // A view-only operator has nothing to fill in here: their page is the dashboard.
+    var members = all.filter(function (m) { return m.member_role !== "operator"; });
+    if (all.length && !members.length) { location.replace("/business/"); return; }
+    // Back from Stripe for a listing that is no longer a draft: the dashboard shows payouts.
+    var backTo = stripeBack ? "/business/?stripe=" + stripeBack : "/business/";
     var venues = [];
     if (members.length) {
       var ids = members.map(function (m) { return m.venue_id; }).join(",");
       venues = await http("/rest/v1/venues?select=" + VENUE_COLS + "&id=in.(" + ids + ")");
     }
     var draft = venues.find(function (v) { return v.status === "draft" || v.status === "changes_requested"; });
+    if (!draft && venues.length && stripeBack) { location.replace(backTo); return; }
     if (!draft && venues.length) {
       $("sub-text").textContent = venues[0].status === "pending"
         ? venues[0].name + " has been sent for review, so it can no longer be changed on this page."
@@ -848,7 +860,7 @@
     if (!v.legal_name || !v.contact_email) return "business";
     if (!v.category_slug || !v.description || (v.category_slug === "other" && !v.category_other)) return "facility";
     if (!state.photos.length) return "amenities";
-    return "done";
+    return "payouts";
   }
 
   async function loadCategories() {
@@ -1402,7 +1414,76 @@
       $("f-photo-input").focus();
       return;
     }
-    showStep("done");
+    showStep("payouts");
+  }
+
+  // ===== Getting paid =====
+  // Stripe's own page collects the bank details. What it says on the way back is not
+  // evidence, so this step always asks connect-status what Stripe actually has.
+  async function fn(name, body) {
+    return http("/functions/v1/" + name, { method: "POST", json: body });
+  }
+
+  // ?stripe=return|refresh from /connect/*.html, read once at start.
+  var stripeBack = (function () {
+    var v = new URLSearchParams(location.search).get("stripe");
+    if (v !== "return" && v !== "refresh") return null;
+    history.replaceState(null, "", location.pathname + location.hash);
+    return v;
+  })();
+
+  function payoutWords(st) {
+    if (!st || !st.started) return "Not set up yet.";
+    if (!st.details_submitted && stripeBack === "refresh") return "That Stripe page expired. Continue with Stripe to pick up where you left off.";
+    if (st.payouts_enabled && st.charges_enabled) return "Done. Stripe has your details and payouts are switched on.";
+    if (st.details_submitted) return "Stripe has your details and is checking them. This can take a day or two. You do not need to do anything unless Stripe emails you.";
+    return "Started but not finished. Continue with Stripe to add the rest.";
+  }
+
+  async function refreshPayouts() {
+    var status = $("po-status"), btn = $("po-connect");
+    $("po-continue").hidden = true;
+    status.textContent = "Checking with Stripe…";
+    if (!state.venue) return;
+    try {
+      var st = await fn("connect-status", { venue_id: state.venue.id });
+      status.textContent = payoutWords(st);
+      // Finish only once Stripe has the details: this step cannot be skipped.
+      btn.hidden = !!(st.details_submitted && !st.needs_more_info);
+      btn.textContent = st.details_submitted ? "Add the details Stripe asked for"
+        : st.started ? "Continue with Stripe" : "Set up payouts with Stripe";
+      $("po-continue").hidden = !st.details_submitted;
+    } catch (err) {
+      status.textContent = "We could not check with Stripe just now. Refresh the page to try again.";
+      btn.hidden = false;
+      if (err.code === "session") handleError(err);
+    }
+  }
+
+  async function startPayouts() {
+    if (running || !state.venue) return;
+    running = true;
+    var btn = $("po-connect");
+    var label = btn.textContent;
+    btn.disabled = true; btn.textContent = "Opening Stripe…";
+    try {
+      var d = await fn("connect-onboarding-link", { venue_id: state.venue.id });
+      if (!d || !/^https:\/\/connect\.stripe\.com\//.test(d.url || "")) throw new AppError(502, "stripe_error");
+      location.assign(d.url);
+      return;
+    } catch (err) {
+      btn.textContent = label;
+      showAlert(err.status === 403
+        ? "Only the person who registered this business can set up how it gets paid. Ask them to log in and finish this step."
+        : err.code === "onboarding_in_progress"
+        ? "Stripe is still getting ready. Wait a few seconds and try again."
+        : err.code === "country_not_supported"
+          ? "Stripe cannot pay out to businesses in your country through WeGoGym yet. Email hello@wegogym.club and we will tell you when it can."
+          : "We could not open Stripe just now. Try again in a minute.");
+    } finally {
+      running = false;
+      btn.disabled = false;
+    }
   }
 
   // ===== Wiring =====
@@ -1459,6 +1540,8 @@
     onSubmit(stepEl("facility"), null, saveFacility);
     onSubmit(stepEl("amenities"), null, saveAmenities);
     onSubmit(stepEl("photos"), null, finishPhotos);
+    $("po-connect").addEventListener("click", startPayouts);
+    $("po-continue").addEventListener("click", function () { showAlert(""); showStep("done"); });
     document.querySelectorAll("[data-back]").forEach(function (b) {
       b.addEventListener("click", function () { showAlert(""); showStep(previous(b.closest(".br-step").dataset.step)); });
     });

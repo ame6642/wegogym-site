@@ -49,3 +49,7 @@
 .pt-summary .pt-edit { margin-top: 8px; }
 
 @media (prefers-reduced-motion: reduce) { .pt-step { animation: none; } }
+
+/* Get paid (Stripe) */
+.pt-pay-status { font-weight: 600; }
+.pt-pay-status:empty { display: none; }

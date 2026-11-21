@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/waitlist/waitlist.css">
   <link rel="stylesheet" href="/business-register/business-register.css">
-  <link rel="stylesheet" href="/partnerships/partnerships.css">
-  <script src="/partnerships/partnerships.js?v=20261116" defer></script>
+  <link rel="stylesheet" href="/partnerships/partnerships.css?v=20261121">
+  <script src="/partnerships/partnerships.js?v=20261121c" defer></script>
 </head>
 <body class="page-waitlist page-pt">
 
@@ -74,6 +74,11 @@
           <label for="y-city">Town or city your events are in</label>
           <input type="text" id="y-city" autocomplete="address-level2" maxlength="80" required aria-describedby="y-city-hint">
           <p class="wl-hint" id="y-city-hint">We are launching in London first.</p>
+        </div>
+        <div class="br-field">
+          <label for="y-country">Country</label>
+          <select id="y-country" autocomplete="country" required aria-describedby="y-country-hint"></select>
+          <p class="wl-hint" id="y-country-hint">Where you or your business are based. Money from paid tickets goes to a bank account in this country.</p>
         </div>
         <div class="br-field">
           <label for="y-site">Website or Instagram <span class="wl-optional">(optional)</span></label>
@@ -124,11 +129,39 @@
         </div>
       </form>
 
+      <!-- ID CHECK (every organiser) -->
+      <section class="pt-step" data-step="identity" aria-labelledby="h-identity" hidden>
+        <h2 class="wl-step-title" id="h-identity" tabindex="-1">Application sent. Now confirm who you are</h2>
+        <p>Everyone who runs events on WeGoGym confirms their identity once, so people know they are meeting a real person.</p>
+        <p>Stripe, our payment partner, does the check. You photograph a passport, driving licence or ID card and take a selfie. It takes about 2 minutes. WeGoGym never sees or keeps your ID or your selfie, only that you passed.</p>
+        <p class="pt-pay-status" id="id-status" aria-live="polite"></p>
+        <div class="wl-actions pt-actions-start">
+          <button type="button" class="btn btn-primary" id="id-go">Check my ID with Stripe</button>
+          <button type="button" class="btn btn-secondary" id="id-recheck" hidden>Check again</button>
+          <button type="button" class="btn btn-primary" id="id-next" hidden>Continue</button>
+        </div>
+        <p class="wl-hint" id="id-later">Your application is already sent, so it is safe to stop here. To finish later, email <a href="mailto:hello@wegogym.club">hello@wegogym.club</a>.</p>
+      </section>
+
+      <!-- GET PAID (only when an event has paid tickets) -->
+      <section class="pt-step" data-step="stripe" aria-labelledby="h-stripe" hidden>
+        <h2 class="wl-step-title" id="h-stripe" tabindex="-1">Set up payments</h2>
+        <p>Because you sell tickets, connect a Stripe account so you can be paid when people buy them. Stripe is our payment partner: it checks who you are and sends ticket money to your bank account.</p>
+        <p>It usually takes about 5 minutes: your details, your bank account and a form of ID. Stripe then brings you back here.</p>
+        <p class="pt-pay-status" id="pay-status" aria-live="polite"></p>
+        <div class="wl-actions pt-actions-start">
+          <button type="button" class="btn btn-primary" id="pay-go">Continue to Stripe</button>
+          <button type="button" class="btn btn-secondary" id="pay-next" hidden>Finish</button>
+        </div>
+        <p class="wl-hint" id="pay-later">Your application is already sent, so it is safe to stop here. To finish later, email <a href="mailto:hello@wegogym.club">hello@wegogym.club</a>.</p>
+      </section>
+
       <!-- DONE -->
       <section class="pt-step" data-step="done" aria-labelledby="h-done" hidden>
         <h2 class="wl-step-title" id="h-done" tabindex="-1">Application sent</h2>
         <p>Thank you. We will read it and email <b id="done-email"></b>, usually within a few working days.</p>
-        <p>Nothing is published yet. WeGoGym is not open to events yet, and anyone who hosts will need to confirm their identity first. We will explain how that works when we write.</p>
+        <p id="done-pay" hidden></p>
+        <p>Nothing is published yet. WeGoGym is not open to events yet, and we will explain the next steps when we write.</p>
         <div class="wl-actions pt-actions-start">
           <a class="btn btn-secondary pt-link" href="/">Back to the homepage</a>
         </div>

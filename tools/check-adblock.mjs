@@ -84,8 +84,26 @@ const problems = [];
 const ruleList = [...rules];
 
 for (const path of pages) {
-  await page.goto(base + path, { waitUntil: "domcontentloaded" });
-  const hits = await page.evaluate((rs) => {
+  try { await page.goto(base + path, { waitUntil: "domcontentloaded" }); }
+  catch (e) {
+    if (!/ERR_ABORTED/.test(String(e))) throw e; // forwarded before it finished loading
+    await page.waitForLoadState("domcontentloaded");
+  }
+  // A page that forwards itself (e.g. /connect/return/) can navigate mid-check: try again on
+  // wherever it landed.
+  let hits;
+  for (let attempt = 0; ; attempt++) {
+    try { hits = await scan(); break; }
+    catch (e) {
+      if (attempt >= 3 || !/context was destroyed|navigat/i.test(String(e))) throw e;
+      await page.waitForLoadState("domcontentloaded");
+    }
+  }
+  hits.forEach((h) => problems.push(`${path}: ${h}`));
+}
+
+async function scan() {
+  return page.evaluate((rs) => {
     document.querySelectorAll("[hidden]").forEach((e) => e.removeAttribute("hidden"));
     const out = [];
     for (const r of rs) {
@@ -94,7 +112,6 @@ for (const path of pages) {
     }
     return out;
   }, ruleList);
-  hits.forEach((h) => problems.push(`${path}: ${h}`));
 }
 
 await page.goto(base + "/admin/", { waitUntil: "domcontentloaded" });
