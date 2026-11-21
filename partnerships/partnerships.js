@@ -221,6 +221,7 @@
     var price = input(p + "-price", "text", { inputmode: "decimal", autocomplete: "off", maxlength: "9" });
     priceBox.appendChild(field(p + "-price", "Price per ticket", h("div", { class: "pt-money" }, [h("span", { "aria-hidden": "true", text: "£" }), price]),
       { hint: "Between £1.00 and £1,000.00." }));
+    priceBox.appendChild(h("p", { class: "pt-tip", text: "Tip: charge less for your quieter dates and times. Similar events on WeGoGym are running discounts on their off-peak, less busy sessions to fill spaces. If one day is usually quieter, add it as a separate event with a lower price." }));
     var pricing = radios(p + "-pricing", p + "-pricetype", "Is it free?",
       [["free", "Free, people just RSVP"], ["ticketed", "Paid tickets"]], function () {
         var paid = card.querySelector('input[name="' + p + '-pricing"]:checked').value === "ticketed";

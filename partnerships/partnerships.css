@@ -35,6 +35,9 @@
 .pt-money > span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-weight: 600; pointer-events: none; }
 .pt-money input { padding-left: 30px; }
 
+/* Off-peak pricing nudge under the ticket price */
+.pt-tip { margin: -8px 0 20px; padding: 12px 14px; border-left: 3px solid var(--ink); background: rgba(0,0,0,.04); border-radius: var(--radius-sm); font-size: .95rem; }
+
 .pt-times { display: grid; grid-template-columns: 1fr; gap: 0 16px; }
 @media (min-width: 560px) { .pt-times { grid-template-columns: 1fr 1fr 1fr; } }
 
