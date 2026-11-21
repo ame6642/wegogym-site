@@ -131,7 +131,7 @@
 .br-check-done b { color: var(--success); }
 .br-check-todo b { color: var(--error); }
 .br-check-wait b { color: #8a6d00; }
-.wl .br-slot input[type="number"] {
+.wl .br-class input[type="number"] {
   width: 100%; font: inherit; font-size: 1rem; padding: 12px 14px;
   border: 1px solid #8a8a86; border-radius: var(--radius-sm); background: var(--paper); color: var(--ink);
 }
@@ -141,3 +141,16 @@
 .br-pct > span { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-weight: 600; pointer-events: none; }
 .wl .br-pct input[type="text"] { padding-right: 64px; }
 .br-switch { background: none; border: 0; padding: 0; font: inherit; font-size: .9rem; text-decoration: underline; cursor: pointer; color: var(--ink); }
+
+/* Classes: one card per type of class, with its days and times typed in one go */
+.br-class { border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 16px 14px 4px; margin: 0 0 16px; min-width: 0; }
+.br-class > legend { font-weight: 700; padding: 0 6px; }
+.br-class-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+@media (min-width: 560px) { .br-class-grid { grid-template-columns: 2fr 1fr 1fr 1fr; } }
+.br-times { border-top: 1px solid var(--line); padding: 14px 0 2px; }
+.br-times .chips { margin: 0 0 12px; }
+.br-times-read { font-size: .9rem; margin: -10px 0 12px; }
+.br-times-read.br-bad { color: var(--error); font-weight: 600; }
+.br-disc { margin: 0 0 12px; }
+.br-class-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 12px; }
+.br-nudge-small { margin: 0 0 16px; padding: 12px 14px; font-size: .95rem; }

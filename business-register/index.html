@@ -315,12 +315,19 @@
       </div>
 
       <div id="pr-slot" hidden>
-        <p class="wl-hint br-hint-top">Add each class or session you run in a normal week. You can give a quieter one a lower price.</p>
-        <div id="pr-slots"></div>
-        <button type="button" class="btn btn-secondary br-small" id="pr-slot-add">Add another class or session</button>
+        <p class="wl-hint br-hint-top">Add each type of class once, then type all the times it runs. For example, Boxing on Mon, Wed and Fri at 7am, 12:30 and 6pm.</p>
+        <p class="br-nudge br-nudge-small">Similar facilities on WeGoGym are running discounts on their quieter classes to fill spaces. On any times that are usually quiet, tick &ldquo;Discount these times&rdquo;.</p>
+        <datalist id="pr-class-names">
+          <option value="Boxing"><option value="Kickboxing"><option value="MMA"><option value="Muay Thai"><option value="Brazilian Jiu-Jitsu">
+          <option value="HIIT"><option value="Strength"><option value="Circuits"><option value="Spin"><option value="Yoga">
+          <option value="Pilates"><option value="Barre"><option value="Dance"><option value="Swim"><option value="Open gym">
+        </datalist>
+        <div id="pr-classes"></div>
+        <button type="button" class="btn btn-secondary br-small" id="pr-class-add">Add another type of class</button>
+        <p class="wl-hint" id="pr-class-total" aria-live="polite"></p>
       </div>
 
-      <section class="br-nudge" aria-labelledby="h-quiet">
+      <section class="br-nudge" id="pr-quiet-box" aria-labelledby="h-quiet">
         <h3 id="h-quiet">Fill your quieter times</h3>
         <p>Most places have times that are rarely busy, such as weekday mornings and early afternoons. Similar facilities on WeGoGym are running discounts on their quieter times to fill spaces that would otherwise go empty.</p>
         <div class="chips">
