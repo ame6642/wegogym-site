@@ -13,6 +13,7 @@
 
 /* Fields */
 .br-field { display: block; border: 0; margin: 0 0 20px; min-width: 0; }
+.br-field[hidden] { display: none; }
 .br-field > label, .br-field > legend { display: block; font-weight: 600; margin-bottom: 8px; }
 .br-hint-top { margin: 0 0 12px; }
 .br-row { display: grid; grid-template-columns: 1fr; gap: 0 16px; }
