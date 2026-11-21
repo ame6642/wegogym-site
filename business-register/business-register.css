@@ -148,11 +148,14 @@
 .wl:has(.br-step[data-step="prices"]:not([hidden]) #pr-slot:not([hidden])),
 .wl:has(.pt-step[data-step="events"]:not([hidden])) { max-width: 1100px; }
 .br-planner, .pt-planner { display: grid; grid-template-columns: 1fr; gap: 20px; align-items: start; }
-@media (min-width: 900px) { .br-planner, .pt-planner { grid-template-columns: minmax(0, 1fr) 320px; } }
+@media (min-width: 900px) {
+  .br-planner, .pt-planner { grid-template-columns: minmax(0, 1fr) 320px; }
+  .br-cal { position: sticky; top: 16px; }
+}
 .br-editor { border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 16px 14px 4px; }
 .br-editor-title { margin: 0 0 12px; font-size: 1.1rem; }
 .br-editor-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 14px; }
-.br-cal { position: sticky; top: 16px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--paper); padding: 12px; }
+.br-cal { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--paper); padding: 12px; }
 .br-cal-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 10px; }
 .br-cal-head h3 { margin: 0; font-size: 1.05rem; text-align: center; flex: 1; }
 .br-cal-arrow { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); font-size: 1.3rem; line-height: 1; cursor: pointer; }
