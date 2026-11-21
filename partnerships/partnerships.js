@@ -184,7 +184,7 @@
     });
     var daysBox = h("fieldset", { class: "pt-choice", id: p + "-days" }, [
       h("legend", { text: "On which days?" }), dayChips,
-      h("p", { class: "wl-hint", text: "Tick every day it runs. If one day starts at a different time, add that day as a separate event." })
+      h("p", { class: "wl-hint", text: "Tick every day it runs. If the price, time or place changes from day to day, you can set that below." })
     ]);
     recurrence.addEventListener("change", function () {
       daysBox.hidden = recurrence.value === "monthly";
@@ -197,6 +197,7 @@
         more.hidden = !rec;
         dateLabel.textContent = rec ? "First date" : "Date";
         if (!rec) { setError(endsOn, ""); }
+        renderPerDay();
       });
     var date = input(p + "-date", "date", { min: today, max: addDays(today, MAX_FIRST_DATE_DAYS), required: true });
     // Picking the first date ticks its day, so the usual case needs no extra step. Changing the
@@ -221,13 +222,55 @@
     var price = input(p + "-price", "text", { inputmode: "decimal", autocomplete: "off", maxlength: "9" });
     priceBox.appendChild(field(p + "-price", "Price per ticket", h("div", { class: "pt-money" }, [h("span", { "aria-hidden": "true", text: "£" }), price]),
       { hint: "Between £1.00 and £1,000.00." }));
-    priceBox.appendChild(h("p", { class: "pt-tip", text: "Tip: charge less for your quieter dates and times. Similar events on WeGoGym are running discounts on their off-peak, less busy sessions to fill spaces. If one day is usually quieter, add it as a separate event with a lower price." }));
+    priceBox.appendChild(h("p", { class: "pt-tip", text: "Tip: charge less for your quieter dates and times. Similar events on WeGoGym are running discounts on their quieter sessions to fill spaces. If it runs on more than one day, you can give a quieter day a lower price below." }));
     var pricing = radios(p + "-pricing", p + "-pricetype", "Is it free?",
       [["free", "Free, people just RSVP"], ["ticketed", "Paid tickets"]], function () {
         var paid = card.querySelector('input[name="' + p + '-pricing"]:checked').value === "ticketed";
         priceBox.hidden = !paid;
         if (!paid) setError(price, "");
+        renderPerDay();
       });
+
+    // Different price, time or place on some days (weekly or fortnightly events on 2+ days).
+    var diffToggle = h("input", { type: "checkbox", id: p + "-diff" });
+    var diffWrap = h("div", { class: "pt-choice", hidden: true }, [
+      h("div", { class: "chips" }, [h("label", { class: "chip", for: p + "-diff" }, [diffToggle, h("span", { text: "Some days are different (price, time or place)" })])])
+    ]);
+    var diffBox = h("div", { class: "pt-more", hidden: true }, [
+      h("p", { class: "wl-hint", text: "Fill in only what changes on that day. An empty box means the same as above." })
+    ]);
+    var perDay = {}; // ISO weekday -> { el, start, end, area, price, priceField }
+    function dayRow(n) {
+      if (perDay[n]) return perDay[n];
+      var q = p + "-d" + n, r = {
+        start: input(q + "-start", "time"), end: input(q + "-end", "time"),
+        area: input(q + "-area", "text", { maxlength: "120", autocomplete: "off" }),
+        price: input(q + "-price", "text", { inputmode: "decimal", autocomplete: "off", maxlength: "9" })
+      };
+      r.priceField = field(q + "-price", "Price per ticket", h("div", { class: "pt-money" }, [h("span", { "aria-hidden": "true", text: "£" }), r.price]), { optional: true });
+      r.el = h("fieldset", { class: "pt-day" }, [
+        h("legend", { text: DAYS[n - 1][2] }),
+        h("div", { class: "pt-times" }, [field(q + "-start", "Starts at", r.start, { optional: true }), field(q + "-end", "Ends at", r.end, { optional: true })]),
+        field(q + "-area", "Where is it?", r.area, { optional: true }),
+        r.priceField
+      ]);
+      return (perDay[n] = r);
+    }
+    function tickedDays() { return dayBoxes.filter(function (b) { return b.checked; }).map(function (b) { return Number(b.value); }); }
+    function renderPerDay() {
+      var rec = card && card.querySelector('input[name="' + p + '-sched"]:checked').value === "recurring";
+      var days = tickedDays(), paid = card && card.querySelector('input[name="' + p + '-pricing"]:checked').value === "ticketed";
+      var can = !!rec && recurrence.value !== "monthly" && days.length > 1;
+      diffWrap.hidden = !can;
+      diffBox.hidden = !(can && diffToggle.checked);
+      Array.prototype.slice.call(diffBox.querySelectorAll(".pt-day")).forEach(function (el) { el.remove(); });
+      if (diffBox.hidden) return;
+      days.forEach(function (n) { var r = dayRow(n); r.priceField.hidden = !paid; diffBox.appendChild(r.el); });
+    }
+    diffToggle.addEventListener("change", renderPerDay);
+    dayBoxes.forEach(function (b) { b.addEventListener("change", renderPerDay); });
+    recurrence.addEventListener("change", renderPerDay);
+    date.addEventListener("change", renderPerDay);
 
     var cap = input(p + "-cap", "number", { min: "1", max: "100000", step: "1", inputmode: "numeric" });
     var url = input(p + "-url", "text", { maxlength: "300", autocomplete: "off", spellcheck: "false", placeholder: "https://" });
@@ -253,10 +296,12 @@
       more,
       pricing,
       priceBox,
+      diffWrap,
+      diffBox,
       field(p + "-cap", "Most people you can take", cap, { optional: true, hint: "Leave this empty if there is no limit." }),
       field(p + "-url", "Where do people book now?", url, { optional: true, hint: "A link to your current page or ticket link, if you have one. Start it with https://" })
     ]);
-    card._f = { title: title, cat: cat, area: area, desc: desc, recurrence: recurrence, days: dayBoxes, endsOn: endsOn, date: date, start: start, end: end, price: price, cap: cap, url: url, p: p };
+    card._f = { perDay: perDay, diffOn: function () { return !diffBox.hidden; }, title: title, cat: cat, area: area, desc: desc, recurrence: recurrence, days: dayBoxes, endsOn: endsOn, date: date, start: start, end: end, price: price, cap: cap, url: url, p: p };
     list.appendChild(card);
     renumber();
     if (focus) title.focus();
@@ -314,6 +359,19 @@
       if (f.endsOn.value) e.endsOn = f.endsOn.value;
     }
     if (priceType === "ticketed") e.pricePence = penceFrom(f.price.value);
+    if (f.diffOn() && e.weekdays) {
+      var dd = [];
+      e.weekdays.forEach(function (n) {
+        var r = f.perDay[n]; if (!r) return;
+        var d = { weekday: n };
+        if (r.start.value) d.startTime = r.start.value;
+        if (r.end.value) d.endTime = r.end.value;
+        if (value(r.area)) d.area = value(r.area);
+        if (priceType === "ticketed" && value(r.price)) d.pricePence = penceFrom(r.price.value);
+        if (Object.keys(d).length > 1) dd.push(d);
+      });
+      if (dd.length) e.dayDetails = dd;
+    }
     if (value(f.cap)) e.capacity = Number(value(f.cap));
     if (value(f.url)) e.existingListingUrl = value(f.url);
     return e;
@@ -344,6 +402,9 @@
         else if (e.endsOn > addDays(today, MAX_SERIES_END_DAYS)) fail(f.endsOn, "Choose a date within the next two years, or leave it empty.");
       }
       if (e.priceType === "ticketed" && e.pricePence === null) fail(f.price, "Enter a price between £1.00 and £1,000.00, for example 8.50.");
+      (e.dayDetails || []).forEach(function (d) {
+        if (d.pricePence === null) fail(f.perDay[d.weekday].price, "Enter a price between £1.00 and £1,000.00, or leave it empty.");
+      });
       if (e.capacity !== undefined && !(Math.floor(e.capacity) === e.capacity && e.capacity >= 1 && e.capacity <= 100000)) fail(f.cap, "Enter a whole number, or leave it empty.");
       if (e.existingListingUrl && !/^https?:\/\/\S+$/i.test(e.existingListingUrl)) fail(f.url, "Start the link with https://");
       // Empty optional values are left out of the request.
@@ -404,6 +465,14 @@
       row(d, "When", when);
       row(d, "Time", e.startTime + (e.endTime ? " to " + e.endTime : ""));
       row(d, "Price", e.priceType === "ticketed" ? pounds(e.pricePence) + " per ticket" : "Free, people RSVP");
+      (e.dayDetails || []).forEach(function (x) {
+        var bits = [];
+        if (x.startTime) bits.push(x.startTime + (x.endTime ? " to " + x.endTime : ""));
+        else if (x.endTime) bits.push("ends " + x.endTime);
+        if (x.area) bits.push(x.area);
+        if (x.pricePence) bits.push(pounds(x.pricePence));
+        row(d, "On " + DAYS[x.weekday - 1][2] + "s", bits.join(", "));
+      });
       if (e.capacity) row(d, "Most people", String(e.capacity));
       if (e.existingListingUrl) row(d, "Current page", e.existingListingUrl);
       box.appendChild(d);
@@ -612,11 +681,16 @@
   function finishPay() {
     var c = state.connect || {};
     $("done-email").textContent = c.email || "you";
-    var lines = [];
-    if (state.idDone) lines.push("Your identity is confirmed.");
-    if (state.payDone) lines.push("Stripe is connected, so you can be paid for tickets once your events are live.");
-    $("done-pay").textContent = lines.join(" ");
-    $("done-pay").hidden = !lines.length;
+    var list = $("done-list"), items = [["Application sent", "done"],
+      ["Identity confirmed", state.idDone ? "done" : "todo"]];
+    if (c.pay) items.push(["Payouts set up with Stripe", state.payDone ? "done" : "todo"]);
+    items.push(["WeGoGym review", "wait"]);
+    list.textContent = "";
+    items.forEach(function (it) {
+      var word = { done: "Done", todo: "Not finished", wait: "Waiting" }[it[1]];
+      list.appendChild(h("li", { class: "pt-check pt-check-" + it[1] }, [h("span", { text: it[0] }), h("b", { text: word })]));
+    });
+    list.hidden = false;
     show("done");
   }
 
