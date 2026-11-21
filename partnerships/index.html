@@ -99,10 +99,24 @@
       <form class="pt-step" data-step="events" aria-labelledby="h-events" novalidate hidden>
         <h2 class="wl-step-title" id="h-events" tabindex="-1">Your events</h2>
         <p class="wl-hint pt-intro">Add each event you run. For something that happens every week, add it once and choose that it repeats.</p>
-        <div id="pt-events"></div>
-        <div class="pt-add">
-          <button type="button" class="btn btn-secondary" id="pt-add">Add another event</button>
-          <span class="wl-hint" id="pt-add-note"></span>
+        <div class="pt-planner">
+          <div>
+            <div id="pt-events"></div>
+            <div class="pt-add">
+              <button type="button" class="btn btn-secondary" id="pt-add">Add another event</button>
+              <span class="wl-hint" id="pt-add-note"></span>
+            </div>
+          </div>
+          <aside class="br-cal" aria-label="Your events, day by day">
+            <div class="br-cal-head">
+              <button type="button" class="br-cal-arrow" id="pt-cal-prev" aria-label="Previous day">&lsaquo;</button>
+              <h3 id="pt-cal-day" aria-live="polite"></h3>
+              <button type="button" class="br-cal-arrow" id="pt-cal-next" aria-label="Next day">&rsaquo;</button>
+            </div>
+            <ul class="br-cal-list" id="pt-cal-list"></ul>
+            <p class="br-cal-empty" id="pt-cal-empty">Nothing on this day yet.</p>
+            <p class="wl-hint">Click an event to change it.</p>
+          </aside>
         </div>
         <div class="wl-actions">
           <button type="button" class="btn btn-ghost" data-back>Back</button>

@@ -315,16 +315,51 @@
       </div>
 
       <div id="pr-slot" hidden>
-        <p class="wl-hint br-hint-top">Add each type of class once, then type all the times it runs. For example, Boxing on Mon, Wed and Fri at 7am, 12:30 and 6pm.</p>
-        <p class="br-nudge br-nudge-small">Similar facilities on WeGoGym are running discounts on their quieter classes to fill spaces. On any times that are usually quiet, tick &ldquo;Discount these times&rdquo;.</p>
+        <p class="wl-hint br-hint-top">Add your classes one at a time. Each one goes into the calendar, where you can click it to change it.</p>
+        <p class="br-nudge br-nudge-small">Similar facilities on WeGoGym are running discounts on their quieter classes to fill spaces. For a class that is usually quiet, tick &ldquo;Discount this class&rdquo;.</p>
         <datalist id="pr-class-names">
           <option value="Boxing"><option value="Kickboxing"><option value="MMA"><option value="Muay Thai"><option value="Brazilian Jiu-Jitsu">
           <option value="HIIT"><option value="Strength"><option value="Circuits"><option value="Spin"><option value="Yoga">
           <option value="Pilates"><option value="Barre"><option value="Dance"><option value="Swim"><option value="Open gym">
         </datalist>
-        <div id="pr-classes"></div>
-        <button type="button" class="btn btn-secondary br-small" id="pr-class-add">Add another type of class</button>
-        <p class="wl-hint" id="pr-class-total" aria-live="polite"></p>
+        <div class="br-planner">
+          <div class="br-editor" id="pr-editor">
+            <h3 class="br-editor-title" id="pr-ed-title">Add a class</h3>
+            <div class="br-field">
+              <label for="pr-ed-name">Type of class</label>
+              <input type="text" id="pr-ed-name" maxlength="60" list="pr-class-names" autocomplete="off" placeholder="For example Boxing">
+            </div>
+            <fieldset class="br-field">
+              <legend>Which days?</legend>
+              <div class="chips" id="pr-ed-days"></div>
+            </fieldset>
+            <div class="br-row br-row-even">
+              <div class="br-field"><label for="pr-ed-start">Starts</label><input type="time" id="pr-ed-start"></div>
+              <div class="br-field"><label for="pr-ed-end">Ends</label><input type="time" id="pr-ed-end"></div>
+            </div>
+            <div class="br-row br-row-even">
+              <div class="br-field"><label for="pr-ed-spaces">Spaces</label><input type="number" id="pr-ed-spaces" min="1" max="1000" step="1" inputmode="numeric"></div>
+              <div class="br-field"><label for="pr-ed-price">Price</label><div class="br-money"><span aria-hidden="true">&pound;</span><input type="text" id="pr-ed-price" inputmode="decimal" autocomplete="off" maxlength="9"></div></div>
+            </div>
+            <div id="pr-ed-disc"></div>
+            <p class="br-field-error" id="pr-ed-err" role="alert" hidden></p>
+            <div class="br-editor-actions">
+              <button type="button" class="btn btn-primary br-small" id="pr-ed-save">Add to calendar</button>
+              <button type="button" class="btn btn-ghost br-small" id="pr-ed-cancel" hidden>Cancel</button>
+              <button type="button" class="btn btn-ghost br-small" id="pr-ed-del" hidden>Delete this class</button>
+            </div>
+          </div>
+          <aside class="br-cal" aria-label="Your classes, day by day">
+            <div class="br-cal-head">
+              <button type="button" class="br-cal-arrow" id="pr-cal-prev" aria-label="Previous day">&lsaquo;</button>
+              <h3 id="pr-cal-day" aria-live="polite">Monday</h3>
+              <button type="button" class="br-cal-arrow" id="pr-cal-next" aria-label="Next day">&rsaquo;</button>
+            </div>
+            <ul class="br-cal-list" id="pr-cal-list"></ul>
+            <p class="br-cal-empty" id="pr-cal-empty">No classes on this day yet.</p>
+            <p class="wl-hint" id="pr-class-total"></p>
+          </aside>
+        </div>
       </div>
 
       <section class="br-nudge" id="pr-quiet-box" aria-labelledby="h-quiet">

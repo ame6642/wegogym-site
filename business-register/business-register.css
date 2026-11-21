@@ -131,7 +131,7 @@
 .br-check-done b { color: var(--success); }
 .br-check-todo b { color: var(--error); }
 .br-check-wait b { color: #8a6d00; }
-.wl .br-class input[type="number"] {
+.wl .br-editor input[type="number"] {
   width: 100%; font: inherit; font-size: 1rem; padding: 12px 14px;
   border: 1px solid #8a8a86; border-radius: var(--radius-sm); background: var(--paper); color: var(--ink);
 }
@@ -142,15 +142,25 @@
 .wl .br-pct input[type="text"] { padding-right: 64px; }
 .br-switch { background: none; border: 0; padding: 0; font: inherit; font-size: .9rem; text-decoration: underline; cursor: pointer; color: var(--ink); }
 
-/* Classes: one card per type of class, with its days and times typed in one go */
-.br-class { border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 16px 14px 4px; margin: 0 0 16px; min-width: 0; }
-.br-class > legend { font-weight: 700; padding: 0 6px; }
-.br-class-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
-@media (min-width: 560px) { .br-class-grid { grid-template-columns: 2fr 1fr 1fr 1fr; } }
-.br-times { border-top: 1px solid var(--line); padding: 14px 0 2px; }
-.br-times .chips { margin: 0 0 12px; }
-.br-times-read { font-size: .9rem; margin: -10px 0 12px; }
-.br-times-read.br-bad { color: var(--error); font-weight: 600; }
-.br-disc { margin: 0 0 12px; }
-.br-class-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 12px; }
 .br-nudge-small { margin: 0 0 16px; padding: 12px 14px; font-size: .95rem; }
+
+/* Classes planner: one class form on the left, a day-by-day calendar on the right */
+.wl:has(.br-step[data-step="prices"]:not([hidden]) #pr-slot:not([hidden])),
+.wl:has(.pt-step[data-step="events"]:not([hidden])) { max-width: 1100px; }
+.br-planner, .pt-planner { display: grid; grid-template-columns: 1fr; gap: 20px; align-items: start; }
+@media (min-width: 900px) { .br-planner, .pt-planner { grid-template-columns: minmax(0, 1fr) 320px; } }
+.br-editor { border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 16px 14px 4px; }
+.br-editor-title { margin: 0 0 12px; font-size: 1.1rem; }
+.br-editor-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 14px; }
+.br-cal { position: sticky; top: 16px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--paper); padding: 12px; }
+.br-cal-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 10px; }
+.br-cal-head h3 { margin: 0; font-size: 1.05rem; text-align: center; flex: 1; }
+.br-cal-arrow { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); font-size: 1.3rem; line-height: 1; cursor: pointer; }
+.br-cal-arrow:hover { border-color: var(--ink); }
+.br-cal-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.br-cal-item { display: block; width: 100%; text-align: left; font: inherit; color: var(--ink); background: var(--soft); border: 1px solid transparent; border-left: 4px solid var(--ink); border-radius: var(--radius-sm); padding: 8px 10px; cursor: pointer; }
+.br-cal-item:hover, .br-cal-item.is-editing { border-color: var(--ink); }
+.br-cal-item b { display: block; }
+.br-cal-item span { display: block; font-size: .875rem; color: var(--muted); }
+.br-cal-item .br-cal-off { color: var(--ink); font-weight: 600; }
+.br-cal-empty { color: var(--muted); font-size: .9rem; margin: 4px 0 8px; }

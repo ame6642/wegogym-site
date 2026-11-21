@@ -320,6 +320,51 @@
     if (focus) title.focus();
   }
 
+  // ===== Day-by-day calendar beside the events =====
+  var calDate = null;
+  function occursOn(e, iso) {
+    if (!isRealDate(e.firstDate) || iso < e.firstDate) return false;
+    if (e.schedule !== "recurring") return iso === e.firstDate;
+    if (e.endsOn && iso > e.endsOn) return false;
+    if (e.recurrence === "monthly") return iso.slice(8) === e.firstDate.slice(8);
+    var days = e.weekdays && e.weekdays.length ? e.weekdays : [isoWeekday(e.firstDate)];
+    if (days.indexOf(isoWeekday(iso)) < 0) return false;
+    if (e.recurrence !== "fortnightly") return true;
+    // Weeks counted from the Monday of the first date's week.
+    var start = addDays(e.firstDate, 1 - isoWeekday(e.firstDate));
+    var diff = Math.round((Date.parse(iso + "T12:00:00Z") - Date.parse(start + "T12:00:00Z")) / 86400000);
+    return Math.floor(diff / 7) % 2 === 0;
+  }
+  function renderCal() {
+    if (!calDate) calDate = londonToday();
+    $("pt-cal-day").textContent = niceDate(calDate);
+    var list = $("pt-cal-list"), items = [];
+    Array.prototype.forEach.call($("pt-events").children, function (card) {
+      var e = readEvent(card);
+      if (!occursOn(e, calDate)) return;
+      var d = (e.dayDetails || []).filter(function (x) { return x.weekday === isoWeekday(calDate); })[0] || {};
+      var price = e.priceType !== "ticketed" ? "Free"
+        : d.pricePence ? pounds(d.pricePence)
+        : e.pricePence ? pounds(e.pricePence) + (d.discountPercent ? ", " + d.discountPercent + "% off" : "") : "Paid";
+      items.push({ card: card, start: d.startTime || e.startTime || "", end: d.endTime || e.endTime || "",
+        title: e.title || "Untitled event", area: d.area || e.area, price: price });
+    });
+    items.sort(function (a, b) { return a.start < b.start ? -1 : a.start > b.start ? 1 : 0; });
+    list.textContent = "";
+    items.forEach(function (it) {
+      var b = h("button", { type: "button", class: "br-cal-item" }, [
+        h("b", { text: (it.start ? it.start + (it.end ? " to " + it.end : "") + "  " : "") + it.title }),
+        h("span", { text: [it.area, it.price].filter(Boolean).join(", ") })
+      ]);
+      b.addEventListener("click", function () {
+        it.card.scrollIntoView({ behavior: "smooth", block: "start" });
+        it.card._f.title.focus({ preventScroll: true });
+      });
+      list.appendChild(h("li", {}, [b]));
+    });
+    $("pt-cal-empty").hidden = items.length > 0;
+  }
+
   function renumber() {
     var cards = $("pt-events").children, n = cards.length;
     Array.prototype.forEach.call(cards, function (card, i) {
@@ -329,6 +374,7 @@
     var full = n >= MAX_EVENTS;
     $("pt-add").hidden = full;
     $("pt-add-note").textContent = full ? "That is the most we take in one application. Send another one for the rest." : "";
+    renderCal();
   }
 
   // ===== Reading and checking =====
@@ -775,6 +821,15 @@
       b.addEventListener("click", function () { show(STEPS[Math.max(0, STEPS.indexOf(state.step) - 1)]); });
     });
     $("pt-add").addEventListener("click", function () { addEvent(true); });
+    // The calendar follows the form: a new date jumps to that day, any other change redraws.
+    ["input", "change"].forEach(function (type) {
+      $("pt-events").addEventListener(type, function (e) {
+        if (type === "change" && /-date$/.test(e.target.id || "") && isRealDate(e.target.value)) calDate = e.target.value;
+        renderCal();
+      });
+    });
+    $("pt-cal-prev").addEventListener("click", function () { calDate = addDays(calDate, -1); renderCal(); });
+    $("pt-cal-next").addEventListener("click", function () { calDate = addDays(calDate, 1); renderCal(); });
     // Nothing is saved in the browser, so warn before leaving a half-filled form.
     window.addEventListener("beforeunload", function (e) {
       if (!state.sent && (value($("y-name")) || value($("y-email")))) e.preventDefault();

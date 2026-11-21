@@ -1472,120 +1472,118 @@
     row._f = { days: days, price: price.input };
     $("pr-multi").appendChild(row);
   }
-  // ----- Classes: one card per type, times typed in one box -----
-  // "7am, 12:30, 6pm, 19.30" -> ["07:00", "12:30", "18:00", "19:30"]; anything unreadable is listed.
-  function parseTimes(text) {
-    var ok = [], bad = [];
-    String(text || "").toLowerCase().replace(/\s*(am|pm)/g, "$1").split(/[,;\s]+/).forEach(function (t) {
-      if (!t) return;
-      var m = /^(\d{1,2})(?:[:.](\d{2}))?(am|pm)?$/.exec(t);
-      var hr = m ? parseInt(m[1], 10) : -1, mi = m && m[2] ? parseInt(m[2], 10) : 0;
-      if (m && m[3]) { if (hr < 1 || hr > 12) hr = -1; else hr = hr % 12 + (m[3] === "pm" ? 12 : 0); }
-      if (hr < 0 || hr > 23 || mi > 59) { bad.push(t); return; }
-      var v = (hr < 10 ? "0" : "") + hr + ":" + (mi < 10 ? "0" : "") + mi;
-      if (ok.indexOf(v) < 0) ok.push(v);
-    });
-    return { ok: ok.sort(), bad: bad };
-  }
-  function discountControl(seed) {
-    seed = seed || {};
+  // ----- Classes: one form, a day-by-day calendar -----
+  function discountControl() {
     var on = el("input", { type: "checkbox", id: "pr-x" + (++fieldSeq) });
     var pct = el("input", { type: "text", inputmode: "numeric", autocomplete: "off", maxlength: "2" });
-    pct.value = seed.pct || "50";
     var price = moneyField("Discounted price");
     var pctWrap = plainField("Discount", el("div", { class: "br-pct" }, [pct, el("span", { "aria-hidden": "true", text: "% off" })]));
-    var sw = el("button", { type: "button", class: "br-switch", text: "Type the discounted price instead" });
+    var sw = el("button", { type: "button", class: "br-switch" });
     var more = el("div", {}, [pctWrap, price.el, el("p", {}, [sw])]);
     var c = { on: on, pct: pct, price: price.input, byPrice: false };
     function setMode(byPrice) {
       c.byPrice = byPrice; pctWrap.hidden = byPrice; price.el.hidden = !byPrice;
       sw.textContent = byPrice ? "Type a percentage instead" : "Type the discounted price instead";
     }
+    c.set = function (d) { // d: null, { percent } or { price }
+      on.checked = !!d; pct.value = d && d.percent ? String(d.percent) : "50";
+      price.input.value = d && d.price ? (d.price / 100).toFixed(2) : "";
+      setMode(!!(d && d.price)); more.hidden = !on.checked;
+    };
+    c.read = function () {
+      if (!on.checked) return null;
+      return c.byPrice ? { price: penceFrom(price.input.value) } : { percent: pctFrom(pct.value) };
+    };
     sw.addEventListener("click", function () { setMode(!c.byPrice); (c.byPrice ? price.input : pct).focus(); });
     on.addEventListener("change", function () { more.hidden = !on.checked; });
-    on.checked = !!seed.on; price.input.value = seed.price || ""; setMode(!!seed.byPrice); more.hidden = !on.checked;
-    c.el = el("div", { class: "br-disc" }, [el("div", { class: "chips" }, [el("label", { class: "chip", for: on.id }, [on, el("span", { text: "Discount these times" })])]), more]);
+    c.el = el("div", { class: "br-disc" }, [el("div", { class: "chips" }, [el("label", { class: "chip", for: on.id }, [on, el("span", { text: "Discount this class" })])]), more]);
+    c.set(null);
     return c;
   }
-  function addTimes(card, seed) {
-    seed = seed || {};
-    var row = el("div", { class: "br-times" }), boxes = [];
-    var chips = el("div", { class: "chips" });
+  var classes = [], classSeq = 0, editingId = null, calDay = 1, edDisc = null;
+  function edDays() { return Array.prototype.slice.call($("pr-ed-days").querySelectorAll("input")); }
+  function resetEditor() {
+    editingId = null;
+    $("pr-ed-name").value = ""; $("pr-ed-start").value = ""; $("pr-ed-end").value = "";
+    $("pr-ed-spaces").value = ""; $("pr-ed-price").value = "";
+    edDays().forEach(function (b) { b.checked = false; });
+    edDisc.set(null);
+    $("pr-ed-title").textContent = "Add a class"; $("pr-ed-save").textContent = "Add to calendar";
+    $("pr-ed-cancel").hidden = true; $("pr-ed-del").hidden = true; $("pr-ed-err").hidden = true;
+  }
+  function loadClass(c) {
+    editingId = c.id;
+    $("pr-ed-name").value = c.name; $("pr-ed-start").value = c.start; $("pr-ed-end").value = c.end;
+    $("pr-ed-spaces").value = String(c.spaces); $("pr-ed-price").value = (c.price / 100).toFixed(2);
+    edDays().forEach(function (b) { b.checked = c.days.indexOf(Number(b.value)) >= 0; });
+    edDisc.set(c.discount);
+    $("pr-ed-title").textContent = "Change " + c.name + (c.days.length > 1 ? " (every " + c.days.map(function (n) { return WEEK[n - 1][1]; }).join(", ") + ")" : "");
+    $("pr-ed-save").textContent = "Save changes";
+    $("pr-ed-cancel").hidden = false; $("pr-ed-del").hidden = false; $("pr-ed-err").hidden = true;
+    renderCal();
+    $("pr-ed-name").focus();
+  }
+  function saveClass() {
+    var c = { name: $("pr-ed-name").value.trim(), start: $("pr-ed-start").value, end: $("pr-ed-end").value,
+      spaces: Number($("pr-ed-spaces").value), price: penceFrom($("pr-ed-price").value),
+      days: edDays().filter(function (b) { return b.checked; }).map(function (b) { return Number(b.value); }),
+      discount: edDisc.read() };
+    var bad = !c.name ? "Type the kind of class, for example Boxing."
+      : !c.days.length ? "Tick at least one day."
+      : !c.start || !c.end || c.end <= c.start ? "Choose a start time and an end time after it."
+      : !(c.spaces >= 1 && c.spaces <= 1000 && Math.floor(c.spaces) === c.spaces) ? "Type how many spaces there are."
+      : c.price === null ? "Type a price between £1.00 and £1,000.00, for example 15."
+      : c.discount && !(c.discount.percent || (c.discount.price && c.discount.price < c.price)) ? "Type a discount between 1 and 99%, or a discounted price lower than " + pounds(c.price) + "."
+      : null;
+    if (bad) { $("pr-ed-err").textContent = bad; $("pr-ed-err").hidden = false; return; }
+    if (editingId) { c.id = editingId; classes = classes.map(function (x) { return x.id === editingId ? c : x; }); }
+    else { c.id = ++classSeq; classes.push(c); }
+    if (c.days.indexOf(calDay) < 0) calDay = c.days[0];
+    announce((editingId ? "Saved " : "Added ") + c.name + ".");
+    resetEditor();
+    renderCal();
+    $("pr-ed-name").focus();
+  }
+  function renderCal() {
+    $("pr-cal-day").textContent = WEEK[calDay - 1][2];
+    var list = $("pr-cal-list"), today = classes.filter(function (c) { return c.days.indexOf(calDay) >= 0; })
+      .sort(function (a, b) { return a.start < b.start ? -1 : a.start > b.start ? 1 : 0; });
+    list.textContent = "";
+    today.forEach(function (c) {
+      var off = c.discount ? (c.discount.percent ? c.discount.percent + "% off" : pounds(c.discount.price) + " at this time") : "";
+      var b = el("button", { type: "button", class: "br-cal-item" + (c.id === editingId ? " is-editing" : "") }, [
+        el("b", { text: c.start + " to " + c.end + "  " + c.name }),
+        el("span", { text: c.spaces + " spaces, " + pounds(c.price) }),
+        off ? el("span", { class: "br-cal-off", text: off }) : ""
+      ]);
+      b.addEventListener("click", function () { loadClass(c); });
+      list.appendChild(el("li", {}, [b]));
+    });
+    $("pr-cal-empty").hidden = today.length > 0;
+    var week = classes.reduce(function (n, c) { return n + c.days.length; }, 0);
+    $("pr-class-total").textContent = week ? week + (week === 1 ? " class" : " classes") + " a week in total." : "";
+  }
+  function initPlanner() {
     WEEK.forEach(function (d) {
-      var id = "pr-x" + (++fieldSeq), b = el("input", { type: "checkbox", id: id, value: String(d[0]) });
-      b.checked = (seed.days || []).indexOf(d[0]) >= 0;
-      b.addEventListener("change", update);
-      boxes.push(b);
-      chips.appendChild(el("label", { class: "chip", for: id }, [b, el("span", { text: d[1] })]));
+      var id = "pr-ed-d" + d[0], box = el("input", { type: "checkbox", id: id, value: String(d[0]) });
+      $("pr-ed-days").appendChild(el("label", { class: "chip", for: id }, [box, el("span", { text: d[1] })]));
     });
-    var times = el("input", { type: "text", autocomplete: "off", maxlength: "200", placeholder: "For example 7am, 12:30, 6pm" });
-    times.value = seed.times || "";
-    times.addEventListener("input", update);
-    var read = el("p", { class: "br-times-read", "aria-live": "polite" });
-    var disc = discountControl(seed.disc);
-    row.appendChild(el("fieldset", { class: "br-field" }, [el("legend", { text: "Which days?" }), chips]));
-    row.appendChild(plainField("Start times", times));
-    row.appendChild(read);
-    row.appendChild(disc.el);
-    if (card._f.times.children.length) row.appendChild(removeBtn(row));
-    row._f = { boxes: boxes, times: times, disc: disc };
-    function update() {
-      var days = boxes.filter(function (b) { return b.checked; }).map(function (b) { return WEEK[b.value - 1][1]; });
-      var t = parseTimes(times.value);
-      read.classList.toggle("br-bad", t.bad.length > 0);
-      read.textContent = t.bad.length ? "Could not read: " + t.bad.join(", ") + ". Use times like 7am, 12:30 or 18:00."
-        : days.length && t.ok.length ? days.join(", ") + " at " + t.ok.join(", ") + " = " + days.length * t.ok.length + " classes a week" : "";
-      classTotal();
-    }
-    card._f.times.appendChild(row);
-    update();
-  }
-  function readClass(card) {
-    var f = card._f;
-    return { name: f.name.value.trim(), price: f.price.value, cap: f.cap.value, len: f.len.value,
-      times: Array.prototype.map.call(f.times.children, function (r) {
-        var d = r._f.disc;
-        return { days: r._f.boxes.filter(function (b) { return b.checked; }).map(function (b) { return Number(b.value); }),
-          times: r._f.times.value, disc: { on: d.on.checked, byPrice: d.byPrice, pct: d.pct.value, price: d.price.value } };
-      }) };
-  }
-  function addClass(seed) {
-    seed = seed || {};
-    var name = el("input", { type: "text", maxlength: "60", list: "pr-class-names", autocomplete: "off", placeholder: "For example Boxing" });
-    var price = moneyField("Price"), cap = el("input", { type: "number", min: "1", max: "1000", step: "1", inputmode: "numeric" });
-    var len = el("select");
-    [30, 45, 60, 75, 90, 120].forEach(function (n) { len.appendChild(el("option", { value: String(n), text: n + " min" })); });
-    name.value = seed.name || ""; price.input.value = seed.price || ""; cap.value = seed.cap || ""; len.value = seed.len || "60";
-    var legend = el("legend", { text: seed.name || "New class" });
-    name.addEventListener("input", function () { legend.textContent = name.value.trim() || "New class"; });
-    var card = el("fieldset", { class: "br-class" }, [legend,
-      el("div", { class: "br-class-grid" }, [plainField("Type of class", name), price.el, plainField("Spaces", cap), plainField("Length", len)])]);
-    var times = el("div");
-    card.appendChild(times);
-    card._f = { name: name, price: price.input, cap: cap, len: len, times: times };
-    (seed.times && seed.times.length ? seed.times : [{}]).forEach(function (t) { addTimes(card, t); });
-    var more = el("button", { type: "button", class: "btn btn-ghost br-small", text: "Add different days or times" });
-    more.addEventListener("click", function () { addTimes(card); });
-    var copy = el("button", { type: "button", class: "btn btn-ghost br-small", text: "Copy this class" });
-    copy.addEventListener("click", function () { var s2 = readClass(card); s2.name = ""; addClass(s2)._f.name.focus(); });
-    var bar = el("div", { class: "br-class-bar" }, [more, copy]);
-    if ($("pr-classes").children.length) {
-      var rm = el("button", { type: "button", class: "btn btn-ghost br-small", text: "Remove this class" });
-      rm.addEventListener("click", function () { card.remove(); classTotal(); });
-      bar.appendChild(rm);
-    }
-    card.appendChild(bar);
-    $("pr-classes").appendChild(card);
-    classTotal();
-    return card;
-  }
-  function classTotal() {
-    var types = 0, n = 0;
-    Array.prototype.forEach.call($("pr-classes").children, function (card) {
-      var c = readClass(card); if (c.name) types++;
-      c.times.forEach(function (t) { n += t.days.length * parseTimes(t.times).ok.length; });
+    edDisc = discountControl();
+    $("pr-ed-disc").appendChild(edDisc.el);
+    $("pr-ed-save").addEventListener("click", saveClass);
+    // Enter in the class form adds the class rather than sending the whole step.
+    $("pr-editor").addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && e.target.tagName === "INPUT") { e.preventDefault(); saveClass(); }
     });
-    $("pr-class-total").textContent = n ? types + (types === 1 ? " type of class, " : " types of class, ") + n + " classes a week in total." : "";
+    $("pr-ed-cancel").addEventListener("click", function () { resetEditor(); renderCal(); });
+    $("pr-ed-del").addEventListener("click", function () {
+      classes = classes.filter(function (x) { return x.id !== editingId; });
+      resetEditor(); renderCal(); announce("Class deleted.");
+    });
+    $("pr-cal-prev").addEventListener("click", function () { calDay = calDay === 1 ? 7 : calDay - 1; renderCal(); });
+    $("pr-cal-next").addEventListener("click", function () { calDay = calDay === 7 ? 1 : calDay + 1; renderCal(); });
+    resetEditor();
+    renderCal();
   }
   function mode() { return document.querySelector('input[name="pr-mode"]:checked').value; }
   var byPrice = false; // false: a percentage off (the default); true: the discounted price itself
@@ -1610,13 +1608,12 @@
       box.addEventListener("change", quietExample);
       $("pr-qdays").appendChild(el("label", { class: "chip", for: id }, [box, el("span", { text: d[1] })]));
     });
-    addClass();
+    initPlanner();
     document.querySelectorAll('input[name="pr-mode"]').forEach(function (r) {
       r.addEventListener("change", function () { var day = mode() === "day_pass";
         $("pr-day").hidden = !day; $("pr-slot").hidden = day; $("pr-quiet-box").hidden = !day; quietExample(); });
     });
     $("pr-multi-add").addEventListener("click", addMulti);
-    $("pr-class-add").addEventListener("click", function () { addClass()._f.name.focus(); });
     $("pr-quiet").addEventListener("change", function () { $("pr-quiet-more").hidden = !$("pr-quiet").checked; quietExample(); });
     ["pr-day1", "pr-qfrom", "pr-qto"].forEach(function (id) { $(id).addEventListener("input", quietExample); });
     ["pr-pct", "pr-to"].forEach(function (id) { $(id).addEventListener("input", quietExample); });
@@ -1635,15 +1632,7 @@
       out.passes = [{ days: 1, price: penceFrom($("pr-day1").value) }].concat(
         Array.prototype.map.call($("pr-multi").children, function (r) { return { days: Number(r._f.days.value), price: penceFrom(r._f.price.value) }; }));
     } else {
-      out.classes = Array.prototype.map.call($("pr-classes").children, function (card) {
-        var c = readClass(card), price = penceFrom(c.price);
-        return { name: c.name, price: price, capacity: Number(c.cap), minutes: Number(c.len),
-          times: c.times.map(function (t) {
-            var pt = parseTimes(t.times), d = null;
-            if (t.disc.on) d = t.disc.byPrice ? { price: penceFrom(t.disc.price) } : { percent: pctFrom(t.disc.pct) };
-            return { days: t.days, starts: pt.ok, unreadable: pt.bad, discount: d };
-          }) };
-      });
+      out.classes = classes.slice();
     }
     if (out.mode === "day_pass" && $("pr-quiet").checked) {
       out.quiet = { percent: byPrice ? null : pctFrom($("pr-pct").value), price: byPrice ? penceFrom($("pr-to").value) : null,
@@ -1655,17 +1644,7 @@
   async function savePrices() {
     var p = readPrices(), bad = null;
     if (p.mode === "day_pass" && p.passes.some(function (x) { return x.price === null; })) bad = "Enter each price between £1.00 and £1,000.00, for example 12.50.";
-    (p.classes || []).forEach(function (c) {
-      if (bad) return;
-      if (!c.name || c.price === null || !(c.capacity >= 1)) { bad = "Give each class a type, a price between £1.00 and £1,000.00 and a number of spaces."; return; }
-      c.times.forEach(function (t) {
-        if (bad) return;
-        if (!t.days.length || !t.starts.length || t.unreadable.length) bad = c.name + ": tick at least one day and type start times like 7am, 12:30 or 18:00.";
-        else if (t.starts.some(function (s) { return parseInt(s, 10) * 60 + parseInt(s.slice(3), 10) + c.minutes > 24 * 60 - 1; })) bad = c.name + ": a class has to finish by midnight.";
-        else if (t.discount && !(t.discount.percent || (t.discount.price && t.discount.price < c.price)))
-          bad = c.name + ": type a discount between 1 and 99%, or a discounted price lower than " + pounds(c.price) + ".";
-      });
-    });
+    if (p.mode === "time_slot" && !p.classes.length) bad = "Add at least one class to the calendar.";
     if (p.quiet && !(p.quiet.percent || p.quiet.price)) bad = byPrice
       ? "Type the price members pay at quieter times, for example 8.00." : "Type how much off, as a percentage between 1 and 99.";
     if (p.quiet && (!p.quiet.days.length || !p.quiet.from || !p.quiet.to || p.quiet.to <= p.quiet.from))
