@@ -136,7 +136,7 @@
 }
 
 /* Discount: a percentage by default, or the discounted price */
-.br-pct, .pt-pct { position: relative; max-width: 180px; }
-.br-pct > span, .pt-pct > span { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-weight: 600; pointer-events: none; }
-.wl .br-pct input[type="text"], .wl .pt-pct input[type="text"] { padding-right: 64px; }
-.br-switch, .pt-switch { background: none; border: 0; padding: 0; font: inherit; font-size: .9rem; text-decoration: underline; cursor: pointer; color: var(--ink); }
+.br-pct { position: relative; max-width: 180px; }
+.br-pct > span { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-weight: 600; pointer-events: none; }
+.wl .br-pct input[type="text"] { padding-right: 64px; }
+.br-switch { background: none; border: 0; padding: 0; font: inherit; font-size: .9rem; text-decoration: underline; cursor: pointer; color: var(--ink); }
