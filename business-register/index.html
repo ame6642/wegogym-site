@@ -327,15 +327,15 @@
           <label class="chip" for="pr-quiet"><input type="checkbox" id="pr-quiet"><span>Add a quieter-times discount</span></label>
         </div>
         <div id="pr-quiet-more" hidden>
-          <fieldset class="br-field">
-            <legend>How much off?</legend>
-            <div class="chips" id="pr-off">
-              <label class="chip" for="pr-off-10"><input type="radio" name="pr-off" id="pr-off-10" value="10"><span>10%</span></label>
-              <label class="chip" for="pr-off-20"><input type="radio" name="pr-off" id="pr-off-20" value="20" checked><span>20%</span></label>
-              <label class="chip" for="pr-off-30"><input type="radio" name="pr-off" id="pr-off-30" value="30"><span>30%</span></label>
-              <label class="chip" for="pr-off-50"><input type="radio" name="pr-off" id="pr-off-50" value="50"><span>50%</span></label>
-            </div>
-          </fieldset>
+          <div class="br-field" id="pr-pct-wrap">
+            <label for="pr-pct">Discount</label>
+            <div class="br-pct"><input type="text" id="pr-pct" inputmode="numeric" autocomplete="off" maxlength="2" value="20"><span aria-hidden="true">% off</span></div>
+          </div>
+          <div class="br-field" id="pr-to-wrap" hidden>
+            <label for="pr-to">Price during quieter times</label>
+            <div class="br-money"><span aria-hidden="true">&pound;</span><input type="text" id="pr-to" inputmode="decimal" autocomplete="off" maxlength="9"></div>
+          </div>
+          <p><button type="button" class="br-switch" id="pr-switch">Type the discounted price instead</button></p>
           <fieldset class="br-field">
             <legend>On which days?</legend>
             <div class="chips" id="pr-qdays"></div>

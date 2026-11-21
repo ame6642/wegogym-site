@@ -69,3 +69,9 @@
 .pt-check-done b { color: var(--success); }
 .pt-check-todo b { color: var(--error); }
 .pt-check-wait b { color: #8a6d00; }
+
+/* Discount: a percentage by default, or the ticket price */
+.pt-pct { position: relative; max-width: 180px; }
+.pt-pct > span { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-weight: 600; pointer-events: none; }
+.wl .pt-pct input[type="text"] { padding-right: 64px; }
+.pt-switch { background: none; border: 0; padding: 0; font: inherit; font-size: .9rem; text-decoration: underline; cursor: pointer; color: var(--ink); }

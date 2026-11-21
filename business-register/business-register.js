@@ -1485,8 +1485,13 @@
     $("pr-slots").appendChild(row);
   }
   function mode() { return document.querySelector('input[name="pr-mode"]:checked').value; }
+  var byPrice = false; // false: a percentage off (the default); true: the discounted price itself
+  function pctFrom(text) {
+    var m = /^\s*(\d{1,2})\s*%?\s*$/.exec(String(text || ""));
+    var n = m ? parseInt(m[1], 10) : 0;
+    return n >= 1 && n <= 99 ? n : null;
+  }
   function quietExample() {
-    var off = Number(document.querySelector('input[name="pr-off"]:checked').value);
     var base = mode() === "day_pass" ? penceFrom($("pr-day1").value)
       : (function () { var r = $("pr-slots").firstChild; return r ? penceFrom(r._f.price.value) : null; })();
     base = base || 1000;
@@ -1494,7 +1499,12 @@
     var run = nums.length > 2 && nums[nums.length - 1] - nums[0] === nums.length - 1; // e.g. Monday to Friday
     var days = run ? [WEEK[nums[0] - 1][2] + " to " + WEEK[nums[nums.length - 1] - 1][2]] : nums.map(function (n) { return WEEK[n - 1][2]; });
     var what = mode() === "day_pass" ? "day pass" : "session";
-    $("pr-qexample").textContent = "A " + pounds(base) + " " + what + " would cost " + pounds(Math.round(base * (100 - off) / 100)) +
+    var to = byPrice ? penceFrom($("pr-to").value) : null, off = byPrice ? null : pctFrom($("pr-pct").value);
+    if (byPrice ? !to : !off) { $("pr-qexample").textContent = byPrice ? "Type the price members pay at quieter times." : "Type a percentage between 1 and 99."; return; }
+    if (byPrice && to >= base) { $("pr-qexample").textContent = "This is not lower than your normal " + pounds(base) + " " + what + "."; return; }
+    var cost = byPrice ? to : Math.round(base * (100 - off) / 100);
+    $("pr-qexample").textContent = "A " + pounds(base) + " " + what + " would cost " + pounds(cost) +
+      (byPrice ? " (" + Math.round((base - cost) * 100 / base) + "% off)" : "") +
       (nums.length ? " on " + (nums.length === 7 ? "every day" : days.join(", ")) : "") +
       " from " + ($("pr-qfrom").value || "…") + " until " + ($("pr-qto").value || "…") + ".";
   }
@@ -1515,7 +1525,14 @@
     $("pr-slot-add").addEventListener("click", addSlot);
     $("pr-quiet").addEventListener("change", function () { $("pr-quiet-more").hidden = !$("pr-quiet").checked; quietExample(); });
     ["pr-day1", "pr-qfrom", "pr-qto"].forEach(function (id) { $(id).addEventListener("input", quietExample); });
-    document.querySelectorAll('input[name="pr-off"]').forEach(function (r) { r.addEventListener("change", quietExample); });
+    ["pr-pct", "pr-to"].forEach(function (id) { $(id).addEventListener("input", quietExample); });
+    $("pr-switch").addEventListener("click", function () {
+      byPrice = !byPrice;
+      $("pr-pct-wrap").hidden = byPrice; $("pr-to-wrap").hidden = !byPrice;
+      $("pr-switch").textContent = byPrice ? "Type a percentage instead" : "Type the discounted price instead";
+      $(byPrice ? "pr-to" : "pr-pct").focus();
+      quietExample();
+    });
     quietExample();
   }
   function readPrices() {
@@ -1529,7 +1546,7 @@
       });
     }
     if ($("pr-quiet").checked) {
-      out.quiet = { percent: Number(document.querySelector('input[name="pr-off"]:checked').value),
+      out.quiet = { percent: byPrice ? null : pctFrom($("pr-pct").value), price: byPrice ? penceFrom($("pr-to").value) : null,
         days: WEEK.filter(function (d) { return $("pr-qd-" + d[0]).checked; }).map(function (d) { return d[0]; }),
         from: $("pr-qfrom").value, to: $("pr-qto").value };
     }
@@ -1540,6 +1557,8 @@
     if (p.mode === "day_pass" && p.passes.some(function (x) { return x.price === null; })) bad = "Enter each price between £1.00 and £1,000.00, for example 12.50.";
     if (p.mode === "time_slot" && p.slots.some(function (x) { return x.price === null || !x.start || !x.end || x.end <= x.start || !(x.capacity >= 1); }))
       bad = "Give each class or session a start, an end after the start, a number of spaces and a price.";
+    if (p.quiet && !(p.quiet.percent || p.quiet.price)) bad = byPrice
+      ? "Type the price members pay at quieter times, for example 8.00." : "Type how much off, as a percentage between 1 and 99.";
     if (p.quiet && (!p.quiet.days.length || !p.quiet.from || !p.quiet.to || p.quiet.to <= p.quiet.from))
       bad = "For the quieter-times discount, tick at least one day and choose an end time after the start.";
     if (bad) { showAlert(bad); return; }

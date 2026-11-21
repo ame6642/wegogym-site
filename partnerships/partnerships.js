@@ -222,7 +222,7 @@
     var price = input(p + "-price", "text", { inputmode: "decimal", autocomplete: "off", maxlength: "9" });
     priceBox.appendChild(field(p + "-price", "Price per ticket", h("div", { class: "pt-money" }, [h("span", { "aria-hidden": "true", text: "£" }), price]),
       { hint: "Between £1.00 and £1,000.00." }));
-    priceBox.appendChild(h("p", { class: "pt-tip", text: "Tip: charge less for your quieter dates and times. Similar events on WeGoGym are running discounts on their quieter sessions to fill spaces. If it runs on more than one day, you can give a quieter day a lower price below." }));
+    priceBox.appendChild(h("p", { class: "pt-tip", text: "Tip: charge less for your quieter dates and times. Similar events on WeGoGym are running discounts on their quieter sessions to fill spaces. If it runs on more than one day, you can give a quieter day a discount below." }));
     var pricing = radios(p + "-pricing", p + "-pricetype", "Is it free?",
       [["free", "Free, people just RSVP"], ["ticketed", "Paid tickets"]], function () {
         var paid = card.querySelector('input[name="' + p + '-pricing"]:checked').value === "ticketed";
@@ -245,9 +245,22 @@
       var q = p + "-d" + n, r = {
         start: input(q + "-start", "time"), end: input(q + "-end", "time"),
         area: input(q + "-area", "text", { maxlength: "120", autocomplete: "off" }),
-        price: input(q + "-price", "text", { inputmode: "decimal", autocomplete: "off", maxlength: "9" })
+        pct: input(q + "-pct", "text", { inputmode: "numeric", autocomplete: "off", maxlength: "2" }),
+        price: input(q + "-price", "text", { inputmode: "decimal", autocomplete: "off", maxlength: "9" }),
+        byPrice: false
       };
-      r.priceField = field(q + "-price", "Price per ticket", h("div", { class: "pt-money" }, [h("span", { "aria-hidden": "true", text: "£" }), r.price]), { optional: true });
+      // A percentage off by default; one click switches to typing the ticket price for that day.
+      var pctField = field(q + "-pct", "Discount on this day", h("div", { class: "pt-pct" }, [r.pct, h("span", { "aria-hidden": "true", text: "% off" })]), { optional: true });
+      var priceField = field(q + "-price", "Ticket price on this day", h("div", { class: "pt-money" }, [h("span", { "aria-hidden": "true", text: "£" }), r.price]), { optional: true });
+      priceField.hidden = true;
+      var sw = h("button", { type: "button", class: "pt-switch", text: "Type the ticket price instead" });
+      sw.addEventListener("click", function () {
+        r.byPrice = !r.byPrice;
+        pctField.hidden = r.byPrice; priceField.hidden = !r.byPrice;
+        sw.textContent = r.byPrice ? "Type a percentage instead" : "Type the ticket price instead";
+        (r.byPrice ? r.price : r.pct).focus();
+      });
+      r.priceField = h("div", {}, [pctField, priceField, h("p", {}, [sw])]);
       r.el = h("fieldset", { class: "pt-day" }, [
         h("legend", { text: DAYS[n - 1][2] }),
         h("div", { class: "pt-times" }, [field(q + "-start", "Starts at", r.start, { optional: true }), field(q + "-end", "Ends at", r.end, { optional: true })]),
@@ -367,7 +380,11 @@
         if (r.start.value) d.startTime = r.start.value;
         if (r.end.value) d.endTime = r.end.value;
         if (value(r.area)) d.area = value(r.area);
-        if (priceType === "ticketed" && value(r.price)) d.pricePence = penceFrom(r.price.value);
+        if (priceType === "ticketed" && r.byPrice && value(r.price)) d.pricePence = penceFrom(r.price.value);
+        if (priceType === "ticketed" && !r.byPrice && value(r.pct)) {
+          var m = /^\s*(\d{1,2})\s*%?\s*$/.exec(r.pct.value), n = m ? parseInt(m[1], 10) : 0;
+          d.discountPercent = n >= 1 && n <= 99 ? n : null;
+        }
         if (Object.keys(d).length > 1) dd.push(d);
       });
       if (dd.length) e.dayDetails = dd;
@@ -404,6 +421,7 @@
       if (e.priceType === "ticketed" && e.pricePence === null) fail(f.price, "Enter a price between £1.00 and £1,000.00, for example 8.50.");
       (e.dayDetails || []).forEach(function (d) {
         if (d.pricePence === null) fail(f.perDay[d.weekday].price, "Enter a price between £1.00 and £1,000.00, or leave it empty.");
+        if (d.discountPercent === null) fail(f.perDay[d.weekday].pct, "Enter a percentage between 1 and 99, or leave it empty.");
       });
       if (e.capacity !== undefined && !(Math.floor(e.capacity) === e.capacity && e.capacity >= 1 && e.capacity <= 100000)) fail(f.cap, "Enter a whole number, or leave it empty.");
       if (e.existingListingUrl && !/^https?:\/\/\S+$/i.test(e.existingListingUrl)) fail(f.url, "Start the link with https://");
@@ -471,6 +489,7 @@
         else if (x.endTime) bits.push("ends " + x.endTime);
         if (x.area) bits.push(x.area);
         if (x.pricePence) bits.push(pounds(x.pricePence));
+        if (x.discountPercent) bits.push(x.discountPercent + "% off" + (e.pricePence ? " (" + pounds(Math.round(e.pricePence * (100 - x.discountPercent) / 100)) + ")" : ""));
         row(d, "On " + DAYS[x.weekday - 1][2] + "s", bits.join(", "));
       });
       if (e.capacity) row(d, "Most people", String(e.capacity));
