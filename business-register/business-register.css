@@ -112,7 +112,7 @@
 /* Prices step */
 .br-money { position: relative; }
 .br-money > span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-weight: 600; pointer-events: none; }
-.br-money input { padding-left: 30px; }
+.wl .br-money input[type="text"] { padding-left: 30px; }
 .br-price-row { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 14px 0; margin: 0 0 14px; }
 .br-price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
 @media (min-width: 560px) { .br-price-grid { grid-template-columns: repeat(5, 1fr); } }
@@ -130,3 +130,7 @@
 .br-check-done b { color: var(--success); }
 .br-check-todo b { color: var(--error); }
 .br-check-wait b { color: #8a6d00; }
+.wl .br-slot input[type="number"] {
+  width: 100%; font: inherit; font-size: 1rem; padding: 12px 14px;
+  border: 1px solid #8a8a86; border-radius: var(--radius-sm); background: var(--paper); color: var(--ink);
+}

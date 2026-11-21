@@ -33,7 +33,7 @@
 /* Money: a pound sign sits to the left of the box */
 .pt-money { position: relative; }
 .pt-money > span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-weight: 600; pointer-events: none; }
-.pt-money input { padding-left: 30px; }
+.wl .pt-money input[type="text"] { padding-left: 30px; }
 
 /* Off-peak pricing nudge under the ticket price */
 .pt-tip { margin: -8px 0 20px; padding: 12px 14px; border-left: 3px solid var(--ink); background: rgba(0,0,0,.04); border-radius: var(--radius-sm); font-size: .95rem; }

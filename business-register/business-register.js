@@ -1490,10 +1490,12 @@
     var base = mode() === "day_pass" ? penceFrom($("pr-day1").value)
       : (function () { var r = $("pr-slots").firstChild; return r ? penceFrom(r._f.price.value) : null; })();
     base = base || 1000;
-    var days = WEEK.filter(function (d) { return $("pr-qd-" + d[0]).checked; }).map(function (d) { return d[2]; });
+    var nums = WEEK.filter(function (d) { return $("pr-qd-" + d[0]).checked; }).map(function (d) { return d[0]; });
+    var run = nums.length > 2 && nums[nums.length - 1] - nums[0] === nums.length - 1; // e.g. Monday to Friday
+    var days = run ? [WEEK[nums[0] - 1][2] + " to " + WEEK[nums[nums.length - 1] - 1][2]] : nums.map(function (n) { return WEEK[n - 1][2]; });
     var what = mode() === "day_pass" ? "day pass" : "session";
     $("pr-qexample").textContent = "A " + pounds(base) + " " + what + " would cost " + pounds(Math.round(base * (100 - off) / 100)) +
-      (days.length ? " on " + (days.length === 7 ? "every day" : days.join(", ")) : "") +
+      (nums.length ? " on " + (nums.length === 7 ? "every day" : days.join(", ")) : "") +
       " from " + ($("pr-qfrom").value || "…") + " until " + ($("pr-qto").value || "…") + ".";
   }
   function initPrices() {
